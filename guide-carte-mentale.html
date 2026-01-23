@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Carte Mentale</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 8mm;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                margin: 0;
+            }
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 4mm;
+            padding: 2mm 0;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 1mm;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 13px;
+            opacity: 0.95;
+        }
+        
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4mm;
+            flex: 1;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 8px;
+            padding: 3mm;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2mm;
+        }
+        
+        .step-number {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+            color: white;
+            margin-right: 2mm;
+            flex-shrink: 0;
+        }
+        
+        .step:nth-child(1) .step-number { background: #FF6B6B; }
+        .step:nth-child(2) .step-number { background: #4ECDC4; }
+        .step:nth-child(3) .step-number { background: #45B7D1; }
+        .step:nth-child(4) .step-number { background: #FFA07A; }
+        .step:nth-child(5) .step-number { background: #98D8C8; }
+        .step:nth-child(6) .step-number { background: #F7DC6F; }
+        .step:nth-child(7) .step-number { background: #BB8FCE; }
+        
+        .step-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+        
+        .step-content {
+            font-size: 10px;
+            color: #34495e;
+            line-height: 1.35;
+        }
+        
+        .step-question {
+            background: #f8f9fa;
+            padding: 1.5mm;
+            border-radius: 4px;
+            margin: 1.5mm 0;
+            font-style: italic;
+            color: #5a6c7d;
+            font-size: 9.5px;
+        }
+        
+        .step-examples {
+            margin-top: 1.5mm;
+            padding-left: 3mm;
+        }
+        
+        .step-examples li {
+            margin-bottom: 0.5mm;
+            font-size: 9.5px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 1px 2px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 10px;
+            margin-top: 3mm;
+            padding: 2mm 0;
+            opacity: 0.9;
+        }
+        
+        .step-last {
+            grid-column: 1 / -1;
+        }
+        
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5mm;
+            margin-top: 1.5mm;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            font-size: 9.5px;
+        }
+        
+        .checklist-item::before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 1.5mm;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗺️ Comment créer ta carte mentale ?</h1>
+        <p>Guide pratique en 7 étapes pour réviser efficacement</p>
+    </div>
+    
+    <div class="steps-container">
+        <!-- Étape 1 -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">Identifie l'idée centrale</div>
+            </div>
+            <div class="step-content">
+                <div class="step-question">❓ Qu'est-ce qui résume tout le cours en 1-2 mots maximum ?</div>
+                <p><strong>Exemples :</strong> « Photosynthèse », « Révolution française », « Marché du travail »</p>
+                <p style="margin-top: 1.5mm;">➡️ <span class="highlight">Écris-la au centre de ta feuille</span></p>
+            </div>
+        </div>
+        
+        <!-- Étape 2 -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">Repère les grandes catégories</div>
+            </div>
+            <div class="step-content">
+                <div class="step-question">❓ Quels sont les 5-7 grands blocs d'info qui structurent ce cours ?</div>
+                <p><strong>Comment les repérer ?</strong></p>
+                <ul class="step-examples">
+                    <li>Ton cours a des <strong>titres (I, II, III)</strong> → Ce sont tes branches !</li>
+                    <li>Pas de titres clairs ? Demande-toi : « Si je devais découper ce cours en grandes parties logiques, ce serait quoi ? » → Cherche des logiques récurrentes (Définitions, mécanismes, conséquences ; théories, applications, limites...)</li>
+                    <li><strong>Note ces grandes catégories : ce seront tes branches principales.</strong></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Étape 3 -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">Vérifie le nombre de branches</div>
+            </div>
+            <div class="step-content">
+                <p>📊 Essaye de ne pas dépasser <span class="highlight">5 à 7 branches principales</span></p>
+                <p style="margin-top: 1.5mm;"><strong>Tu en as plus de 7 ?</strong></p>
+                <p>Regroupe certaines idées :</p>
+                <ul class="step-examples">
+                    <li>« Causes éco + politiques + sociales » → UNE branche « Causes » avec 3 sous-branches</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Étape 4 -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-title">Extrais les mots-clés</div>
+            </div>
+            <div class="step-content">
+                <p>Pour chaque branche, note <span class="highlight">seulement les idées essentielles</span> en mots-clés courts (pas de phrases !).</p>
+                <div class="step-question">❓ Si je devais expliquer cette partie en 30 secondes, quels sont les 3-5 éléments indispensables ?</div>
+                <p><strong>Exemple :</strong> Branche « Immunité innée » → Barrières physiques / Phagocytes / Réponse rapide</p>
+            </div>
+        </div>
+        
+        <!-- Étape 5 -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <div class="step-title">Limite les niveaux de profondeur</div>
+            </div>
+            <div class="step-content">
+                <p>🔍 Maximum <span class="highlight">2-3 niveaux</span> de branches :</p>
+                <ul class="step-examples">
+                    <li><strong>Niveau 1 :</strong> Branche principale (ex : CAUSES)</li>
+                    <li><strong>Niveau 2 :</strong> Sous-branches (ex : Économiques, Politiques)</li>
+                    <li><strong>Niveau 3 :</strong> Détails précis (ex : Crise 1929, Dettes)</li>
+                </ul>
+                <p style="margin-top: 1.5mm;">⚠️ Ne va pas plus loin → ta carte devient illisible !</p>
+            </div>
+        </div>
+        
+        <!-- Étape 6 -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <div class="step-title">Ajoute couleurs & pictos</div>
+            </div>
+            <div class="step-content">
+                <p>🎨 <span class="highlight">1 couleur = 1 branche principale</span> (et ses sous-branches)</p>
+                <p style="margin-top: 1.5mm;">🎯 Quelques pictos simples (3-5 max sur toute la carte) :</p>
+                <ul class="step-examples">
+                    <li>🕐 Une horloge pour une date</li>
+                    <li>👤 Un bonhomme pour un personnage</li>
+                    <li>💰 Une pièce pour l'économie</li>
+                </ul>
+                <p style="margin-top: 1.5mm;">⚠️ Reste sobre : trop de dessins = surcharge !</p>
+            </div>
+        </div>
+        
+        <!-- Étape 7 -->
+        <div class="step step-last">
+            <div class="step-header">
+                <div class="step-number">7</div>
+                <div class="step-title">Vérifie la clarté globale</div>
+            </div>
+            <div class="step-content">
+                <p style="margin-bottom: 1.5mm;">Avant de considérer ta carte comme terminée, pose-toi ces questions :</p>
+                <div class="checklist">
+                    <div class="checklist-item">Ta carte tient sur une seule page ?</div>
+                    <div class="checklist-item">Tu peux la relire en 1 minute maximum ?</div>
+                    <div class="checklist-item">Les infos essentielles sont présentes ?</div>
+                    <div class="checklist-item">C'est clair et lisible ?</div>
+                </div>
+                <p style="margin-top: 2.5mm; text-align: center; font-weight: bold; color: #e74c3c;">Si tu réponds « non » à l'une de ces questions → allège ta carte !</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        💡 Règle d'or : Une carte mentale efficace = synthèse visuelle qui te donne la structure globale du cours en un coup d'œil
+    </div>
+</body>
+</html>
