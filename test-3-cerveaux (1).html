@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Test des 3 Cerveaux</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .intro {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .intro p {
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .intro strong {
+            color: #667eea;
+        }
+
+        .condition-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .condition-card h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .condition-card p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .task-container {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .task-content {
+            text-align: center;
+            width: 100%;
+        }
+
+        .task-content h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .word-list {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .word-item {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .input-area {
+            margin: 20px 0;
+        }
+
+        .input-area input {
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            max-width: 500px;
+        }
+
+        .counting-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            max-width: 400px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .counting-item {
+            font-size: 2em;
+            padding: 10px;
+            text-align: center;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .option-btn {
+            padding: 20px;
+            font-size: 1.2em;
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .option-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .distraction-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 3em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            animation: pulse 1s ease-in-out infinite;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+            z-index: 1001;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .results-container {
+            margin-top: 30px;
+        }
+
+        .result-bar {
+            margin: 20px 0;
+        }
+
+        .result-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .bar-container {
+            background: #e0e0e0;
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .bar-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: white;
+            font-weight: bold;
+            transition: width 1s ease-out;
+            border-radius: 20px;
+        }
+
+        .bar-condition-1 { background: linear-gradient(90deg, #10b981, #059669); }
+        .bar-condition-2 { background: linear-gradient(90deg, #f59e0b, #d97706); }
+        .bar-condition-3 { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+        .insight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .insight-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .insight-box p {
+            margin-bottom: 10px;
+        }
+
+        .key-point {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .score-badge {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .comparison-text {
+            font-size: 1.1em;
+            color: #444;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .blinking-timer {
+            animation: blink 0.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="welcome-screen">
+            <h1>🧠 Le Test des 3 Cerveaux</h1>
+            <p class="subtitle">Découvre l'impact RÉEL des distractions sur ton cerveau</p>
+            
+            <div class="intro">
+                <p>Tu penses pouvoir te concentrer même avec de la musique, des notifs et tout le bordel ? 🤔</p>
+                <p><strong>Ce test va te prouver exactement ce que ça change.</strong></p>
+                <p>Tu vas faire 3 fois le même exercice dans 3 conditions différentes :</p>
+                <ul style="margin: 15px 0; padding-left: 20px; color: #444;">
+                    <li style="margin: 8px 0;">🧘 <strong>Mode Zen</strong> : silence total, concentration max</li>
+                    <li style="margin: 8px 0;">😬 <strong>Mode Perturbé</strong> : quelques distractions autour</li>
+                    <li style="margin: 8px 0;">🤯 <strong>Mode Chaos</strong> : le bordel complet</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Durée totale :</strong> 3-4 minutes. C'est parti ! 🚀</p>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn" onclick="startTest()">Commencer le test</button>
+            </div>
+        </div>
+
+        <div id="test-screen" class="hidden">
+            <div class="condition-card" id="condition-header">
+                <h2 id="condition-title"></h2>
+                <p id="condition-description"></p>
+            </div>
+
+            <div class="task-container">
+                <div class="timer" id="timer">0.0s</div>
+                <div class="task-content" id="task-content"></div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn" id="next-btn" onclick="nextStep()" style="display: none;">Suivant</button>
+            </div>
+        </div>
+
+        <div id="results-screen" class="hidden">
+            <h1>📊 Tes Résultats</h1>
+            <p class="subtitle">Voilà ce qui s'est passé dans ta tête...</p>
+
+            <div class="results-container">
+                <div class="result-bar">
+                    <div class="result-label">
+                        <span>🧘 Mode Zen</span>
+                        <div>
+                            <span id="score-1" class="score-badge">0 pts</span>
+                            <span id="accuracy-1" class="score-badge">0%</span>
+                        </div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill bar-condition-1" id="bar-1" style="width: 0%">
+                            <span id="time-1">0s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-bar">
+                    <div class="result-label">
+                        <span>😬 Mode Perturbé</span>
+                        <div>
+                            <span id="score-2" class="score-badge">0 pts</span>
+                            <span id="accuracy-2" class="score-badge">0%</span>
+                        </div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill bar-condition-2" id="bar-2" style="width: 0%">
+                            <span id="time-2">0s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-bar">
+                    <div class="result-label">
+                        <span>🤯 Mode Chaos</span>
+                        <div>
+                            <span id="score-3" class="score-badge">0 pts</span>
+                            <span id="accuracy-3" class="score-badge">0%</span>
+                        </div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill bar-condition-3" id="bar-3" style="width: 0%">
+                            <span id="time-3">0s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-text" id="comparison-text"></div>
+
+            <div class="insight-box">
+                <h3>🎯 Ce qui s'est passé dans ton cerveau</h3>
+                
+                <div class="key-point">
+                    <strong>Pourquoi c'est plus lent avec des distractions ?</strong><br>
+                    Ton cerveau ne peut pas vraiment faire deux choses en même temps. Quand t'as de la musique, des trucs qui bougent ou des notifs, ton cerveau doit sans arrêt "switcher" entre la tâche et la distraction. Ce va-et-vient bouffe de l'énergie mentale et ralentit tout. On appelle ça la <em>charge cognitive</em>.
+                </div>
+
+                <div class="key-point">
+                    <strong>L'attention divisée, ça n'existe pas vraiment</strong><br>
+                    Quand tu crois être "multitâche", en vrai tu fais juste du ping-pong super rapide entre plusieurs trucs. Et à chaque changement, tu perds en vitesse et en qualité. Les études montrent qu'on peut perdre jusqu'à 40% d'efficacité juste à cause de ça.
+                </div>
+
+                <div class="key-point" id="personal-insight"></div>
+
+                <p style="margin-top: 20px; font-size: 1.1em;">
+                    <strong>Le truc à retenir :</strong> Si t'as besoin de vraiment te concentrer (exercices difficiles, mémorisation, compréhension), ton cerveau a besoin de calme. C'est pas une question de "volonté" ou de "savoir se concentrer" — c'est juste comment ton cerveau fonctionne. Point.
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="location.reload()">Refaire le test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentCondition = 0;
+        let currentTask = 0;
+        let currentTaskStep = 0; // Pour gérer les étapes de la mémorisation
+        let startTime = 0;
+        let timerInterval = null;
+        let distractionElements = [];
+        let audioContext = null;
+        let audioIntervals = [];
+        let memorizedWords = [];
+
+        const conditions = [
+            {
+                name: "Mode Zen 🧘",
+                description: "Concentration pure. Pas de distraction.",
+                hasDistractions: false,
+                hasMusic: false,
+                hasBlinkingTimer: false
+            },
+            {
+                name: "Mode Perturbé 😬",
+                description: "Quelques trucs qui bougent autour...",
+                hasDistractions: true,
+                distractionLevel: 'light',
+                hasMusic: false,
+                hasBlinkingTimer: false
+            },
+            {
+                name: "Mode Chaos 🤯",
+                description: "Bienvenue en enfer des distractions !",
+                hasDistractions: true,
+                distractionLevel: 'heavy',
+                hasMusic: true,
+                hasBlinkingTimer: true
+            }
+        ];
+
+        const taskSets = [
+            // Condition 1 - Mode Zen
+            [
+                {
+                    type: 'memory',
+                    words: ['SOLEIL', 'OCÉAN', 'MONTAGNE', 'FORÊT', 'ÉTOILE']
+                },
+                {
+                    type: 'math',
+                    question: 'Combien font 17 + 28 ?',
+                    answer: '45'
+                },
+                {
+                    type: 'counting',
+                    question: 'Combien de 🔵 vois-tu ?',
+                    grid: ['🔵', '🔴', '🔵', '🟡', '🔵', '🔴', '🔵', '🟡', '🔵', '🔴', '🔵', '🟡', '🔵', '🔴', '🔵'],
+                    answer: '8'
+                }
+            ],
+            // Condition 2 - Mode Perturbé
+            [
+                {
+                    type: 'memory',
+                    words: ['NUAGE', 'DÉSERT', 'RIVIÈRE', 'VOLCAN', 'LUNE']
+                },
+                {
+                    type: 'math',
+                    question: 'Combien font 34 + 19 ?',
+                    answer: '53'
+                },
+                {
+                    type: 'counting',
+                    question: 'Combien de ⭐ vois-tu ?',
+                    grid: ['⭐', '💫', '⭐', '✨', '⭐', '💫', '⭐', '✨', '⭐', '💫', '⭐', '✨', '⭐', '💫', '⭐'],
+                    answer: '8'
+                }
+            ],
+            // Condition 3 - Mode Chaos
+            [
+                {
+                    type: 'memory',
+                    words: ['TIGRE', 'AIGLE', 'BALEINE', 'SERPENT', 'PANDA']
+                },
+                {
+                    type: 'math',
+                    question: 'Combien font 26 + 37 ?',
+                    answer: '63'
+                },
+                {
+                    type: 'counting',
+                    question: 'Combien de 🟢 vois-tu ?',
+                    grid: ['🟢', '🟣', '🟢', '🟠', '🟢', '🟣', '🟢', '🟠', '🟢', '🟣', '🟢', '🟠', '🟢', '🟣', '🟢'],
+                    answer: '8'
+                }
+            ]
+        ];
+
+        let results = {
+            condition1: { time: 0, score: 0 },
+            condition2: { time: 0, score: 0 },
+            condition3: { time: 0, score: 0 }
+        };
+
+        let currentConditionScore = 0;
+        let currentConditionTime = 0;
+
+        function startTest() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('test-screen').classList.remove('hidden');
+            startCondition();
+        }
+
+        function startCondition() {
+            currentTask = 0;
+            currentTaskStep = 0;
+            currentConditionScore = 0;
+            currentConditionTime = 0;
+
+            const condition = conditions[currentCondition];
+            document.getElementById('condition-title').textContent = condition.name;
+            document.getElementById('condition-description').textContent = condition.description;
+
+            if (condition.hasDistractions) {
+                createDistractions(condition.distractionLevel);
+            }
+
+            if (condition.hasMusic) {
+                createMusicPlayer();
+                startAnnoyingSounds(); // Activer les vrais sons
+            }
+
+            if (condition.hasBlinkingTimer) {
+                document.getElementById('timer').classList.add('blinking-timer');
+            }
+
+            setTimeout(() => startTask(), 1500);
+        }
+
+        function startTask() {
+            const tasks = taskSets[currentCondition];
+            const task = tasks[currentTask];
+            const content = document.getElementById('task-content');
+            content.innerHTML = '';
+
+            if (task.type === 'memory') {
+                if (currentTaskStep === 0) {
+                    // Étape 1: Montrer les mots
+                    startTime = Date.now();
+                    startTimer();
+                    
+                    content.innerHTML = `
+                        <h3>Mémorise ces 5 mots</h3>
+                        <p style="color: #666; margin-bottom: 20px;">Tu as 5 secondes</p>
+                        <div class="word-list">
+                            ${task.words.map(word => `<div class="word-item">${word}</div>`).join('')}
+                        </div>
+                    `;
+                    
+                    memorizedWords = task.words;
+                    
+                    setTimeout(() => {
+                        stopTimer();
+                        currentTaskStep = 1;
+                        startTask();
+                    }, 5000);
+                } else if (currentTaskStep === 1) {
+                    // Étape 2: Écran vide (pause)
+                    content.innerHTML = `
+                        <h3 style="color: #999;">...</h3>
+                        <p style="color: #666; font-size: 1.2em;">Attends un peu...</p>
+                    `;
+                    
+                    setTimeout(() => {
+                        currentTaskStep = 2;
+                        startTask();
+                    }, 2000);
+                } else {
+                    // Étape 3: Demander de rappeler
+                    startTime = Date.now();
+                    startTimer();
+                    
+                    content.innerHTML = `
+                        <h3>Écris les 5 mots que tu as mémorisés</h3>
+                        <p style="color: #666; margin-bottom: 20px;">(séparés par des espaces)</p>
+                        <div class="input-area">
+                            <input type="text" id="memory-input" placeholder="Ex: MOT1 MOT2 MOT3..." />
+                        </div>
+                        <button class="btn" onclick="checkMemory()">Valider</button>
+                    `;
+                    document.getElementById('memory-input').focus();
+                    currentTaskStep = 0; // Reset pour la prochaine tâche
+                }
+            } else if (task.type === 'math') {
+                startTime = Date.now();
+                startTimer();
+                
+                content.innerHTML = `
+                    <h3>${task.question}</h3>
+                    <div class="input-area">
+                        <input type="number" id="math-input" placeholder="Ta réponse" />
+                    </div>
+                    <button class="btn" onclick="checkMath()">Valider</button>
+                `;
+                document.getElementById('math-input').focus();
+            } else if (task.type === 'counting') {
+                startTime = Date.now();
+                startTimer();
+                
+                content.innerHTML = `
+                    <h3>${task.question}</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Compte vite !</p>
+                    <div class="counting-grid">
+                        ${task.grid.map(item => `<div class="counting-item">${item}</div>`).join('')}
+                    </div>
+                    <div class="input-area">
+                        <input type="number" id="counting-input" placeholder="Nombre ?" style="max-width: 150px;" />
+                    </div>
+                    <button class="btn" onclick="checkCounting()">Valider</button>
+                `;
+                document.getElementById('counting-input').focus();
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = (Date.now() - startTime) / 1000;
+                document.getElementById('timer').textContent = elapsed.toFixed(1) + 's';
+            }, 100);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            const elapsed = (Date.now() - startTime) / 1000;
+            currentConditionTime += elapsed;
+            return elapsed;
+        }
+
+        function checkMemory() {
+            stopTimer();
+            const input = document.getElementById('memory-input').value.toUpperCase().trim();
+            const userWords = input.split(/\s+/);
+            const correctWords = memorizedWords;
+            
+            let correct = 0;
+            userWords.forEach(word => {
+                if (correctWords.includes(word)) correct++;
+            });
+
+            currentConditionScore += correct * 20;
+            nextTask();
+        }
+
+        function checkMath() {
+            stopTimer();
+            const tasks = taskSets[currentCondition];
+            const input = document.getElementById('math-input').value;
+            if (input === tasks[1].answer) {
+                currentConditionScore += 100;
+            }
+            nextTask();
+        }
+
+        function checkCounting() {
+            stopTimer();
+            const tasks = taskSets[currentCondition];
+            const input = document.getElementById('counting-input').value;
+            if (input === tasks[2].answer) {
+                currentConditionScore += 100;
+            }
+            nextTask();
+        }
+
+        function nextTask() {
+            currentTask++;
+            const tasks = taskSets[currentCondition];
+            if (currentTask < tasks.length) {
+                setTimeout(() => startTask(), 500);
+            } else {
+                finishCondition();
+            }
+        }
+
+        function finishCondition() {
+            clearDistractions();
+            stopTimer();
+
+            // Save results
+            results[`condition${currentCondition + 1}`] = {
+                time: currentConditionTime,
+                score: currentConditionScore
+            };
+
+            currentCondition++;
+            if (currentCondition < conditions.length) {
+                showIntermediateScreen();
+            } else {
+                showResults();
+            }
+        }
+
+        function showIntermediateScreen() {
+            document.getElementById('test-screen').classList.add('hidden');
+            
+            // Créer l'écran intermédiaire
+            let intermediateScreen = document.getElementById('intermediate-screen');
+            if (!intermediateScreen) {
+                intermediateScreen = document.createElement('div');
+                intermediateScreen.id = 'intermediate-screen';
+                intermediateScreen.style.textAlign = 'center';
+                document.querySelector('.container').appendChild(intermediateScreen);
+            }
+            
+            const conditionNames = ['Mode Zen', 'Mode Perturbé', 'Mode Chaos'];
+            const nextConditionName = conditionNames[currentCondition];
+            
+            intermediateScreen.innerHTML = `
+                <h2 style="color: #667eea; margin-bottom: 20px;">✅ Test ${currentCondition} terminé !</h2>
+                <div style="background: #f8f9ff; padding: 30px; border-radius: 15px; margin: 30px 0;">
+                    <p style="font-size: 1.2em; color: #444; margin-bottom: 20px;">
+                        Prêt·e pour le test suivant ?
+                    </p>
+                    <p style="font-size: 1.4em; font-weight: bold; color: #667eea;">
+                        ${nextConditionName}
+                    </p>
+                </div>
+                <button class="btn" onclick="continueToNextCondition()">C'est parti ! 🚀</button>
+            `;
+            
+            intermediateScreen.classList.remove('hidden');
+        }
+
+        function continueToNextCondition() {
+            document.getElementById('intermediate-screen').classList.add('hidden');
+            document.getElementById('test-screen').classList.remove('hidden');
+            startCondition();
+        }
+
+        function showResults() {
+            document.getElementById('test-screen').classList.add('hidden');
+            const intermediateScreen = document.getElementById('intermediate-screen');
+            if (intermediateScreen) intermediateScreen.classList.add('hidden');
+            
+            document.getElementById('results-screen').classList.remove('hidden');
+
+            const maxPossibleScore = 200; // 100 (mémoire) + 100 (math) + 100 (comptage) = 300, mais mémoire c'est 5x20 max
+            
+            // Calculate max score for scaling bars
+            const maxScore = Math.max(results.condition1.score, results.condition2.score, results.condition3.score);
+
+            // Display results
+            for (let i = 1; i <= 3; i++) {
+                const result = results[`condition${i}`];
+                const percentage = (result.score / maxScore) * 100;
+                const accuracy = (result.score / maxPossibleScore * 100).toFixed(0);
+                
+                document.getElementById(`score-${i}`).textContent = result.score + '/' + maxPossibleScore + ' pts';
+                document.getElementById(`accuracy-${i}`).textContent = accuracy + '%';
+                document.getElementById(`time-${i}`).textContent = result.time.toFixed(1) + 's';
+                
+                setTimeout(() => {
+                    document.getElementById(`bar-${i}`).style.width = percentage + '%';
+                }, 100 * i);
+            }
+
+            // Generate comparison text based on BOTH score and time
+            const scoreDrop1to2 = ((results.condition1.score - results.condition2.score) / results.condition1.score * 100);
+            const scoreDrop1to3 = ((results.condition1.score - results.condition3.score) / results.condition1.score * 100);
+            
+            const timeIncrease1to2 = ((results.condition2.time - results.condition1.time) / results.condition1.time * 100);
+            const timeIncrease1to3 = ((results.condition3.time - results.condition1.time) / results.condition1.time * 100);
+
+            let comparisonHTML = `<strong>Ce qui s'est passé :</strong><br><br>`;
+            
+            // Comparison Mode Zen vs Mode Perturbé
+            if (scoreDrop1to2 > 5) {
+                comparisonHTML += `📉 <strong>Mode Perturbé :</strong> Tu as perdu <strong>${scoreDrop1to2.toFixed(0)}%</strong> de précision par rapport au Mode Zen`;
+            } else if (scoreDrop1to2 < -5) {
+                comparisonHTML += `📈 <strong>Mode Perturbé :</strong> Tu as même fait <strong>mieux</strong> qu'en Mode Zen (effet d'apprentissage ou chance !)`;
+            } else {
+                comparisonHTML += `✅ <strong>Mode Perturbé :</strong> Tu as maintenu ta précision`;
+            }
+            
+            if (timeIncrease1to2 > 10) {
+                comparisonHTML += ` et t'as mis <strong>${timeIncrease1to2.toFixed(0)}% plus de temps</strong>.`;
+            } else if (timeIncrease1to2 < -10) {
+                comparisonHTML += ` et t'as été plus rapide (${Math.abs(timeIncrease1to2).toFixed(0)}% de temps en moins).`;
+            } else {
+                comparisonHTML += ` avec un temps similaire.`;
+            }
+
+            comparisonHTML += `<br><br>`;
+
+            // Comparison Mode Zen vs Mode Chaos
+            if (scoreDrop1to3 > 5) {
+                comparisonHTML += `💥 <strong>Mode Chaos :</strong> Tu as chuté de <strong>${scoreDrop1to3.toFixed(0)}%</strong> en précision`;
+            } else if (scoreDrop1to3 < -5) {
+                comparisonHTML += `🔥 <strong>Mode Chaos :</strong> Impressionnant, tu as fait <strong>mieux</strong> qu'en Mode Zen !`;
+            } else {
+                comparisonHTML += `💪 <strong>Mode Chaos :</strong> Tu as résisté, ta précision est restée stable`;
+            }
+            
+            if (timeIncrease1to3 > 10) {
+                comparisonHTML += ` mais t'as été <strong>${timeIncrease1to3.toFixed(0)}% plus lent</strong>.`;
+            } else if (timeIncrease1to3 < -10) {
+                comparisonHTML += ` et t'as même été plus rapide !`;
+            } else {
+                comparisonHTML += ` avec un temps équivalent.`;
+            }
+
+            document.getElementById('comparison-text').innerHTML = comparisonHTML;
+
+            // Personal insight based on combined metrics
+            let insight = '';
+            const totalDegradation = (scoreDrop1to3 + timeIncrease1to3) / 2; // Moyenne des deux impacts
+
+            if (totalDegradation > 40) {
+                insight = `<strong>Ton cas à toi :</strong><br>Le Mode Chaos t'a vraiment mis en difficulté. C'est totalement normal et ça montre exactement ce que les recherches prouvent : ton cerveau ne peut pas gérer plusieurs choses en même temps. Quand t'as des distractions visuelles, des sons, et des trucs qui bougent partout, ton cerveau doit sans arrêt "switcher" entre la tâche et les perturbations. Résultat : moins de précision ET plus de temps. Réviser avec de la musique + notifs + tout le bordel, c'est littéralement saboter ton propre cerveau.`;
+            } else if (totalDegradation > 20) {
+                insight = `<strong>Ton cas à toi :</strong><br>Tu t'en es plutôt bien sorti, mais regarde l'impact quand même. Même si tu "résistes", ton cerveau travaille quand même plus dur pour compenser les distractions. Sur 2h de révisions, ça veut dire fatigue mentale plus rapide, et une qualité de compréhension qui baisse progressivement. Tu peux "survivre" avec des distractions, mais est-ce que tu veux juste survivre ou vraiment cartonner ?`;
+            } else if (totalDegradation > 5) {
+                insight = `<strong>Ton cas à toi :</strong><br>Pas mal ! Tu as plutôt bien géré les distractions. Mais attention : ce test dure quelques minutes. Sur 1h-2h de révisions continues avec des distractions, l'effet cumulatif est beaucoup plus important. Les études montrent que même les gens qui "résistent bien" perdent en profondeur de traitement de l'info et fatiguent plus vite. La question c'est : pourquoi se compliquer la vie alors que tu peux bosser dans de bonnes conditions ?`;
+            } else {
+                insight = `<strong>Ton cas à toi :</strong><br>Wow, t'as vraiment bien géré ! Mais soyons honnêtes : soit tu as eu de la chance, soit les distractions de ce test ne sont pas celles qui te perturbent vraiment. Dans la vraie vie, quand c'est TON téléphone qui vibre avec un message de ton crush, ou que ta série préférée sort un nouvel épisode, c'est une autre histoire. La distraction la plus puissante, c'est celle qui a une charge émotionnelle pour toi. Et là, personne ne résiste facilement.`;
+            }
+
+            document.getElementById('personal-insight').innerHTML = insight;
+        }
+
+        function createDistractions(level) {
+            const overlay = document.createElement('div');
+            overlay.className = 'distraction-overlay';
+            overlay.id = 'distraction-overlay';
+            document.body.appendChild(overlay);
+
+            const emojis = ['😂', '🔥', '💀', '✨', '🎮', '📱', '⚡', '💯', '❤️', '👀', '💬', '🎵'];
+            const count = level === 'heavy' ? 20 : 8;
+
+            // Créer des emojis qui apparaissent/disparaissent de façon aléatoire
+            for (let i = 0; i < count; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 90 + '%';
+                emoji.style.top = Math.random() * 90 + '%';
+                emoji.style.animationDelay = Math.random() * 2 + 's';
+                emoji.style.fontSize = (2 + Math.random() * 2) + 'em';
+                overlay.appendChild(emoji);
+                distractionElements.push(emoji);
+
+                // Animation d'apparition/disparition aléatoire pour mode chaos
+                if (level === 'heavy') {
+                    setInterval(() => {
+                        emoji.style.opacity = Math.random() > 0.5 ? '1' : '0.3';
+                        emoji.style.left = Math.random() * 90 + '%';
+                        emoji.style.top = Math.random() * 90 + '%';
+                    }, 1500 + Math.random() * 1000);
+                }
+            }
+
+            // Fausses notifications pour Mode Perturbé et Chaos
+            if (level === 'light') {
+                const notifInterval = setInterval(() => {
+                    showFakeNotification();
+                }, 4000);
+                audioIntervals.push(notifInterval);
+            } else if (level === 'heavy') {
+                const notifInterval = setInterval(() => {
+                    showFakeNotification();
+                }, 2000);
+                audioIntervals.push(notifInterval);
+            }
+        }
+
+        function showFakeNotification() {
+            const messages = [
+                '📱 Nouveau message',
+                '🔔 3 notifications',
+                '💬 @ami t\'a mentionné',
+                '❤️ 12 nouvelles reactions',
+                '📸 Story de ton crush',
+                '🎮 Ton pote est en ligne'
+            ];
+
+            const notif = document.createElement('div');
+            notif.style.position = 'fixed';
+            notif.style.top = '20px';
+            notif.style.right = '20px';
+            notif.style.background = 'white';
+            notif.style.padding = '15px 25px';
+            notif.style.borderRadius = '10px';
+            notif.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
+            notif.style.zIndex = '10000';
+            notif.style.fontSize = '1.1em';
+            notif.style.fontWeight = 'bold';
+            notif.style.animation = 'slideIn 0.3s ease-out';
+            notif.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => notif.remove(), 300);
+            }, 2000);
+        }
+
+        function createMusicPlayer() {
+            const player = document.createElement('div');
+            player.className = 'music-player';
+            player.id = 'music-player';
+            player.innerHTML = '🎵 Music Playing...';
+            document.body.appendChild(player);
+            distractionElements.push(player);
+        }
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playBeep(frequency, duration) {
+            initAudio();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function startAnnoyingSounds() {
+            initAudio();
+            
+            // Bip agaçant toutes les 2-3 secondes
+            const beepInterval = setInterval(() => {
+                playBeep(800, 0.1);
+            }, 2000 + Math.random() * 1000);
+            
+            audioIntervals.push(beepInterval);
+
+            // Mélodie répétitive toutes les 5 secondes
+            const melodyInterval = setInterval(() => {
+                playBeep(523, 0.15); // Do
+                setTimeout(() => playBeep(659, 0.15), 150); // Mi
+                setTimeout(() => playBeep(784, 0.15), 300); // Sol
+                setTimeout(() => playBeep(659, 0.15), 450); // Mi
+            }, 5000);
+            
+            audioIntervals.push(melodyInterval);
+        }
+
+        function stopAllSounds() {
+            audioIntervals.forEach(interval => clearInterval(interval));
+            audioIntervals = [];
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+        }
+
+        function clearDistractions() {
+            const overlay = document.getElementById('distraction-overlay');
+            if (overlay) overlay.remove();
+            
+            const player = document.getElementById('music-player');
+            if (player) player.remove();
+
+            const timer = document.getElementById('timer');
+            timer.classList.remove('blinking-timer');
+
+            stopAllSounds();
+            distractionElements = [];
+        }
+    </script>
+</body>
+</html>
