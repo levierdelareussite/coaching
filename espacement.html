@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://levierdelareussite.github.io/coaching/espacement.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Pratique Espacée - Support Pédagogique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 600;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+        }
+
+        .subsection h3 {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .intro-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .intro-box strong {
+            color: #856404;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-card {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .comparison-card.bad {
+            background: #ffe5e5;
+            border: 2px solid #ff6b6b;
+        }
+
+        .comparison-card.good {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+        }
+
+        .comparison-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .comparison-card h4 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .comparison-card .method {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+
+        .comparison-card .result {
+            margin-top: 15px;
+            font-size: 0.95em;
+            font-style: italic;
+        }
+
+        .definition-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .definition-box .term {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .vs-box {
+            background: #f3e5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .mechanisms {
+            display: grid;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .mechanism-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .mechanism-card h4 {
+            color: #667eea;
+            font-size: 1.15em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .mechanism-card .science {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .benefit-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .benefit-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card h4 {
+            font-size: 1.15em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .benefit-card p {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+            margin: 30px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #667eea;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item .day {
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        .timeline-item .activity {
+            padding-left: 20px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .day-label {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .activity-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .activity-type {
+            font-weight: 600;
+            color: #764ba2;
+            margin-bottom: 8px;
+        }
+
+        .pomodoro {
+            display: inline-block;
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .tip::before {
+            content: '💡 ';
+        }
+
+        .scenario-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .scenario-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .scenario-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .scenario-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .scenario-content {
+            display: none;
+            margin-top: 30px;
+            animation: fadeIn 0.5s;
+        }
+
+        .scenario-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-container {
+            margin: 30px 0;
+        }
+
+        .quiz-question {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-question h4 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #dee2e6;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: #e3f2fd;
+        }
+
+        .quiz-option.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            color: #2e7d32;
+        }
+
+        .quiz-feedback.incorrect {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            color: #c62828;
+        }
+
+        .tool-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 12px;
+            color: white;
+            margin: 30px 0;
+        }
+
+        .tool-container h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .generate-btn {
+            width: 100%;
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .planning-result {
+            display: none;
+            background: white;
+            color: #2c3e50;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .planning-result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .planning-result h4 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .planning-session {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .planning-session .session-day {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .planning-session .session-content {
+            font-size: 0.95em;
+        }
+
+        .reference {
+            font-size: 0.85em;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .important-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .subsection h3 {
+                font-size: 1.15em;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .comparison-card .icon {
+                font-size: 2em;
+            }
+
+            .scenario-selector {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .scenario-btn {
+                padding: 15px;
+                font-size: 0.95em;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                padding-left: 50px;
+            }
+
+            .timeline-item .day {
+                text-align: left;
+                padding-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .timeline-item .activity {
+                padding-left: 0;
+            }
+
+            .timeline-item::after {
+                left: 20px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefit-card {
+                padding: 20px;
+            }
+
+            .mechanism-card,
+            .intro-box,
+            .definition-box {
+                padding: 15px;
+            }
+
+            .quiz-option {
+                padding: 12px;
+                font-size: 0.95em;
+            }
+
+            .tool-container {
+                padding: 20px;
+            }
+
+            .tool-container h3 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+<meta id="ConnectiveDocSignExtentionInstalled" name="ConnectiveDocSignExtentionInstalled" data-extension-version="1.0.7"></head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 La Pratique Espacée</h1>
+            <p>Comprendre et appliquer une stratégie d'apprentissage scientifiquement prouvée</p>
+        </div>
+
+        <div class="content">
+            <!-- SECTION 1 : SITUATION DE DÉPART -->
+            <div class="section">
+                <h2 class="section-title">🎯 Tu connais cette situation ?</h2>
+                
+                <div class="intro-box">
+                    <p><strong>Demain t'as un contrôle d'Histoire.</strong> Le chapitre sur la Guerre froide. Tu ouvres ton cours à 20h, tu révises pendant 2 heures d'affilée. Tu te couches en te disant « ça devrait aller ». Le lendemain, tu te rends compte que t'as oublié la moitié. Stressé·e. Pas confiant·e. La note suit pas.</p>
+                    
+                    <p style="margin-top: 15px;">Le problème, c'est pas que t'es nul·le ou pas motivé·e. Le problème, c'est la méthode.</p>
+                </div>
+            </div>
+
+            <!-- SECTION 2 : DÉFINITION -->
+            <div class="section">
+                <h2 class="section-title">📖 C'est quoi exactement la pratique espacée ?</h2>
+                
+                <div class="definition-box">
+                    <div class="term">Définition scientifique</div>
+                    <p>La pratique espacée (ou <em>spaced practice</em>) consiste à <strong>répartir tes sessions d'étude sur plusieurs jours</strong> plutôt que de tout concentrer en une seule fois.</p>
+                    
+                    <div class="vs-box">
+                        <strong>À l'inverse :</strong> La pratique massée (<em>massed practice</em>) = réviser intensivement en une seule session, généralement la veille.
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Le principe de base</h3>
+                    <p>Imaginons que tu dois réviser un chapitre d'Histoire pour un contrôle dans 7 jours. Tu as 2 heures au total à y consacrer.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Option A (pratique massée) :</strong> 2 heures d'affilée la veille</p>
+                    <p><strong>Option B (pratique espacée) :</strong> 4 sessions de 30 minutes réparties sur 7 jours</p>
+                    
+                    <p style="margin-top: 15px;">Même temps investi. Mais les résultats au contrôle ? Complètement différents : meilleure note, moins de stress, plus de confiance.</p>
+                    
+                    <div class="reference">Dunlosky et al. (2013) ont identifié la pratique espacée comme l'une des techniques d'apprentissage les plus efficaces, avec un haut niveau de preuve scientifique.</div>
+                </div>
+
+                <div class="subsection" style="margin-top: 30px;">
+                    <h3>Concrètement, ça change quoi ?</h3>
+                    <div class="comparison">
+                        <div class="comparison-card bad">
+                            <div class="icon">❌</div>
+                            <h4>Pratique Massée</h4>
+                            <div class="method">2 heures la veille du contrôle</div>
+                            <div class="result">
+                                → Ton cerveau sature (tu peux pas tout retenir d'un coup)<br>
+                                → Tu oublies vite après le contrôle<br>
+                                → Stress de dernière minute<br>
+                                → Tu te sens pas sûr·e de toi
+                            </div>
+                        </div>
+
+                        <div class="comparison-card good">
+                            <div class="icon">✅</div>
+                            <h4>Pratique Espacée</h4>
+                            <div class="method">4 sessions de 30 minutes sur 7 jours</div>
+                            <div class="result">
+                                → Tu retiens mieux (ton cerveau a le temps d'intégrer)<br>
+                                → Ce que tu apprends reste plus longtemps en mémoire<br>
+                                → Tu arrives serein·e au contrôle<br>
+                                → Tu sais que tu maîtrises
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3 : POURQUOI ÇA MARCHE -->
+            <div class="section">
+                <h2 class="section-title">🧠 Pourquoi ça marche ?</h2>
+                
+                <div class="mechanisms">
+                    <div class="mechanism-card">
+                        <h4>1. L'effet d'espacement (spacing effect)</h4>
+                        <p>Quand tu révises plusieurs fois avec des intervalles entre les sessions, ton cerveau mémorise mieux. C'est comme un chemin dans une forêt : si tu l'empruntes une seule fois, il disparaît vite. Mais si tu passes régulièrement, le chemin devient de plus en plus marqué, de plus en plus facile à retrouver.</p>
+                        <p style="margin-top: 10px;">Chaque session de révision espacée renforce ta mémoire de manière plus solide qu'une seule grosse session.</p>
+                        <div class="science">Cepeda et al. (2006) ont analysé plus de 300 études : l'effet d'espacement est robuste et s'applique à tous types de contenus et tous les âges.</div>
+                    </div>
+
+                    <div class="mechanism-card">
+                        <h4>2. La consolidation mémorielle</h4>
+                        <p>Entre chaque session de révision, tu dors. Et pendant ton sommeil, ton cerveau <strong>consolide les informations</strong> : il trie, renforce et organise ce que tu as appris. Espacer tes révisions, c'est donner plusieurs occasions à ton cerveau de consolider.</p>
+                        <p style="margin-top: 10px;">C'est pour ça que réviser sur plusieurs jours avec des nuits entre = beaucoup plus efficace que tout réviser en une seule fois.</p>
+                    </div>
+
+                    <div class="mechanism-card">
+                        <h4>3. L'effet test (testing effect)</h4>
+                        <p>Chaque fois que tu essaies activement de te rappeler une information - sans regarder ton cours - tu ne te contentes pas de vérifier ce que tu sais. Tu renforces la trace mémorielle elle-même. Plus l'effort de récupération est grand, plus la consolidation est profonde. L'espacement amplifie cet effet parce qu'il augmente l'effort nécessaire au rappel : plus le temps écoulé depuis la dernière révision est long, plus l'acte de se souvenir est exigeant… et plus il est bénéfique.</p>
+                        <div class="science">Roediger &amp; Karpicke (2006) ont montré que se tester est bien plus efficace pour la rétention à long terme que relire plusieurs fois le même contenu.</div>
+                    </div>
+
+                    <div class="mechanism-card">
+                        <h4>4. La courbe d'oubli et les rappels successifs</h4>
+                        <p>Ebbinghaus a montré qu'on oublie très vite après avoir appris quelque chose. Mais chaque fois qu'on réactive l'information (= on se teste, on révise), on « remonte » la courbe : l'information devient plus accessible, plus longtemps.</p>
+                        <div class="important-note">
+                            <strong>Nuance importante :</strong> Les travaux d'Ebbinghaus portaient sur des syllabes sans sens. Mais le principe de rappels successifs qui renforcent la mémoire a été validé dans de nombreux contextes d'apprentissage. Ce qui compte : chaque « piqûre de rappel » renforce ce que tu as appris.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4 : BÉNÉFICES -->
+            <div class="section">
+                <h2 class="section-title">✨ Les bénéfices concrets</h2>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="icon">🎯</div>
+                        <h4>Meilleure rétention</h4>
+                        <p>Tu retiens mieux et plus longtemps. Même si ton objectif est juste le contrôle de la semaine prochaine, tu vas mieux performer qu'avec du bachotage.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="icon">😌</div>
+                        <h4>Moins de stress</h4>
+                        <p>Réviser progressivement réduit la pression de dernière minute. Tu arrives au contrôle plus serein·e, moins en mode « panique ».</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="icon">💪</div>
+                        <h4>Plus de confiance</h4>
+                        <p>Chaque session te montre ce que tu maîtrises déjà et ce qu'il reste à bosser. Tu arrives au contrôle avec un vrai sentiment de maîtrise.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="icon">🔍</div>
+                        <h4>Identification des lacunes</h4>
+                        <p>En espaçant, tu identifies plus tôt ce que tu ne comprends pas bien. Ça te laisse du temps pour corriger, demander de l'aide, retravailler.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="icon">⚡</div>
+                        <h4>Moins de fatigue cognitive</h4>
+                        <p>4 sessions de 30 minutes, c'est beaucoup moins épuisant que 2 heures d'affilée. Tu restes concentré·e et efficace.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="icon">📈</div>
+                        <h4>Durabilité (bonus)</h4>
+                        <p>Même si ton objectif est le contrôle de vendredi, si tu révises de manière espacée, tu retiendras aussi mieux pour les examens de fin d'année ou pour les bilans.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5 : APPLICATION PRATIQUE -->
+            <div class="section">
+                <h2 class="section-title">🛠️ Comment faire concrètement ?</h2>
+                
+                <p style="margin-bottom: 25px;">Voici 3 scénarios réalistes. Clique sur celui qui te correspond le mieux pour voir un exemple détaillé de planification.</p>
+
+                <div class="scenario-selector">
+                    <button class="scenario-btn" onclick="showScenario(1)">
+                        📅 Scénario A<br>
+                        <small style="font-weight: normal;">1 chapitre dense<br>Contrôle dans 7 jours</small>
+                    </button>
+                    <button class="scenario-btn" onclick="showScenario(2)">
+                        ⏱️ Scénario B<br>
+                        <small style="font-weight: normal;">1 chapitre moyen<br>Contrôle dans 5 jours</small>
+                    </button>
+                    <button class="scenario-btn" onclick="showScenario(3)">
+                        📚 Scénario C<br>
+                        <small style="font-weight: normal;">2 chapitres<br>Contrôle dans 10 jours</small>
+                    </button>
+                </div>
+
+                <!-- Scénario A -->
+                <div id="scenario1" class="scenario-content">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">📅 Scénario A : 1 chapitre dense, contrôle dans 7 jours</h3>
+                    
+                    <p><strong>Contexte :</strong> Tu as un contrôle d'Histoire vendredi prochain (dans 7 jours) sur le chapitre « La Révolution française ». C'est dense : 4 sous-parties, beaucoup de dates, personnages, événements.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Stratégie :</strong> Tu aimes bien ficher. On va intégrer ça dans le planning.</p>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Vendredi (J-7)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">📝 Session 1 : Créer ta fiche (partie 1 &amp; 2)</div>
+                                    <p>Lis ton cours, crée une fiche de révision pour les 2 premières sous-parties. Écris l'essentiel : dates clés, personnages, événements majeurs.</p>
+                                    <span class="pomodoro">45 min / 10 min pause</span>
+                                    <div class="tip">Pourquoi cette durée ? Tâche moyenne, tu es en forme en début de semaine.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Dimanche (J-5)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">📝 Session 2 : Terminer ta fiche + 1er test</div>
+                                    <p>Finis ta fiche (parties 3 &amp; 4). Puis <strong>cache ton cours et ta fiche</strong> : essaie de te rappeler les éléments clés des parties 1 &amp; 2. Note ce que tu as oublié.</p>
+                                    <span class="pomodoro">45 min / 10 min pause</span>
+                                    <div class="tip">Le test actif = récupération en mémoire. C'est là que ton cerveau encode vraiment.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Mardi (J-3)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">🧠 Session 3 : Test sur tout le chapitre</div>
+                                    <p>Sans ton cours ni ta fiche : essaie de réciter ou écrire tout ce que tu sais sur le chapitre. Puis vérifie ce que tu as raté. Reprends ces parties-là.</p>
+                                    <span class="pomodoro">30 min / 7 min pause</span>
+                                    <div class="tip">Si tu es fatigué·e ou que c'est difficile, passe en sessions plus courtes. L'important = rester concentré·e.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Jeudi (J-1)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">✅ Session 4 : Révision finale active</div>
+                                    <p>Dernier test actif sur tout le chapitre. Fais comme si c'était le contrôle : chronomètre-toi, réponds à des questions types. Vérifie tes dernières lacunes.</p>
+                                    <span class="pomodoro">45 min / 10 min pause</span>
+                                    <div class="tip">Veille du contrôle : tu consolides ce que tu sais déjà, tu ne découvres pas.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scénario B -->
+                <div id="scenario2" class="scenario-content">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">⏱️ Scénario B : 1 chapitre moyen, contrôle dans 5 jours</h3>
+                    
+                    <p><strong>Contexte :</strong> Contrôle de SVT mardi prochain (dans 5 jours) sur le système immunitaire. Chapitre moyen, pas hyper dense, mais il faut bien comprendre les mécanismes de défense.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Stratégie :</strong> Temps plus serré, mais on peut quand même espacer.</p>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Jeudi (J-5)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">📖 Session 1 : Comprendre et structurer</div>
+                                    <p>Lis le chapitre, fais un schéma ou une carte mentale des réponses immunitaires. Assure-toi de comprendre la logique.</p>
+                                    <span class="pomodoro">30 min / 7 min pause</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Samedi (J-3)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">🧠 Session 2 : Rappel actif</div>
+                                    <p>Ferme ton cours. Essaie de redessiner le schéma de mémoire. Explique le processus à voix haute comme si tu l'enseignais à quelqu'un.</p>
+                                    <span class="pomodoro">30 min / 7 min pause</span>
+                                    <div class="tip">Expliquer à voix haute = excellent moyen de vérifier ta compréhension.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Lundi (J-1)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">✅ Session 3 : Test final</div>
+                                    <p>Fais des exercices du manuel ou invente-toi des questions. Vérifie que tu peux expliquer chaque étape sans hésiter.</p>
+                                    <span class="pomodoro">30 min / 7 min pause</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scénario C -->
+                <div id="scenario3" class="scenario-content">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">📚 Scénario C : 2 chapitres, contrôle dans 10 jours</h3>
+                    
+                    <p><strong>Contexte :</strong> Contrôle de Maths dans 10 jours sur les fonctions (chapitre 1) et les dérivées (chapitre 2). Deux chapitres liés mais distincts.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Stratégie :</strong> Alterner les chapitres pour créer de l'entrelacement, puis tout réviser ensemble.</p>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Lundi (J-10)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">📖 Session 1 : Chapitre 1 (Fonctions)</div>
+                                    <p>Relis ton cours, refais 2-3 exercices types. Identifie ce qui est clair et ce qui coince.</p>
+                                    <span class="pomodoro">45 min / 10 min pause</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Mercredi (J-8)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">📖 Session 2 : Chapitre 2 (Dérivées)</div>
+                                    <p>Pareil : cours + exercices. Concentration sur ce nouveau chapitre.</p>
+                                    <span class="pomodoro">45 min / 10 min pause</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Vendredi (J-6)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">🧠 Session 3 : Révision Chapitre 1</div>
+                                    <p>Refais des exercices sur les fonctions <strong>sans regarder ton cours au début</strong>. Teste-toi vraiment. Puis corrige.</p>
+                                    <span class="pomodoro">30 min / 7 min pause</span>
+                                    <div class="tip">Pourquoi 30/7 ? Si tu commences à fatiguer en milieu de semaine, adapte le rythme.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Dimanche (J-4)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">🧠 Session 4 : Révision Chapitre 2</div>
+                                    <p>Pareil pour les dérivées : exercices sans cours d'abord, puis correction.</p>
+                                    <span class="pomodoro">30 min / 7 min pause</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Mardi (J-2)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">🔀 Session 5 : Révision mélangée</div>
+                                    <p>Fais un mélange d'exercices des deux chapitres. Alterne fonctions et dérivées. Ça oblige ton cerveau à distinguer et appliquer la bonne méthode.</p>
+                                    <span class="pomodoro">45 min / 10 min pause</span>
+                                    <div class="tip">L'entrelacement (interleaving) renforce ta capacité à choisir la bonne approche selon le problème.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="day">
+                                <span class="day-label">Jeudi (J-1, veille)</span>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-card">
+                                    <div class="activity-type">✅ Session 6 : Contrôle blanc</div>
+                                    <p>Fais un sujet type ou invente-toi un contrôle blanc. Chronomètre-toi, conditions réelles. Corrige et revois ce qui coince encore.</p>
+                                    <span class="pomodoro">1h / 15 min pause</span>
+                                    <div class="tip">Veille du contrôle : tu es en forme, tu finalises. Session un peu plus longue OK.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 6 : QUIZ -->
+            <div class="section">
+                <h2 class="section-title">🎯 Teste ta compréhension</h2>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        <h4>Question 1 : Qu'est-ce que la pratique espacée ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(1, 1, false)">
+                                A) Réviser pendant 3 heures d'affilée la veille d'un contrôle
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(1, 2, true)">
+                                B) Répartir ses révisions sur plusieurs jours avec des intervalles entre les sessions
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(1, 3, false)">
+                                C) Réviser dans un endroit spacieux et calme
+                            </div>
+                        </div>
+                        <div id="feedback1" class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Question 2 : Pourquoi espacer ses révisions améliore-t-il la rétention (= capacité à se souvenir) ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(2, 1, false)">
+                                A) Parce qu'on révise plus longtemps au total
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(2, 2, true)">
+                                B) Parce que l'espacement permet la consolidation nocturne ET surtout parce qu'on revient plusieurs fois sur le même contenu, ce qui renforce la mémorisation
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(2, 3, false)">
+                                C) Parce qu'on a plus de temps pour procrastiner entre les sessions
+                            </div>
+                        </div>
+                        <div id="feedback2" class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Question 3 : Tu as un contrôle dans 6 jours. Quelle stratégie applique la pratique espacée ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(3, 1, false)">
+                                A) Tout réviser en une seule session de 3 heures la veille du contrôle
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(3, 2, true)">
+                                B) Réviser 30 minutes aujourd'hui, 30 minutes dans 2 jours, 30 minutes dans 4 jours, et 30 minutes la veille
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(3, 3, false)">
+                                C) Réviser chaque notion une seule fois, sans jamais y revenir
+                            </div>
+                        </div>
+                        <div id="feedback3" class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 7 : EXERCICE PRATIQUE -->
+            <div class="section">
+                <h2 class="section-title">✏️ À toi de jouer</h2>
+                
+                <p style="margin-bottom: 25px;">Maintenant que tu as compris le principe, entraîne-toi à construire ton propre planning.</p>
+
+                <div class="tool-container">
+                    <h3>📋 Exercice pratique</h3>
+                    
+                    <div style="background: white; padding: 25px; border-radius: 12px; color: #2c3e50;">
+                        <p style="margin-bottom: 20px; font-weight: 600;">Imagine : tu as un contrôle de Physique dans 8 jours sur le chapitre « Énergie et mouvement » (assez dense, 3 sous-parties).</p>
+                        
+                        <p style="margin-bottom: 15px;"><strong>Ta mission :</strong></p>
+                        <ol style="margin-left: 20px; line-height: 1.8;">
+                            <li>Décide combien de sessions tu veux faire</li>
+                            <li>Répartis-les sur les 8 jours en espaçant bien</li>
+                            <li>Pour chaque session, note ce que tu vas faire (lire, ficher, te tester...)</li>
+                            <li>Pense à revenir plusieurs fois sur le même contenu</li>
+                        </ol>
+                        
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 25px;">
+                            <p style="font-weight: 600; margin-bottom: 15px;">💡 Questions pour t'aider :</p>
+                            <ul style="margin-left: 20px; line-height: 1.8;">
+                                <li>Est-ce que tu vas découper le chapitre en plusieurs fois ou tout voir d'un coup ?</li>
+                                <li>À quel moment tu vas te tester sans regarder ton cours ?</li>
+                                <li>Comment tu vas utiliser la veille du contrôle ?</li>
+                                <li>Quel rythme Pomodoro tu choisis selon la difficulté ?</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #2196f3;">
+                            <strong>🎯 L'essentiel à retenir :</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                                <li>Espacement : répartir les sessions sur plusieurs jours</li>
+                                <li>Récupération : revenir plusieurs fois sur le même contenu</li>
+                                <li>Consolidation : laisser des nuits entre les sessions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 8 : IDENTITÉ -->
+            <div class="section">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; text-align: center; color: white;">
+                    <p style="font-size: 1.2em; font-weight: 600; margin-bottom: 10px;">Florian Dubois</p>
+                    <p style="font-size: 1em; opacity: 0.95; margin-bottom: 5px;">Coach scolaire</p>
+                    <p style="font-size: 1em; opacity: 0.95;">@levierdelareussite</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Gestion des scénarios
+        function showScenario(num) {
+            // Masquer tous les scénarios
+            document.querySelectorAll('.scenario-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Retirer la classe active de tous les boutons
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Si on clique sur un bouton déjà actif, on ferme tout
+            if (event.target.closest('.scenario-btn').classList.contains('was-active')) {
+                event.target.closest('.scenario-btn').classList.remove('was-active');
+                return;
+            }
+            
+            // Marquer tous les boutons comme "pas actifs"
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('was-active');
+            });
+            
+            // Afficher le scénario sélectionné
+            document.getElementById('scenario' + num).classList.add('active');
+            
+            // Activer le bouton cliqué
+            event.target.closest('.scenario-btn').classList.add('active', 'was-active');
+        }
+
+        // Gestion du quiz
+        function checkAnswer(questionNum, optionNum, isCorrect) {
+            const question = document.querySelectorAll('.quiz-question')[questionNum - 1];
+            const options = question.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('feedback' + questionNum);
+            
+            // Retirer les classes précédentes
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Marquer l'option sélectionnée
+            options[optionNum - 1].classList.add('selected');
+            
+            if (isCorrect) {
+                options[optionNum - 1].classList.add('correct');
+                feedback.className = 'quiz-feedback show correct';
+                
+                if (questionNum === 1) {
+                    feedback.innerHTML = '<strong>✅ Exact !</strong> La pratique espacée consiste bien à répartir ses sessions d\'étude sur plusieurs jours. C\'est l\'inverse de la pratique massée (tout d\'un coup).';
+                } else if (questionNum === 2) {
+                    feedback.innerHTML = '<strong>✅ Parfait !</strong> L\'espacement permet la consolidation nocturne entre les sessions, mais surtout l\'important c\'est de <strong>revenir plusieurs fois sur le même contenu</strong>. Chaque rappel renforce ta mémoire. Ce n\'est pas une question de temps total, mais de répartition ET de répétition.';
+                } else if (questionNum === 3) {
+                    feedback.innerHTML = '<strong>✅ Bien joué !</strong> Cette stratégie applique parfaitement la pratique espacée : 4 sessions réparties sur 6 jours avec des intervalles réguliers. Chaque session renforce ce qui a été vu avant.';
+                }
+            } else {
+                options[optionNum - 1].classList.add('incorrect');
+                feedback.className = 'quiz-feedback show incorrect';
+                
+                if (questionNum === 1) {
+                    if (optionNum === 1) {
+                        feedback.innerHTML = '<strong>❌ Non.</strong> Réviser 3 heures d\'affilée la veille, c\'est de la <strong>pratique massée</strong>. La pratique espacée consiste à <strong>répartir</strong> tes sessions sur plusieurs jours, pas à tout concentrer en une seule fois.';
+                    } else {
+                        feedback.innerHTML = '<strong>❌ Pas tout à fait.</strong> La pratique espacée ne concerne pas le lieu de révision, mais la <strong>répartition temporelle</strong> des sessions. Il faut espacer dans le temps, pas dans l\'espace physique !';
+                    }
+                } else if (questionNum === 2) {
+                    feedback.innerHTML = '<strong>❌ Non.</strong> Ce n\'est pas une question de temps total (on peut réviser le même nombre d\'heures). L\'avantage vient de la <strong>consolidation nocturne entre les sessions</strong> ET surtout du fait de <strong>revenir plusieurs fois sur le même contenu</strong>. Chaque rappel renforce ta mémoire.';
+                } else if (questionNum === 3) {
+                    if (optionNum === 1) {
+                        feedback.innerHTML = '<strong>❌ Non.</strong> Tout concentrer en une seule session la veille, c\'est exactement le contraire de la pratique espacée. C\'est de la <strong>pratique massée</strong>, et ton cerveau n\'a ni le temps de consolider, ni plusieurs occasions de récupérer l\'information.';
+                    } else {
+                        feedback.innerHTML = '<strong>❌ Attention.</strong> L\'idée de la pratique espacée, c\'est de <strong>répartir les sessions ET de revenir plusieurs fois sur le même contenu</strong>. Si tu révises chaque notion une seule fois, tu n\'actives pas assez ta mémoire.';
+                    }
+                }
+            }
+        }
+    </script>
+
+<div class="glasp-extension-toaster" style="display: block; width: 320px; margin: unset; padding: unset; border: unset; border-radius: unset; outline: unset; background-color: unset; box-shadow: unset; position: fixed; top: 40px; right: 24px; z-index: 9999;"><template shadowrootmode="open"><div class="glasp-extension" style="font-family: inherit;"></div></template></div></body><div class="glasp-extension" style="display: block; width: unset; margin: unset; padding: unset; border: unset; border-radius: unset; outline: unset; background-color: unset; box-shadow: unset; position: fixed; bottom: 16px; right: 16px; z-index: 9999;"><div class="glasp-extension" style="font-family: inherit;"></div></div></html>
