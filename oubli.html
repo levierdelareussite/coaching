@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pourquoi tu oublies quand tu révises trop tôt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #f9f7f4;
+            --cream-dark: #f0ebe3;
+            --cream-darker: #e6dfd4;
+            --dark: #2a2420;
+            --accent: #d4745f;
+            --accent-dark: #b85e47;
+            --gray: #6b6460;
+            --green: #5a7c65;
+            --green-light: #7a9b87;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--dark);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px 80px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .header-decoration {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            margin: 0 auto 30px;
+            border-radius: 2px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: var(--dark);
+            letter-spacing: -0.02em;
+        }
+
+        .intro {
+            font-size: 1.25rem;
+            color: var(--gray);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .intro-context {
+            background: var(--cream-dark);
+            padding: 45px 40px 35px;
+            border-radius: 16px;
+            margin: 60px 0;
+            border-left: 4px solid var(--accent);
+            position: relative;
+        }
+
+        .intro-context::before {
+            content: '🤔';
+            position: absolute;
+            top: -30px;
+            left: 35px;
+            font-size: 2.8rem;
+            background: var(--cream);
+            padding: 10px 14px;
+            border-radius: 50%;
+            border: 4px solid var(--cream-dark);
+            line-height: 1;
+        }
+
+        .intro-context p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .intro-context p:last-child {
+            margin-bottom: 0;
+        }
+
+        .intro-question {
+            background: var(--cream-darker);
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border-left: 3px solid var(--accent-dark);
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 35px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        strong {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .scenario-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .scenario-card {
+            background: var(--cream-dark);
+            padding: 35px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .scenario-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            background: var(--cream-darker);
+            border-color: var(--accent);
+        }
+
+        .scenario-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .scenario-title {
+            font-weight: 500;
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .scenario-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--gray);
+        }
+
+        .big-idea {
+            background: var(--cream-darker);
+            padding: 50px;
+            border-radius: 20px;
+            margin: 60px 0;
+            border-left: 5px solid var(--accent);
+        }
+
+        .big-idea-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .big-idea-text {
+            font-size: 1.4rem;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .interactive-graph {
+            background: var(--cream-dark);
+            padding: 50px;
+            border-radius: 20px;
+            margin: 50px 0;
+        }
+
+        .graph-title {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            font-weight: 400;
+            color: var(--dark);
+        }
+
+        .memory-visualization {
+            display: flex;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .memory-path {
+            flex: 1;
+        }
+
+        .path-label {
+            font-weight: 500;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .memory-stage {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .stage-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .time-metric {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            font-weight: 400;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .time-metric.stress {
+            background: rgba(212, 116, 95, 0.15);
+            color: var(--accent-dark);
+        }
+
+        .time-metric.calm {
+            background: rgba(90, 124, 101, 0.15);
+            color: var(--green);
+        }
+
+        .bar-track {
+            background: var(--cream);
+            height: 35px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: white;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .relecture .bar-fill {
+            background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+        }
+
+        .testing .bar-fill {
+            background: linear-gradient(90deg, var(--green), var(--green-light));
+        }
+
+        .timeline {
+            margin: 60px 0;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .timeline-items {
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .timeline-items::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--cream-darker);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--cream-dark);
+            border-radius: 15px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -49px;
+            top: 35px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 4px solid var(--cream);
+            z-index: 1;
+        }
+
+        .timeline-day {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .timeline-duration {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .timeline-action {
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .callout {
+            background: #e8ebe9;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            border-left: 4px solid var(--green);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--green);
+            font-size: 1.1rem;
+        }
+
+        .emphasis-box {
+            background: var(--cream-darker);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 50px 0;
+            border-top: 5px solid var(--accent);
+            text-align: center;
+        }
+
+        .emphasis-box p {
+            font-size: 1.35rem;
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .visual-concept {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            background: var(--cream-dark);
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .concept-icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .concept-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 50px 20px;
+            }
+
+            h1 {
+                font-size: 2.3rem;
+                line-height: 1.2;
+            }
+
+            .intro {
+                font-size: 1.1rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .intro-context {
+                padding: 45px 25px 30px;
+                margin: 50px 0;
+            }
+
+            .intro-context::before {
+                left: 20px;
+                font-size: 2.3rem;
+                padding: 8px 12px;
+            }
+
+            .intro-question {
+                padding: 20px 25px;
+                font-size: 1.05rem;
+            }
+
+            .scenario-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .scenario-card {
+                padding: 30px 25px;
+            }
+
+            .scenario-number {
+                font-size: 2.5rem;
+            }
+
+            .memory-visualization {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .timeline-items {
+                padding-left: 40px;
+            }
+
+            .timeline-item {
+                padding: 25px 20px;
+            }
+
+            .timeline-item::before {
+                left: -39px;
+            }
+
+            .interactive-graph {
+                padding: 35px 20px;
+            }
+
+            .graph-title {
+                font-size: 1.15rem;
+            }
+
+            .stage-label {
+                font-size: 0.85rem;
+            }
+
+            .time-metric {
+                font-size: 0.8rem;
+            }
+
+            .emphasis-box {
+                padding: 30px 20px;
+            }
+
+            .emphasis-box p {
+                font-size: 1.15rem;
+            }
+
+            .big-idea {
+                padding: 35px 25px;
+            }
+
+            .big-idea-text {
+                font-size: 1.2rem;
+            }
+
+            .visual-concept {
+                padding: 25px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .concept-icon {
+                font-size: 2.5rem;
+            }
+
+            .callout {
+                padding: 25px 20px;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: slideIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-decoration"></div>
+            <h1>Pourquoi tu oublies quand tu révises trop tôt</h1>
+            <p class="intro">Et pourquoi c'est en fait une excellente nouvelle</p>
+        </header>
+
+        <div class="section">
+            <div class="intro-context">
+                <p>T'as déjà essayé de t'y prendre 5 jours avant un contrôle, et t'as eu l'impression d'oublier au fur et à mesure ? Résultat : tu te dis que ça sert à rien de commencer tôt.</p>
+            </div>
+
+            <div class="intro-question">
+                Mais avant de conclure que c'est inutile, pose-toi une question : <strong>comment tu révisais exactement pendant cette semaine ?</strong>
+            </div>
+            
+            <p>Parce que selon ta méthode, le problème vient peut-être pas du fait de commencer plus tôt, mais de <strong>comment</strong> tu as utilisé ce temps.</p>
+        </div>
+
+        <div class="section">
+            <h2>Les deux scénarios possibles</h2>
+
+            <div class="scenario-cards">
+                <div class="scenario-card">
+                    <div class="scenario-number">1</div>
+                    <div class="scenario-title">Tu relisais principalement</div>
+                    <div class="scenario-text">
+                        Si t'as surtout relu tes cours plusieurs fois dans la semaine, alors ouais, c'est logique que t'aies eu l'impression d'oublier. La relecture donne l'illusion que tu maîtrises - sur le moment, tout te paraît familier. Mais ton cerveau stocke pas solidement avec ça.
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-number">2</div>
+                    <div class="scenario-title">Tu te testais déjà</div>
+                    <div class="scenario-text">
+                        Si tu te testais régulièrement mais que t'avais quand même l'impression d'oublier, ça peut vouloir dire que : tu espacais trop, tu testais pas assez (un seul passage, c'est insuffisant), ou t'avais pas encore bien compris au départ.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Relire vs Se tester : ce qui se passe vraiment</h2>
+
+            <div class="interactive-graph">
+                <div class="graph-title">Ce que tu retiens vraiment selon ta méthode</div>
+                
+                <div class="memory-visualization">
+                    <div class="memory-path relecture">
+                        <div class="path-label">
+                            <span class="icon">📖</span>
+                            <span>Relecture seule</span>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Lundi (après révision)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="85">85%</div>
+                            </div>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Mercredi (moment de vérité)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="40">40%</div>
+                            </div>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Jeudi soir (après session finale)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="80">80%</div>
+                            </div>
+                            <div class="time-metric stress">⏱️ 3h de bachotage intense</div>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Vendredi matin (départ pour le contrôle)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="76">76%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="memory-path testing">
+                        <div class="path-label">
+                            <span class="icon">🎯</span>
+                            <span>Te tester + espacer</span>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Lundi (après révision)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="75">75%</div>
+                            </div>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Mercredi (après re-test)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="83">83%</div>
+                            </div>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Jeudi soir (après peaufinage)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="88">88%</div>
+                            </div>
+                            <div class="time-metric calm">⏱️ 45min de peaufinage ciblé</div>
+                        </div>
+                        <div class="memory-stage">
+                            <div class="stage-label">Vendredi matin (départ pour le contrôle)</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" data-width="88">88%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>Quand tu révises 1-2 jours avant en mode intensif, tu te poses probablement plus de questions, tu cherches dans ta tête, tu fais des exos - bref, tu <strong>récupères activement</strong> l'info. Et c'est ça qui fait que tu retiens mieux, même si c'est au dernier moment.</p>
+        </div>
+
+        <div class="big-idea">
+            <div class="big-idea-label">L'insight clé</div>
+            <div class="big-idea-text">
+                Quand tu oublies un peu et que tu dois <strong>re-chercher</strong> l'info, ton cerveau la stocke beaucoup mieux que si t'avais juste relu tous les jours sans oublier.
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="visual-concept">
+                <div class="concept-icon">🧠</div>
+                <div class="concept-text">
+                    <strong>Ce léger oubli + le fait de re-chercher = ce qui grave l'info solidement.</strong> C'est normal que tu aies oublié des trucs entre lundi et mercredi. C'est même exactement ce qu'il faut.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Concrètement, ça donne quoi ?</h2>
+            
+            <p>Si t'as un contrôle vendredi prochain, voilà ce qui marche vraiment — et c'est prouvé par des dizaines d'études en psychologie cognitive :</p>
+
+            <div class="timeline">
+                <div class="timeline-items">
+                    <div class="timeline-item">
+                        <div class="timeline-day">Lundi soir</div>
+                        <div class="timeline-duration">20 minutes</div>
+                        <div class="timeline-action">
+                            Tu te testes sur la première partie du chapitre. Feuille blanche, questions, exos - peu importe, mais tu <strong>cherches</strong> dans ta tête avant de vérifier.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-day">Mercredi soir</div>
+                        <div class="timeline-duration">20 minutes</div>
+                        <div class="timeline-action">
+                            Tu te <strong>retestes</strong> sur ce que t'as fait lundi (oui, encore) + tu ajoutes la suite du chapitre.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-day">Vendredi (veille du contrôle)</div>
+                        <div class="timeline-duration">30-40 minutes</div>
+                        <div class="timeline-action">
+                            Tu te retestes sur l'ensemble, tu repères ce qui coince encore, et tu cibles juste ça.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="callout-title">Ce qui change vraiment</div>
+            <p style="margin: 0;">Tu vas arriver au contrôle en sachant vraiment où t'en es. Pas en espérant que ça passe, mais en ayant vérifié plusieurs fois ce que tu maîtrises et ce qui coince encore. Et tu vas moins stresser la veille, parce que tu sauras déjà ce qui te pose problème.</p>
+        </div>
+
+        <div class="emphasis-box">
+            <p>S'y prendre plus tôt, c'est pas inutile. Mais seulement si tu utilises ce temps pour <strong>te tester</strong>, pas juste pour relire.</p>
+        </div>
+    </div>
+
+    <script>
+        // Animation des barres au scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.bar-fill');
+                    bars.forEach(bar => {
+                        setTimeout(() => {
+                            const width = bar.getAttribute('data-width');
+                            bar.style.width = width + '%';
+                        }, 100);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observer le graphique
+        const graph = document.querySelector('.interactive-graph');
+        if (graph) {
+            // Initialiser les barres à 0
+            const allBars = graph.querySelectorAll('.bar-fill');
+            allBars.forEach(bar => {
+                bar.style.width = '0%';
+            });
+            observer.observe(graph);
+        }
+
+        // Effet hover sur les cartes scénario
+        const cards = document.querySelectorAll('.scenario-card');
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                cards.forEach(c => c.style.transform = '');
+                this.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
