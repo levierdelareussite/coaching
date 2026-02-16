@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J'ai trop la flemme ! - Stratégies pour Tomy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fef9f3;
+            --bg-card: #fff;
+            --bg-accent: #fff5ed;
+            --orange: #ff6b35;
+            --orange-light: #ff8c61;
+            --orange-pale: #ffe8df;
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --blue-pale: #dbeafe;
+            --text: #1a1a1a;
+            --text-dim: #6b6b6b;
+            --yellow: #fbbf24;
+            --green: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Lexend', sans-serif;
+            line-height: 1.7;
+            font-weight: 400;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 30px 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+            padding: 60px 0 40px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.1;
+        }
+
+        .flemme {
+            color: var(--orange);
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-dim);
+            position: relative;
+            z-index: 1;
+        }
+
+        .emoji {
+            font-size: 2.5rem;
+            display: inline-block;
+            animation: rotate 4s ease-in-out infinite;
+        }
+
+        /* Section théorique */
+        .theory-section {
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 50px 40px;
+            margin-bottom: 60px;
+            position: relative;
+            border: 2px solid var(--orange-pale);
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.08);
+        }
+
+        .theory-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--orange);
+            text-align: center;
+        }
+
+        .brain-image {
+            width: 100%;
+            max-width: 500px;
+            margin: 30px auto;
+            display: block;
+            border-radius: 15px;
+        }
+
+        .theory-box {
+            background: var(--bg-accent);
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid var(--orange);
+        }
+
+        .theory-box p {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .theory-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .theory-example {
+            background: var(--blue-pale);
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 3px solid var(--blue);
+        }
+
+        .theory-example-title {
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 10px;
+        }
+
+        /* Strategy Cards */
+        .strategy-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            border-radius: 50%;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .strategy {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 45px 40px;
+            margin-bottom: 50px;
+            border: 2px solid var(--orange-pale);
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.08);
+        }
+
+        .strategy:hover {
+            border-color: var(--orange);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.15);
+        }
+
+        .strategy h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.9rem;
+            margin-bottom: 25px;
+            color: var(--text);
+        }
+
+        .strategy h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            margin: 30px 0 20px;
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .strategy h3::before {
+            content: '';
+            width: 30px;
+            height: 3px;
+            background: var(--blue);
+            border-radius: 2px;
+        }
+
+        .strategy p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .step-list {
+            background: var(--bg-accent);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 35px;
+            height: 35px;
+            background: var(--orange);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 5px;
+        }
+
+        .step-content strong {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .step-content ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .step-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .why-box {
+            background: var(--blue-pale);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 2px solid var(--blue);
+        }
+
+        .why-title {
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .why-title::before {
+            content: '💡';
+            font-size: 1.5rem;
+        }
+
+        .why-box p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .why-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Call to action box */
+        .cta-box {
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 50px 0;
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .cta-box p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: white;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Timer visual */
+        .timer-visual {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--orange-pale);
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--orange);
+            font-size: 1.1rem;
+            margin: 15px 0;
+            border: 2px solid var(--orange-light);
+        }
+
+        .timer-visual::before {
+            content: '⏱️';
+            font-size: 1.5rem;
+        }
+
+        /* Brain Simulation */
+        .brain-simulation {
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border-radius: 25px;
+            padding: 50px 40px;
+            margin: 60px 0;
+            color: white;
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .brain-sim-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .brain-sim-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* Examples Section */
+        .examples-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .example-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-header {
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .example-icon {
+            font-size: 2.5rem;
+        }
+
+        .example-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .example-body {
+            padding: 30px;
+            color: var(--text);
+        }
+
+        .example-situation {
+            background: var(--bg-accent);
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--orange);
+            line-height: 1.7;
+        }
+
+        .example-steps {
+            margin: 25px 0;
+        }
+
+        .example-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .step-emoji {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            flex: 1;
+            line-height: 1.7;
+            padding-top: 3px;
+        }
+
+        .step-text strong {
+            color: var(--orange);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .example-result {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.1));
+            padding: 20px 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--green);
+            margin-top: 25px;
+            line-height: 1.7;
+        }
+
+        .example-result strong {
+            color: var(--green);
+        }
+
+        .final-message {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: center;
+            border: 3px solid var(--orange);
+        }
+
+        .final-message p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .final-message strong {
+            color: var(--orange);
+        }
+
+        .final-message em {
+            color: var(--blue);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid var(--orange-pale);
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .footer strong {
+            color: var(--text);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes rotate {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(-15deg);
+            }
+            75% {
+                transform: rotate(15deg);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .fade-in-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .fade-in-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .fade-in-delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .theory-section {
+                padding: 35px 25px;
+            }
+
+            .strategy {
+                padding: 35px 25px;
+            }
+
+            .strategy h2 {
+                font-size: 1.6rem;
+            }
+
+            .step-list {
+                padding: 20px;
+            }
+
+            .why-box {
+                padding: 20px;
+            }
+
+            .cta-box {
+                padding: 30px 25px;
+            }
+
+            .cta-box p {
+                font-size: 1.15rem;
+            }
+
+            .brain-simulation {
+                padding: 35px 25px;
+            }
+
+            .example-card {
+                margin-bottom: 20px;
+            }
+
+            .example-header {
+                padding: 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .example-icon {
+                font-size: 2rem;
+            }
+
+            .example-title {
+                font-size: 1.2rem;
+            }
+
+            .example-body {
+                padding: 20px;
+            }
+
+            .final-message {
+                padding: 25px 20px;
+            }
+
+            .final-message p {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>J'ai trop la <span class="flemme">flemme</span> ! <span class="emoji">😴</span></h1>
+            <p class="subtitle">Ton cerveau préfère le canapé aux devoirs.<br>Et si on changeait ça ?</p>
+        </div>
+
+        <!-- Section théorique -->
+        <div class="theory-section fade-in">
+            <div class="theory-title">Pourquoi c'est si dur de démarrer ?</div>
+            
+            <svg class="brain-image" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="600" height="400" fill="#f0f4f8"/>
+                
+                <!-- Balance base -->
+                <rect x="270" y="320" width="60" height="20" fill="#5a6c7d" rx="3"/>
+                <rect x="285" y="200" width="30" height="120" fill="#5a6c7d"/>
+                
+                <!-- Balance arm (incliné - gauche plus bas) -->
+                <line x1="150" y1="240" x2="450" y2="180" stroke="#5a6c7d" stroke-width="8"/>
+                <circle cx="300" cy="210" r="15" fill="#5a6c7d"/>
+                
+                <!-- Left plate (Plaisir immédiat) - PLUS BAS et PLUS LOURD -->
+                <ellipse cx="150" cy="240" rx="80" ry="15" fill="#a8dadc"/>
+                <path d="M 70 240 Q 70 270 150 290 Q 230 270 230 240" fill="#81c3c6" stroke="#5a6c7d" stroke-width="2"/>
+                
+                <!-- Right plate (Récompense future) - PLUS HAUT et LEGER -->
+                <ellipse cx="450" cy="180" rx="80" ry="15" fill="#a8dadc"/>
+                <path d="M 370 180 Q 370 210 450 230 Q 530 210 530 180" fill="#81c3c6" stroke="#5a6c7d" stroke-width="2"/>
+                
+                <!-- Icons Left (Plaisir immédiat) -->
+                <!-- Manette PlayStation -->
+                <g transform="translate(110, 215)">
+                    <rect x="0" y="8" width="30" height="18" rx="5" fill="#2d3748"/>
+                    <rect x="-3" y="12" width="8" height="10" rx="2" fill="#4a5568"/>
+                    <rect x="25" y="12" width="8" height="10" rx="2" fill="#4a5568"/>
+                    <circle cx="20" cy="15" r="2.5" fill="#ff6b35"/>
+                    <circle cx="10" cy="15" r="2.5" fill="#3b82f6"/>
+                </g>
+                
+                <!-- Téléphone -->
+                <g transform="translate(145, 210)">
+                    <rect x="0" y="0" width="22" height="35" rx="4" fill="#2d3748" stroke="#1a1a1a" stroke-width="1.5"/>
+                    <rect x="2" y="4" width="18" height="25" fill="#60a5fa"/>
+                    <circle cx="11" cy="32" r="2" fill="#4a5568"/>
+                </g>
+                
+                <!-- Canapé -->
+                <g transform="translate(172, 218)">
+                    <rect x="2" y="5" width="4" height="12" fill="#d97706"/>
+                    <rect x="20" y="5" width="4" height="12" fill="#d97706"/>
+                    <rect x="0" y="5" width="26" height="8" rx="2" fill="#ff8c61"/>
+                    <rect x="0" y="0" width="26" height="5" rx="2" fill="#ff6b35"/>
+                </g>
+                
+                <!-- Icons Right (Récompense future) -->
+                <!-- Note 20/20 -->
+                <g transform="translate(410, 160)">
+                    <rect x="0" y="0" width="28" height="35" fill="#fff" stroke="#4a5568" stroke-width="2" rx="2"/>
+                    <line x1="4" y1="6" x2="24" y2="6" stroke="#e0e0e0" stroke-width="1"/>
+                    <line x1="4" y1="11" x2="24" y2="11" stroke="#e0e0e0" stroke-width="1"/>
+                    <circle cx="14" cy="22" r="10" fill="#10b981"/>
+                    <text x="14" y="28" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">20</text>
+                </g>
+                
+                <!-- Cible -->
+                <g transform="translate(445, 155)">
+                    <circle cx="12" cy="15" r="13" fill="#fff" stroke="#ef4444" stroke-width="2.5"/>
+                    <circle cx="12" cy="15" r="9" fill="#ef4444"/>
+                    <circle cx="12" cy="15" r="5" fill="#fff"/>
+                    <circle cx="12" cy="15" r="2" fill="#ef4444"/>
+                </g>
+                
+                <!-- Argent -->
+                <g transform="translate(475, 158)">
+                    <circle cx="14" cy="17" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                    <text x="14" y="24" font-size="18" font-weight="bold" fill="#78350f" text-anchor="middle">€</text>
+                </g>
+                
+                <!-- Labels -->
+                <text x="150" y="320" font-size="18" font-weight="bold" fill="#2d3748" text-anchor="middle">Plaisir</text>
+                <text x="150" y="340" font-size="18" font-weight="bold" fill="#2d3748" text-anchor="middle">immédiat</text>
+                
+                <text x="450" y="260" font-size="18" font-weight="bold" fill="#2d3748" text-anchor="middle">Récompense</text>
+                <text x="450" y="280" font-size="18" font-weight="bold" fill="#2d3748" text-anchor="middle">future</text>
+                
+                <!-- Brain label at top -->
+                <rect x="220" y="30" width="160" height="50" fill="#fff" stroke="#ff6b35" stroke-width="3" rx="8"/>
+                <text x="300" y="62" font-size="20" font-weight="bold" fill="#1a1a1a" text-anchor="middle">Cerveau ado</text>
+            </svg>
+            
+            <div class="theory-box">
+                <p>À l'adolescence, ton cerveau fonctionne d'une manière particulière : il accorde beaucoup plus de valeur à ce qui te fait <span class="highlight">plaisir maintenant</span> qu'à ce qui pourrait t'apporter quelque chose plus tard.</p>
+                
+                <p>Les chercheurs appellent ça <span class="highlight">l'actualisation temporelle</span> : plus une récompense est loin dans le temps, moins ton cerveau lui accorde de valeur dans l'instant.</p>
+            </div>
+
+            <div class="theory-example">
+                <div class="theory-example-title">Par exemple :</div>
+                <p>Regarder une série tout de suite te procure un plaisir immédiat. Avoir une bonne note à ton prochain contrôle, c'est bien aussi, mais c'est dans plusieurs jours ou semaines. Du coup, ton cerveau valorise naturellement beaucoup plus la série que les devoirs, même si la bonne note est plus importante pour toi à long terme.</p>
+            </div>
+
+            <div class="theory-box">
+                <p>Et pendant l'adolescence, c'est encore plus marqué. Pourquoi ? Parce que la partie de ton cerveau qui gère le plaisir immédiat se développe très vite à ton âge, tandis que la partie qui t'aide à penser aux conséquences futures et à résister aux tentations se développe plus lentement. Elle finira par rattraper son retard, mais ça prend du temps (jusqu'à environ 25 ans).</p>
+                
+                <p><span class="highlight">Résultat :</span> le canapé gagne presque toujours contre les devoirs. C'est normal, ton cerveau est fait comme ça en ce moment.</p>
+                
+                <p>C'est pour ça qu'attendre que la motivation arrive d'elle-même ne sert à rien. Tu n'auras pas naturellement envie de faire tes devoirs de manière spontanée, et <strong>ce n'est pas de ta faute.</strong></p>
+            </div>
+
+            <div class="cta-box">
+                <p>Mais la bonne nouvelle, c'est que tu peux rendre les choses plus faciles. Comment ? En utilisant des stratégies qui rendent le démarrage tellement simple que ton cerveau résiste beaucoup moins.</p>
+            </div>
+        </div>
+
+        <!-- Stratégie 1 : Les 5 minutes -->
+        <div class="strategy fade-in fade-in-delay-1">
+            <div class="strategy-number">1</div>
+            <h2>Les 5 minutes - avec le droit d'arrêter</h2>
+            
+            <p>On a souvent du mal à prédire comment on va se sentir avant de faire une tâche. On a tendance à exagérer l'intensité et la durée de ce qu'on va ressentir. Résultat : la tâche paraît plus pénible dans ta tête qu'elle ne l'est en réalité. Une fois que tu commences vraiment, c'est presque toujours moins dur que ce que tu imaginais.</p>
+
+            <p>L'idée des 5 minutes, c'est de rendre ce démarrage moins intimidant en te donnant une vraie liberté.</p>
+
+            <h3>La règle :</h3>
+
+            <div class="cta-box" style="background: linear-gradient(135deg, var(--blue), var(--blue-light)); margin: 30px 0;">
+                <p>⏱️ « Je travaille 5 minutes. Si c'est vraiment insupportable, j'arrête. »</p>
+            </div>
+
+            <p>Quand le réveil sonne après 5 minutes, tu as trois choix - tous valables :</p>
+
+            <div class="step-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>Tu t'arrêtes.</strong> Le deal était de tenir 5 min, tu l'as tenu. Tu as brisé le blocage du départ - c'est déjà beaucoup. À force, ton cerveau s'habituera à démarrer plus facilement.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>Tu relances pour 5 minutes supplémentaires.</strong> Tu n'es pas encore complètement à fond dedans, mais c'est pas insupportable non plus. Tu relances juste pour 5 minutes de plus, et tu verras après.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>Tu relances pour 10 minutes supplémentaires.</strong> Finalement, tu es bien parti. Tu fais un bloc de 15 minutes au total (ta méthode Pomodoro), et ensuite tu prends ta pause de 5 minutes.
+                    </div>
+                </div>
+            </div>
+
+            <div class="why-box">
+                <div class="why-title">Pourquoi ça marche :</div>
+                <p><strong>Condition essentielle :</strong> cette stratégie ne fonctionne que si tu te permets <em>vraiment</em> d'arrêter. Si au fond tu sais que tu te sentiras coupable de t'arrêter, la permission devient un mensonge - et elle perd toute sa force. Le droit d'arrêter doit être réel.</p>
+                <p>Mais souvent, une fois que tu as commencé, tu continues. Parce que démarrer était le plus dur. Une fois dedans, continuer est plus facile que de devoir redémarrer de zéro plus tard.</p>
+            </div>
+
+            <div class="timer-visual">5 MIN</div>
+        </div>
+
+        <!-- Stratégie 2 : La micro-action -->
+        <div class="strategy fade-in fade-in-delay-2">
+            <div class="strategy-number">2</div>
+            <h2>La micro-action pour se lancer</h2>
+            
+            <p>L'idée : au moment de te mettre au travail, tu choisis l'action la plus simple possible pour commencer. Quelque chose de si petit que même sans envie, tu peux le faire. Cette première action, aussi minuscule soit-elle, crée un élan qui rend la suite beaucoup plus facile.</p>
+
+            <h3>Concrètement, ça ressemble à quoi ?</h3>
+
+            <div class="step-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>À l'heure prévue</strong> (tu as déjà tes heures fixes), tu poses ton téléphone sur l'étagère en mode « Ne pas déranger ».
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>Tu t'installes, tu regardes ta tâche, et tu te demandes :</strong> « Quelle est la plus petite action possible pour commencer ? » Par exemple :
+                        <ul>
+                            <li>Lire juste l'énoncé de l'exercice 1 (sans chercher à résoudre)</li>
+                            <li>Écrire la date et le titre en haut de ta feuille</li>
+                            <li>Ouvrir ton cahier à la bonne page</li>
+                            <li>Recopier la formule dont tu vas avoir besoin</li>
+                            <li>Dessiner juste le schéma vide (sans le remplir)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>Tu lances ton réveil mécanique sur 5 minutes.</strong>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>Tu fais ta micro-action pour te lancer, puis tu continues à travailler.</strong> Une fois que ta micro-action est faite (ça prend vraiment 30 secondes max), tu enchaînes naturellement sur la suite jusqu'à ce que le réveil sonne.
+                    </div>
+                </div>
+            </div>
+
+            <div class="why-box">
+<div class="why-title">Pourquoi ça marche :</div>
+                <p>Deux raisons principales :</p>
+                <p><strong>1. Réduction de la friction :</strong> Ton cerveau résiste quand la tâche lui semble énorme. « Faire mes devoirs de maths » déclenche une réaction de défense. Mais « lire juste l'énoncé » ? C'est tellement simple qu'il n'a aucune raison de refuser. La micro-action contourne cette résistance.</p>
+                <p><strong>2. Effet d'engagement :</strong> Une fois que tu as commencé - même par un tout petit truc - ton cerveau veut finir. Il a du mal à laisser les choses inachevées. C'est ce qui fait que, souvent, tu continues naturellement après ta micro-action alors que tu n'en avais pas du tout envie au départ.</p>
+            </div>
+        </div>
+
+        <!-- Stratégie 3 -->
+        <div class="strategy fade-in fade-in-delay-3">
+            <div class="strategy-number">3</div>
+            <h2>Change ton discours intérieur</h2>
+            
+            <p>Ce que tu penses de toi a un impact sur tes actions. Si tu te répètes « Je suis fainéant », chaque fois que tu as du mal à démarrer, tu te dis « Voilà, encore la preuve que je suis fainéant » et ça te décourage encore plus.</p>
+
+            <div class="theory-box">
+                <p>Mais la réalité, elle est différente : à l'adolescence, ton cerveau a naturellement du mal à valoriser les choses qui arriveront plus tard (on en a parlé au début). <span class="highlight">C'est normal à ton âge, ce n'est pas de la paresse.</span></p>
+                
+                <p>Si tu comprends ça, tu peux arrêter de te taper dessus dans ta tête. Et quand tu arrêtes de te culpabiliser, tu libères de l'espace mental pour chercher des solutions.</p>
+            </div>
+
+            <h3>Regarde :</h3>
+            
+            <p>Tu es là, avec moi, à chercher des stratégies pour progresser. Quelqu'un qui ne veut vraiment pas avancer ne chercherait pas de solutions. Toi, tu veux progresser.</p>
+
+            <p>Tu ne vis pas de la paresse. Ton cerveau a du mal à gérer l'inconfort que tu ressens face au travail scolaire : l'ennui, la difficulté, la frustration. Et c'est difficile pour tout le monde, pas seulement pour toi.</p>
+
+            <p>La bonne nouvelle ? Avec les outils que tu mets en place, tu facilites le démarrage. Tu aides ton cerveau à faire ce qui est difficile pour lui.</p>
+
+            <h3>Ce que tu peux faire :</h3>
+
+            <div class="cta-box">
+                <p>Chaque fois que tu te traites de fainéant dans ta tête, essaie de remplacer par : « Mon cerveau résiste quand je dois démarrer. C'est normal à mon âge. Mais j'ai des outils pour contourner ça. Je peux y arriver. »</p>
+            </div>
+
+            <p style="margin-top: 30px;">C'est beaucoup plus vrai. Et petit à petit, ça change ta façon de voir les choses.</p>
+        </div>
+
+        <!-- Exemples concrets -->
+        <div class="brain-simulation fade-in fade-in-delay-3">
+            <div class="brain-sim-title">📋 Ça donne quoi en vrai ?</div>
+            <p class="brain-sim-subtitle">Deux exemples concrets pour des matières où tu galères</p>
+
+            <div class="examples-container">
+                <!-- Exemple Maths -->
+                <div class="example-card">
+                    <div class="example-header">
+                        <span class="example-icon">📐</span>
+                        <div class="example-title">Maths - Un exercice pour demain</div>
+                    </div>
+                    <div class="example-body">
+                        <div class="example-situation">
+                            <strong>Situation :</strong> T'as un exercice de maths pour demain, tu l'as jamais ouvert. Ça a l'air compliqué. Ton premier réflexe : « Pff, je verrai ça plus tard. »
+                        </div>
+
+                        <div class="example-steps">
+                            <div class="example-step">
+                                <div class="step-emoji">1️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu poses ton téléphone</strong> sur l'étagère en « Ne pas déranger »
+                                </div>
+                            </div>
+                            <div class="example-step">
+                                <div class="step-emoji">2️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu te demandes :</strong> « Quelle est la plus petite action ? » → « Je vais juste lire l'énoncé de l'exercice 1, c'est tout. »
+                                </div>
+                            </div>
+                            <div class="example-step">
+                                <div class="step-emoji">3️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu lances ton réveil sur 5 min</strong>
+                                </div>
+                            </div>
+                            <div class="example-step">
+                                <div class="step-emoji">4️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu lis l'énoncé,</strong> puis tu continues naturellement : tu notes ce que tu sais, tu cherches dans ton cours, tu essaies la première étape... Une fois que t'as vraiment commencé, ça se débloque.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="example-result">
+                            ✅ <strong>Résultat :</strong> Au lieu de fuir l'exercice pendant 2h, tu l'as attaqué. Même si t'arrives pas au bout en 5 min, tu as avancé - et c'est déjà énorme.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exemple Anglais -->
+                <div class="example-card">
+                    <div class="example-header">
+                        <span class="example-icon">📚</span>
+                        <div class="example-title">Anglais - Une matière que t'aimes pas</div>
+                    </div>
+                    <div class="example-body">
+                        <div class="example-situation">
+                            <strong>Situation :</strong> Tu dois apprendre du vocabulaire anglais. Franchement, ça te gonfle. T'as pas envie. Tu sais que si tu attends d'avoir envie, ça n'arrivera jamais.
+                        </div>
+
+                        <div class="example-steps">
+                            <div class="example-step">
+                                <div class="step-emoji">1️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu poses ton téléphone</strong> sur l'étagère en « Ne pas déranger »
+                                </div>
+                            </div>
+                            <div class="example-step">
+                                <div class="step-emoji">2️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu te demandes :</strong> « Quelle est la plus petite action ? » → « Je vais juste écrire les 3 premiers mots de la liste. Juste les écrire. »
+                                </div>
+                            </div>
+                            <div class="example-step">
+                                <div class="step-emoji">3️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu lances ton réveil sur 5 min</strong>
+                                </div>
+                            </div>
+                            <div class="example-step">
+                                <div class="step-emoji">4️⃣</div>
+                                <div class="step-text">
+                                    <strong>Tu écris les 3 premiers mots,</strong> puis tu continues : tu les caches, tu essaies de les réécrire de mémoire, tu vérifies. Tu recommences. Au bout de 5 min, tu choisis : j'arrête (deal respecté) ou je relance.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="example-result">
+                            ✅ <strong>Résultat :</strong> T'as fait 5 min de vocabulaire alors que t'avais 0 envie. C'est une victoire. Et souvent, une fois lancé, tu continues plus longtemps que prévu.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="final-message">
+                <p><strong>Le truc à retenir :</strong> Ces stratégies ne te donneront pas envie de bosser. Mais elles te permettent de démarrer <em>sans avoir besoin d'envie</em>. Et ça, c'est ce qui change tout.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Créé par <strong>Florian Dubois</strong> - Coach scolaire - @levierdelareussite</p>
+        </div>
+    </div>
+
+    <script>
+        // Intersection Observer pour les animations au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
