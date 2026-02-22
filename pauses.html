@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ressources attentionnelles</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f7f4ee;
+    color: #1c1917;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    gap: 2.5rem;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    max-width: 600px;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9c8f80;
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: #1c1917;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: #7a6a5a;
+  }
+
+  /* ── TEXT BLOCK ── */
+  .text-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem 2.2rem;
+    max-width: 620px;
+    width: 100%;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+    border-left: 3px solid #c8b89a;
+  }
+
+  .text-card p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #3d3530;
+    font-weight: 300;
+  }
+
+  .text-card p + p {
+    margin-top: 1rem;
+  }
+
+  .text-card .highlight {
+    font-weight: 500;
+    color: #1c1917;
+  }
+
+  .text-card .tip {
+    margin-top: 1.2rem;
+    padding: 0.9rem 1.1rem;
+    background: #f7f4ee;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    color: #5a4f44;
+    line-height: 1.6;
+  }
+
+  .text-card .tip strong {
+    font-weight: 500;
+    color: #1c1917;
+  }
+
+  /* ── VISUAL COMPARISON ── */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    max-width: 620px;
+    width: 100%;
+  }
+
+  .scenario {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem 1.4rem 1.8rem;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .scenario-title {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .scenario-title.bad { color: #c0563a; }
+  .scenario-title.good { color: #5a8f6e; }
+
+  /* bucket SVG area */
+  .buckets-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 90px;
+  }
+
+  .bucket-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .bucket-wrap {
+    position: relative;
+    width: 32px;
+    height: 68px;
+  }
+
+  svg.bucket {
+    width: 32px;
+    height: 68px;
+    overflow: visible;
+  }
+
+  .bucket-label {
+    font-size: 0.55rem;
+    color: #9c8f80;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  /* timeline dots under buckets */
+  .timeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tl-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .tl-line {
+    flex: 1;
+    height: 1.5px;
+    max-width: 18px;
+  }
+
+  .tl-dot.work { background: #c0563a; }
+  .tl-dot.rest { background: #5a8f6e; }
+  .tl-line.work { background: #e8c4ba; }
+  .tl-line.rest { background: #b8d9c5; }
+
+  /* scenario caption */
+  .scenario-caption {
+    font-size: 0.75rem;
+    color: #7a6a5a;
+    text-align: center;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .scenario-caption strong {
+    font-weight: 500;
+    color: #1c1917;
+  }
+
+  /* result pill */
+  .result-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .result-pill.bad { background: #fce8e3; color: #c0563a; }
+  .result-pill.good { background: #e3f2e8; color: #3d7a56; }
+
+  /* legend */
+  .legend {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    color: #7a6a5a;
+    font-weight: 300;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .legend-dot.work { background: #c0563a; }
+  .legend-dot.rest { background: #5a8f6e; }
+
+  @media (max-width: 500px) {
+    .comparison { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <p class="eyebrow">Pourquoi le 45/10 ?</p>
+  <h1>Les ressources attentionnelles<br><em>se consomment — et se rechargent</em></h1>
+</div>
+
+<!-- TEXT -->
+<div class="text-card">
+  <p>Quand on travaille, les ressources attentionnelles s'épuisent progressivement. Pas d'un coup, mais graduellement. Au bout d'un certain temps — qui varie selon les personnes et le type de travail — <span class="highlight">la qualité de la concentration baisse sans qu'on s'en rende toujours compte</span>. On continue, mais on tourne un peu à vide.</p>
+
+  <p>Une pause permet de récupérer ces ressources pour la session suivante. C'est pour cela que travailler 2h d'une traite n'est pas plus efficace que travailler 45 minutes avec une vraie coupure. <span class="highlight">C'est même souvent moins efficace</span>, parce que la deuxième heure se fait avec un niveau d'attention dégradé.</p>
+
+  <div class="tip">
+    <strong>À tester :</strong> 45 minutes de travail, 10 minutes de pause. Si tu sens que tu es encore dans le bain à 40 minutes, tu peux aller jusqu'à 50-55. L'idée, c'est de couper <em>avant</em> que ça s'effondre — pas après.
+  </div>
+</div>
+
+<!-- VISUAL COMPARISON -->
+<div class="comparison">
+
+  <!-- BAD: 2h sans pause -->
+  <div class="scenario">
+    <p class="scenario-title bad">2h sans pause</p>
+
+    <div class="buckets-row">
+      <!-- bucket helper: fill% from bottom -->
+      <!-- B1: 100% -->
+      <div class="bucket-unit">
+        <div class="bucket-wrap">
+          <svg class="bucket" viewBox="0 0 32 68" fill="none">
+            <defs>
+              <clipPath id="c1"><path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z"/></clipPath>
+            </defs>
+            <rect x="4" y="14" width="100%" height="100%" fill="#f4ede6" clip-path="url(#c1)"/>
+            <rect x="4" y="14" width="100%" height="100%" fill="#c0563a" opacity="0.85" clip-path="url(#c1)" transform="translate(0, 0)"/>
+            <!-- top handle -->
+            <path d="M10 14 Q16 6 22 14" stroke="#1c1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <!-- body -->
+            <path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z" stroke="#1c1917" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+        <span class="bucket-label">départ</span>
+      </div>
+
+      <!-- B2: 65% -->
+      <div class="bucket-unit">
+        <div class="bucket-wrap">
+          <svg class="bucket" viewBox="0 0 32 68" fill="none">
+            <defs>
+              <clipPath id="c2"><path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z"/></clipPath>
+            </defs>
+            <rect x="4" y="14" width="100%" height="100%" fill="#f4ede6" clip-path="url(#c2)"/>
+            <rect x="4" y="36" width="100%" height="100%" fill="#c0563a" opacity="0.7" clip-path="url(#c2)"/>
+            <path d="M10 14 Q16 6 22 14" stroke="#1c1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z" stroke="#1c1917" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+        <span class="bucket-label">1h</span>
+      </div>
+
+      <!-- B3: 20% -->
+      <div class="bucket-unit">
+        <div class="bucket-wrap">
+          <svg class="bucket" viewBox="0 0 32 68" fill="none">
+            <defs>
+              <clipPath id="c3"><path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z"/></clipPath>
+            </defs>
+            <rect x="4" y="14" width="100%" height="100%" fill="#f4ede6" clip-path="url(#c3)"/>
+            <rect x="4" y="57" width="100%" height="100%" fill="#c0563a" opacity="0.45" clip-path="url(#c3)"/>
+            <path d="M10 14 Q16 6 22 14" stroke="#1c1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z" stroke="#1c1917" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+        <span class="bucket-label">2h</span>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-dot work"></div>
+      <div class="tl-line work"></div>
+      <div class="tl-dot work"></div>
+      <div class="tl-line work"></div>
+      <div class="tl-dot work"></div>
+    </div>
+
+    <p class="scenario-caption">La 2e heure se fait<br><strong>avec un réservoir presque vide.</strong></p>
+    <div class="result-pill bad">⚠ Travail dégradé</div>
+  </div>
+
+  <!-- GOOD: 45+10+45 -->
+  <div class="scenario">
+    <p class="scenario-title good">45 min · pause · 45 min</p>
+
+    <div class="buckets-row">
+      <!-- B1: 100% -->
+      <div class="bucket-unit">
+        <div class="bucket-wrap">
+          <svg class="bucket" viewBox="0 0 32 68" fill="none">
+            <defs><clipPath id="d1"><path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z"/></clipPath></defs>
+            <rect x="4" y="14" width="100%" height="100%" fill="#e8f4ee" clip-path="url(#d1)"/>
+            <rect x="4" y="14" width="100%" height="100%" fill="#5a8f6e" opacity="0.85" clip-path="url(#d1)"/>
+            <path d="M10 14 Q16 6 22 14" stroke="#1c1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z" stroke="#1c1917" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+        <span class="bucket-label">départ</span>
+      </div>
+
+      <!-- B2: 50% (après 45min) -->
+      <div class="bucket-unit">
+        <div class="bucket-wrap">
+          <svg class="bucket" viewBox="0 0 32 68" fill="none">
+            <defs><clipPath id="d2"><path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z"/></clipPath></defs>
+            <rect x="4" y="14" width="100%" height="100%" fill="#e8f4ee" clip-path="url(#d2)"/>
+            <rect x="4" y="41" width="100%" height="100%" fill="#5a8f6e" opacity="0.65" clip-path="url(#d2)"/>
+            <path d="M10 14 Q16 6 22 14" stroke="#1c1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z" stroke="#1c1917" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+        <span class="bucket-label">45 min</span>
+      </div>
+
+      <!-- B3: 90% (après pause) -->
+      <div class="bucket-unit">
+        <div class="bucket-wrap">
+          <svg class="bucket" viewBox="0 0 32 68" fill="none">
+            <defs><clipPath id="d3"><path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z"/></clipPath></defs>
+            <rect x="4" y="14" width="100%" height="100%" fill="#e8f4ee" clip-path="url(#d3)"/>
+            <rect x="4" y="21" width="100%" height="100%" fill="#5a8f6e" opacity="0.85" clip-path="url(#d3)"/>
+            <!-- little sparkle = recharged -->
+            <text x="16" y="34" text-anchor="middle" font-size="9" fill="white" opacity="0.9">↑</text>
+            <path d="M10 14 Q16 6 22 14" stroke="#1c1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M4 14 L5 62 Q5 66 16 66 Q27 66 27 62 L28 14 Z" stroke="#1c1917" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+        <span class="bucket-label">après pause</span>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-dot work"></div>
+      <div class="tl-line work"></div>
+      <div class="tl-dot rest"></div>
+      <div class="tl-line rest"></div>
+      <div class="tl-dot work"></div>
+    </div>
+
+    <p class="scenario-caption">La pause recharge le réservoir.<br><strong>La 2e session repart haut.</strong></p>
+    <div class="result-pill good">✓ Attention préservée</div>
+  </div>
+
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot work"></div> Travail</div>
+  <div class="legend-item"><div class="legend-dot rest"></div> Pause</div>
+</div>
+
+</body>
+</html>
