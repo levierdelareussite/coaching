@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La méthode Pomodoro — Gillian</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-dark: #192d20;
+  --green-mid: #2a4f36;
+  --green-field: #3a6e4a;
+  --green-light: #5a9a6a;
+  --cream: #f4efe6;
+  --white: #ffffff;
+  --gold: #d4a843;
+  --gold-light: #efc85a;
+  --dark: #0f1a12;
+  --muted: rgba(244,239,230,0.5);
+  --muted2: rgba(244,239,230,0.22);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--green-dark);
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image: repeating-linear-gradient(180deg,
+    transparent 0px, transparent 60px,
+    rgba(255,255,255,0.02) 60px, rgba(255,255,255,0.02) 120px);
+  pointer-events:none; z-index:0;
+}
+
+.wrap { max-width:780px; margin:0 auto; padding:0 28px 60px; position:relative; z-index:1; }
+
+/* HERO */
+.hero { padding:60px 0 28px; text-align:center; }
+.hero-badge {
+  display:inline-block;
+  background:var(--gold); color:var(--dark);
+  font-family:'Bebas Neue',sans-serif; font-size:12px; letter-spacing:3px;
+  padding:5px 16px; border-radius:2px; margin-bottom:18px;
+}
+.hero h1 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(54px,11vw,90px); line-height:.9; letter-spacing:2px; color:var(--white);
+}
+.hero h1 span { color:var(--gold); }
+.hero-sub { font-size:14px; color:var(--muted); letter-spacing:1px; font-style:italic; margin-top:10px; }
+.ball { font-size:40px; display:block; margin:14px auto 0; animation:bob 2.8s ease-in-out infinite; }
+@keyframes bob {
+  0%,100%{ transform:translateY(0) rotate(-12deg); }
+  50%{ transform:translateY(-9px) rotate(-12deg); }
+}
+
+/* DIVIDERS */
+.divider { display:flex; align-items:center; gap:14px; margin:44px 0; opacity:.15; }
+.divider::before,.divider::after { content:''; flex:1; height:1px; background:var(--cream); }
+.divider span { font-size:16px; }
+
+/* LABELS & TITRES */
+.label {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:11px; letter-spacing:4px; color:var(--gold);
+  margin-bottom:6px; text-transform:uppercase;
+}
+.stitle {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:34px; letter-spacing:1px; color:var(--white);
+  line-height:1.05; margin-bottom:18px;
+}
+
+/* CARDS */
+.card {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px; padding:28px 32px; margin-bottom:14px;
+}
+.card p { font-size:15.5px; color:rgba(244,239,230,.88); margin-bottom:14px; }
+.card p:last-child { margin-bottom:0; }
+
+.inset {
+  background:rgba(212,168,67,.1);
+  border-left:4px solid var(--gold);
+  border-radius:0 8px 8px 0;
+  padding:14px 18px; margin-top:10px;
+}
+.inset p { color:var(--gold-light); font-weight:500; font-size:15px; margin:0; }
+
+.tip {
+  background:linear-gradient(135deg,rgba(58,110,74,.35),rgba(26,45,32,.55));
+  border:1px solid rgba(90,154,106,.3);
+  border-radius:14px; padding:24px 28px;
+  position:relative; overflow:hidden; margin:18px 0;
+}
+.tip::after {
+  content:'🏉'; position:absolute; right:20px; bottom:12px;
+  font-size:56px; opacity:.12; transform:rotate(-18deg); pointer-events:none;
+}
+.tip .label { margin-bottom:6px; }
+.tip p { font-size:15px; color:rgba(244,239,230,.85); max-width:88%; }
+
+/* GRAPHIQUE */
+.graph-wrap {
+  background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.07);
+  border-radius:14px; padding:24px; margin:20px 0;
+}
+.graph-title { font-size:12px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin-bottom:16px; text-align:center; }
+.graph-svg { width:100%; height:160px; }
+.graph-labels { display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin-top:8px; padding:0 4px; }
+.graph-anno { font-size:12.5px; color:rgba(212,168,67,.75); text-align:center; margin-top:12px; font-style:italic; }
+
+/* CYCLE VISUEL */
+.cycle-row {
+  display:flex; align-items:center;
+  background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.07);
+  border-radius:14px; padding:22px; overflow-x:auto; margin-bottom:12px;
+}
+.cblock { display:flex; flex-direction:column; align-items:center; gap:7px; flex:1; min-width:72px; }
+.cinner {
+  width:70px; height:70px; border-radius:12px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+}
+.cinner .ico { font-size:20px; }
+.cinner .dur { font-size:12px; font-family:'DM Sans',sans-serif; font-weight:500; opacity:.85; }
+.cblock.work .cinner { background:linear-gradient(135deg,var(--green-mid),var(--green-field)); border:2px solid var(--green-light); color:white; }
+.cblock.rest .cinner { background:linear-gradient(135deg,#3a2810,#5a3c18); border:2px solid var(--gold); color:var(--gold-light); }
+.cblock.done .cinner { background:linear-gradient(135deg,#2a3a5a,#1a2a4a); border:2px solid #7a9ad4; color:#b0c8f0; }
+.clabel { font-size:10.5px; letter-spacing:.8px; color:var(--muted2); text-transform:uppercase; text-align:center; }
+.carr { font-size:18px; color:var(--muted2); padding:0 3px; flex-shrink:0; }
+
+/* PAUSES SÉLECTION */
+.pause-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:18px 0; }
+.pitem {
+  background:rgba(255,255,255,.04); border:1.5px solid rgba(255,255,255,.08);
+  border-radius:12px; padding:14px 16px;
+  cursor:pointer; transition:all .2s;
+  display:flex; align-items:center; gap:12px;
+  user-select:none;
+}
+.pitem:hover { border-color:rgba(255,255,255,.18); background:rgba(255,255,255,.07); }
+.pitem.on { background:rgba(212,168,67,.12); border-color:var(--gold); }
+.p-ico { font-size:24px; width:32px; text-align:center; flex-shrink:0; }
+.p-txt { flex:1; }
+.p-name { font-weight:500; font-size:14.5px; color:var(--white); margin-bottom:2px; }
+.p-desc { font-size:12px; color:var(--muted); line-height:1.35; }
+.p-check {
+  width:18px; height:18px; border-radius:50%;
+  border:2px solid rgba(255,255,255,.2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; flex-shrink:0; transition:all .2s;
+}
+.pitem.on .p-check { background:var(--gold); border-color:var(--gold); color:var(--dark); }
+
+/* GÉNÉRATEUR */
+.gen-card {
+  background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1);
+  border-radius:18px; padding:32px; margin-top:8px;
+}
+.gen-row { display:flex; gap:24px; margin-bottom:24px; flex-wrap:wrap; }
+.gen-field { flex:1; min-width:200px; }
+.gen-field label {
+  display:block; font-size:11px; letter-spacing:3px;
+  color:var(--gold); text-transform:uppercase;
+  font-family:'Bebas Neue',sans-serif; margin-bottom:10px;
+}
+.slider-row { display:flex; align-items:center; gap:14px; }
+.slider-val { font-family:'Bebas Neue',sans-serif; font-size:38px; color:var(--white); min-width:50px; text-align:center; line-height:1; }
+.slider-unit { font-size:12px; color:var(--muted); margin-top:3px; }
+input[type=range] { -webkit-appearance:none; flex:1; height:6px; border-radius:6px; outline:none; cursor:pointer; }
+input[type=range].work-r { background:linear-gradient(90deg,var(--green-light),var(--green-field)); }
+input[type=range].rest-r { background:linear-gradient(90deg,var(--gold),var(--gold-light)); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:white; box-shadow:0 2px 6px rgba(0,0,0,.4); }
+
+.gen-btn {
+  display:block; width:100%;
+  font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:3px;
+  padding:16px; border-radius:50px; border:none;
+  background:var(--green-field); color:white;
+  cursor:pointer; transition:all .2s; margin-top:8px;
+}
+.gen-btn:hover { filter:brightness(1.12); transform:translateY(-2px); }
+
+/* RÉSULTAT */
+#cycleResult { display:none; margin-top:30px; padding-top:28px; border-top:1px solid rgba(255,255,255,.08); }
+#cycleResult.show { display:block; }
+
+.result-header { text-align:center; margin-bottom:22px; }
+.result-cycle { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:20px; }
+
+.rc-work {
+  border-radius:10px; padding:12px 14px;
+  background:linear-gradient(135deg,var(--green-mid),var(--green-field));
+  border:2px solid var(--green-light);
+  display:flex; flex-direction:column; align-items:center; gap:4px; min-width:76px;
+}
+.rc-rest {
+  border-radius:10px; padding:12px 14px;
+  background:linear-gradient(135deg,#3a2810,#5a3c18);
+  border:2px solid var(--gold);
+  display:flex; flex-direction:column; align-items:center; gap:4px; min-width:76px;
+}
+.rc-done {
+  border-radius:10px; padding:12px 14px;
+  background:linear-gradient(135deg,#2a3a5a,#1a2a4a);
+  border:2px solid #7a9ad4;
+  display:flex; flex-direction:column; align-items:center; gap:4px; min-width:76px;
+}
+.r-ico { font-size:20px; }
+.r-dur { font-family:'Bebas Neue',sans-serif; font-size:20px; color:white; }
+.rc-rest .r-dur { color:var(--gold-light); }
+.r-lbl { font-size:11px; font-family:'DM Sans',sans-serif; font-weight:400; color:rgba(255,255,255,.65); }
+.rc-arrow { display:flex; align-items:center; color:var(--muted2); font-size:16px; align-self:center; }
+
+.result-total {
+  text-align:center; padding:14px 20px;
+  background:rgba(255,255,255,.04); border-radius:10px;
+  font-size:14px; color:var(--muted); margin-bottom:16px;
+}
+.result-total strong { color:var(--white); font-weight:500; }
+
+.result-pauses {
+  background:rgba(212,168,67,.08); border:1px solid rgba(212,168,67,.2);
+  border-radius:12px; padding:18px 22px;
+}
+.result-pauses .label { margin-bottom:10px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chip {
+  background:rgba(212,168,67,.15); border:1px solid rgba(212,168,67,.3);
+  border-radius:50px; padding:4px 14px; font-size:13px; color:var(--gold-light);
+}
+.no-pauses { font-size:13.5px; color:var(--muted); font-style:italic; }
+
+/* FOOTER */
+.footer { text-align:center; padding:36px 0 0; font-size:12px; color:var(--muted2); letter-spacing:1px; }
+
+@media (max-width:600px) {
+  .wrap { padding:0 16px 48px; }
+  .hero { padding:40px 0 20px; }
+  .hero h1 { font-size:50px; }
+  .card { padding:20px 20px; }
+  .card p { font-size:15px; }
+  .tip { padding:18px 20px; }
+  .tip p { max-width:100%; font-size:14.5px; }
+  .gen-card { padding:20px; }
+  .gen-row { flex-direction:column; gap:16px; }
+  .gen-field { min-width:unset; }
+  .slider-val { font-size:32px; min-width:44px; }
+  .pause-grid { grid-template-columns:1fr; }
+  .pitem { padding:12px 14px; }
+  .graph-labels { font-size:10px; }
+  .graph-anno { font-size:12px; }
+  .stitle { font-size:28px; }
+  .rc-work,.rc-rest,.rc-done { min-width:58px; padding:10px 8px; }
+  .r-dur { font-size:17px; }
+  .r-ico { font-size:17px; }
+  .result-cycle { gap:5px; }
+  .rc-arrow { font-size:13px; }
+  .inset { padding:12px 14px; }
+  .inset p { font-size:14px; }
+  .divider { margin:32px 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ Séance de coaching</div>
+  <h1>La méthode<br><span>Pomodoro</span></h1>
+  <p class="hero-sub">Structurer son travail comme on gère un match</p>
+  <span class="ball">🏉</span>
+</div>
+
+<!-- PARTIE 1 : L'ATTENTION -->
+<div class="divider"><span>🧠</span></div>
+
+<div>
+  <div class="label">Comprendre pour agir</div>
+  <div class="stitle">Ce qui se passe dans ta tête quand tu travailles</div>
+
+  <div class="card">
+    <p>Quand tu t'assieds pour bosser, ton cerveau ne démarre pas à pleine vitesse d'un coup. Il lui faut quelques minutes pour vraiment entrer dans la tâche, c'est la montée en régime. Ensuite, tu atteins un pic de concentration, le moment où tu es vraiment efficace. Et après un moment, ça commence à descendre : tu décroches sur des petits riens, chaque minute te coûte un peu plus d'efforts pour un résultat de plus en plus faible.</p>
+    <p>Ce décrochage, c'est ton cerveau qui te signale que ses ressources s'épuisent sur cette tâche. Ça n'a rien à voir avec la volonté, c'est son fonctionnement normal.</p>
+  </div>
+
+  <div class="graph-wrap">
+    <div class="graph-title">Niveau de concentration au fil d'un bloc de travail</div>
+    <svg class="graph-svg" viewBox="0 0 700 150" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5a9a6a" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#5a9a6a" stop-opacity="0.04"/>
+        </linearGradient>
+      </defs>
+      <path d="M 0,135 C 60,135 95,85 148,42 C 200,14 238,10 298,18 C 358,26 400,36 448,62 C 500,90 548,115 620,135 L 700,135"
+        fill="url(#gg)" stroke="none"/>
+      <path d="M 0,135 C 60,135 95,85 148,42 C 200,14 238,10 298,18 C 358,26 400,36 448,62 C 500,90 548,115 620,135"
+        fill="none" stroke="#5a9a6a" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="298" cy="18" r="5" fill="#5a9a6a"/>
+      <text x="303" y="14" font-size="11" fill="rgba(244,239,230,0.55)" font-family="DM Sans,sans-serif">Pic</text>
+    </svg>
+    <div class="graph-labels">
+      <span>0 min</span>
+      <span>5 min</span>
+      <span>10 min</span>
+      <span>15 min</span>
+      <span>20 min</span>
+      <span>25 min</span>
+      <span>30 min</span>
+    </div>
+    <div class="graph-anno">La forme de cette courbe varie selon les personnes et les tâches. Toi, tu remarques que ça part vers 25 min. C'est ton signal à toi.</div>
+  </div>
+
+  <div class="card">
+    <p>Le moment exact où ça décroche, c'est propre à chacun. Certains tiennent 20 minutes sur une tâche rébarbative, d'autres 40 minutes sur quelque chose qui les passionne. Toi, tu as observé que c'est vers 25 minutes que ça part. C'est une information précieuse, parce qu'elle te permet d'organiser ton travail en tenant compte de ta réalité à toi.</p>
+    <p>La méthode Pomodoro repose exactement sur cette idée : travailler en blocs courts avec des vraies pauses entre les deux, plutôt que de s'acharner sur de longues sessions qui s'effondrent à mi-chemin.</p>
+    <div class="inset">
+      <p>Ce que tu vas y gagner concrètement : une concentration plus propre sur chaque bloc, moins d'épuisement en fin de session, et des reprises plus faciles parce que tu t'arrêtes avant d'être à plat.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PARTIE 2 : LE CYCLE -->
+<div class="divider"><span>🔄</span></div>
+
+<div>
+  <div class="label">Le principe</div>
+  <div class="stitle">Un cycle simple, répété</div>
+
+  <div class="card">
+    <p>La structure de base, c'est : un bloc de travail, une pause, un bloc de travail, une pause, et ainsi de suite. Ce qui change par rapport à ce que tu faisais avant, c'est la durée des blocs et surtout la façon dont tu utilises les pauses.</p>
+    <p>Pour les blocs de travail, 20 à 25 minutes plutôt que 30. L'objectif, c'est de s'arrêter avant de décrocher. Si tu sais que ça part à 25 minutes, autant faire de ça la limite officielle plutôt que de passer les 5 dernières minutes à tenir sur l'inertie.</p>
+    <p>Pour les pauses, on y revient juste après. Mais en attendant, sache que la durée idéale, c'est toi qui la trouves : il n'y a pas de règle absolue. La plupart des gens qui utilisent cette méthode s'arrêtent entre 5 et 15 minutes. On construit ensemble le cycle qui te correspond, plus bas.</p>
+  </div>
+
+  <div class="cycle-row">
+    <div class="cblock work">
+      <div class="cinner"><span class="ico">📚</span><span class="dur">20–25 min</span></div>
+      <div class="clabel">Bloc travail</div>
+    </div>
+    <div class="carr">→</div>
+    <div class="cblock rest">
+      <div class="cinner"><span class="ico">☕</span><span class="dur">5–15 min</span></div>
+      <div class="clabel">Pause</div>
+    </div>
+    <div class="carr">→</div>
+    <div class="cblock work">
+      <div class="cinner"><span class="ico">📚</span><span class="dur">20–25 min</span></div>
+      <div class="clabel">Bloc travail</div>
+    </div>
+    <div class="carr">→</div>
+    <div class="cblock rest">
+      <div class="cinner"><span class="ico">☕</span><span class="dur">5–15 min</span></div>
+      <div class="clabel">Pause</div>
+    </div>
+    <div class="carr">→</div>
+    <div class="cblock done">
+      <div class="cinner"><span class="ico">🏆</span><span class="dur">Fini</span></div>
+      <div class="clabel">Fin de match</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="label">🏉 L'analogie rugby</div>
+    <p>Un match de rugby, c'est 80 minutes en deux mi-temps. La mi-temps n'est pas là pour faire joli : c'est le moment où les joueurs soufflent, récupèrent et repartent avec de l'énergie. Sans ça, le niveau chute en deuxième mi-temps. Tes blocs Pomodoro, c'est la même chose : travailler par tranches avec de vraies pauses, plutôt que de tenir à tout prix jusqu'à l'effondrement.</p>
+  </div>
+</div>
+
+<!-- PARTIE 3 : LES PAUSES -->
+<div class="divider"><span>☕</span></div>
+
+<div>
+  <div class="label">Les pauses</div>
+  <div class="stitle">Une pause, ça s'utilise bien ou mal</div>
+
+  <div class="card">
+    <p>Tu as l'habitude de jouer aux jeux vidéo pendant tes pauses, et deux choses posent problème.</p>
+    <p>D'abord, quand tu joues, tu ne vois pas le temps passer. Les jeux sont conçus pour que tu veuilles continuer : il n'y a pas de moment naturel où tu te dis "voilà, c'est terminé". Une pause de 30 minutes peut donc facilement devenir 45 minutes, puis une heure, sans que tu t'en rendes vraiment compte.</p>
+    <p>Ensuite, jouer à des jeux vidéo, ce n'est pas du repos pour ton cerveau. Ça maintient une vigilance élevée et sollicite ta concentration en permanence. Quand tu reprends le travail après ça, tu sors d'un état d'activation forte, et passer de là à un exercice de maths demande un effort d'adaptation que tu ressens comme de la pénibilité.</p>
+    <p>Une bonne pause, c'est une pause où tu souffles vraiment : le corps bouge un peu, l'esprit ralentit, et tu ne te retrouves pas face à un autre écran qui sollicite ton attention. Ça n'a pas besoin d'être ennuyeux, ça doit juste permettre à ton cerveau de redescendre en régime avant de le relancer.</p>
+    <div class="inset">
+      <p>Les jeux vidéo peuvent rester dans ta vie, mais après la session de travail entière, comme vraie récompense. Entre deux blocs, ils ne font pas le boulot d'une vraie pause. 🎮</p>
+    </div>
+  </div>
+</div>
+
+<!-- PARTIE 4 : SÉLECTION DES PAUSES -->
+<div class="divider"><span>✅</span></div>
+
+<div>
+  <div class="label">Activité</div>
+  <div class="stitle">Tes pauses à toi</div>
+
+  <div class="card" style="margin-bottom:18px;">
+    <p>Coche les activités que tu te verrais faire entre deux blocs. Celles que tu coches apparaîtront ensuite dans ton cycle personnalisé.</p>
+  </div>
+
+  <div class="pause-grid" id="pauseGrid">
+    <div class="pitem" onclick="toggleP(this,'Se lever et marcher')">
+      <div class="p-ico">🚶</div>
+      <div class="p-txt">
+        <div class="p-name">Se lever et marcher</div>
+        <div class="p-desc">Faire quelques pas, changer d'air</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Boire quelque chose')">
+      <div class="p-ico">💧</div>
+      <div class="p-txt">
+        <div class="p-name">Boire quelque chose</div>
+        <div class="p-desc">Un verre d'eau, un jus</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Écouter de la musique sans écran')">
+      <div class="p-ico">🎵</div>
+      <div class="p-txt">
+        <div class="p-name">Écouter de la musique</div>
+        <div class="p-desc">Sans écran, juste les oreilles</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Regarder par la fenêtre')">
+      <div class="p-ico">🪟</div>
+      <div class="p-txt">
+        <div class="p-name">Regarder par la fenêtre</div>
+        <div class="p-desc">Laisser les yeux se reposer au loin</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Manger un snack')">
+      <div class="p-ico">🍎</div>
+      <div class="p-txt">
+        <div class="p-name">Manger un snack</div>
+        <div class="p-desc">Une collation rapide</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Ballon de rugby — passes contre le mur')">
+      <div class="p-ico">🏉</div>
+      <div class="p-txt">
+        <div class="p-name">Ballon de rugby</div>
+        <div class="p-desc">Passes contre le mur, travail d'appuis</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'S\'étirer')">
+      <div class="p-ico">🙆</div>
+      <div class="p-txt">
+        <div class="p-name">S'étirer</div>
+        <div class="p-desc">Le corps apprécie après être resté assis</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Fermer les yeux et respirer')">
+      <div class="p-ico">😮‍💨</div>
+      <div class="p-txt">
+        <div class="p-name">Fermer les yeux et respirer</div>
+        <div class="p-desc">Deux minutes tête en arrière, on souffle</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Parler à quelqu\'un dans la maison')">
+      <div class="p-ico">💬</div>
+      <div class="p-txt">
+        <div class="p-name">Parler à quelqu'un</div>
+        <div class="p-desc">Deux mots avec quelqu'un dans la maison</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Sortir prendre l\'air')">
+      <div class="p-ico">🌿</div>
+      <div class="p-txt">
+        <div class="p-name">Sortir prendre l'air</div>
+        <div class="p-desc">Même deux minutes dehors</div>
+      </div>
+      <div class="p-check">✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- PARTIE 5 : GÉNÉRATEUR -->
+<div class="divider"><span>⚡</span></div>
+
+<div>
+  <div class="label">Ton plan personnalisé</div>
+  <div class="stitle">Construis ton cycle Pomodoro</div>
+
+  <div class="card" style="margin-bottom:18px;">
+    <p>Choisis la durée de tes blocs de travail, la durée de tes pauses et le nombre de cycles. Le générateur assemble tout et te montre ton plan pour la session.</p>
+  </div>
+
+  <div class="gen-card">
+    <div class="gen-row">
+      <div class="gen-field">
+        <label>Durée d'un bloc de travail</label>
+        <div class="slider-row">
+          <div>
+            <div class="slider-val" id="workVal">25</div>
+            <div class="slider-unit">minutes</div>
+          </div>
+          <input type="range" class="work-r" id="workSlider" min="1" max="30" value="25"
+            oninput="document.getElementById('workVal').textContent=this.value">
+        </div>
+      </div>
+      <div class="gen-field">
+        <label>Durée d'une pause</label>
+        <div class="slider-row">
+          <div>
+            <div class="slider-val" id="restVal">10</div>
+            <div class="slider-unit">minutes</div>
+          </div>
+          <input type="range" class="rest-r" id="restSlider" min="1" max="15" value="10"
+            oninput="document.getElementById('restVal').textContent=this.value">
+        </div>
+      </div>
+    </div>
+
+    <div class="gen-field" style="margin-bottom:24px;">
+      <label>Nombre de cycles</label>
+      <div class="slider-row">
+        <div>
+          <div class="slider-val" id="cycleVal">2</div>
+          <div class="slider-unit">cycles</div>
+        </div>
+        <input type="range" class="work-r" id="cycleSlider" min="1" max="4" value="2"
+          oninput="document.getElementById('cycleVal').textContent=this.value">
+      </div>
+    </div>
+
+    <button class="gen-btn" onclick="generate()">🏉 GÉNÉRER MON CYCLE</button>
+
+    <div id="cycleResult">
+      <div class="result-header">
+        <div class="label" style="text-align:center; margin-bottom:6px;">Ton cycle Pomodoro</div>
+        <div class="stitle" id="rTitle" style="text-align:center;"></div>
+      </div>
+
+      <div class="result-cycle" id="rCycle"></div>
+
+      <div class="result-total" id="rTotal"></div>
+
+      <div class="result-pauses" id="rPauses">
+        <div class="label">Idées de ce que tu peux faire pendant tes pauses</div>
+        <div id="rPausesInner"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Coaching scolaire · Gillian · Méthode Pomodoro</div>
+
+</div>
+
+<script>
+let sel = [];
+
+function toggleP(el, name) {
+  el.classList.toggle('on');
+  sel = el.classList.contains('on')
+    ? [...sel, name]
+    : sel.filter(x => x !== name);
+}
+
+function generate() {
+  const w = +document.getElementById('workSlider').value;
+  const r = +document.getElementById('restSlider').value;
+  const n = +document.getElementById('cycleSlider').value;
+  const pauses = n > 1 ? n - 1 : 0;
+  const total = n * w + pauses * r;
+
+  document.getElementById('rTitle').textContent =
+    `${n} bloc${n>1?'s':''} de ${w} min · ${pauses > 0 ? pauses+' pause'+(pauses>1?'s':'')+' de '+r+' min' : 'sans pause'}`;
+
+  document.getElementById('rTotal').innerHTML =
+    `Durée totale estimée : <strong>${total} minute${total>1?'s':''}</strong>`;
+
+  const icons = ['📚','📖','✏️','📝'];
+  let html = '';
+  for (let i = 0; i < n; i++) {
+    if (i > 0) html += '<div class="rc-arrow">→</div>';
+    html += `<div class="rc-work">
+      <span class="r-ico">${icons[i % icons.length]}</span>
+      <span class="r-dur">${w}'</span>
+      <span class="r-lbl">Bloc ${i+1}</span>
+    </div>`;
+    if (i < n - 1) {
+      html += '<div class="rc-arrow">→</div>';
+      html += `<div class="rc-rest">
+        <span class="r-ico">☕</span>
+        <span class="r-dur">${r}'</span>
+        <span class="r-lbl">Pause</span>
+      </div>`;
+    }
+  }
+  html += '<div class="rc-arrow">→</div>';
+  html += `<div class="rc-done">
+    <span class="r-ico">🏆</span>
+    <span class="r-dur">Fini</span>
+    <span class="r-lbl">Fin de match</span>
+  </div>`;
+  document.getElementById('rCycle').innerHTML = html;
+
+  const pausesBox = document.getElementById('rPauses');
+  const pausesInner = document.getElementById('rPausesInner');
+  if (sel.length > 0) {
+    pausesBox.style.display = 'block';
+    pausesInner.innerHTML = `<div class="chips">${sel.map(p=>`<div class="chip">${p}</div>`).join('')}</div>`;
+  } else {
+    pausesBox.style.display = 'block';
+    pausesInner.innerHTML = `<p class="no-pauses">Tu n'as pas encore sélectionné d'activités de pause — remonte plus haut pour en choisir.</p>`;
+  }
+
+  const result = document.getElementById('cycleResult');
+  result.classList.add('show');
+  setTimeout(() => result.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+}
+</script>
+</body>
+</html>
