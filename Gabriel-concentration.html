@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séance de coaching — Gabriel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep: #0a1628;
+  --navy: #0f2244;
+  --blue: #1a3a6b;
+  --mid: #2c5f9e;
+  --cyan: #3a9dbf;
+  --cyan-light: #5dbedd;
+  --cyan-pale: rgba(58,157,191,0.1);
+  --cyan-pale2: rgba(58,157,191,0.06);
+  --amber: #e8a84a;
+  --amber-pale: rgba(232,168,74,0.1);
+  --amber-pale2: rgba(232,168,74,0.06);
+  --green: #3a9e7a;
+  --green-pale: rgba(58,158,122,0.1);
+  --white: #ffffff;
+  --text: #e8edf4;
+  --muted: rgba(232,237,244,0.55);
+  --muted2: rgba(232,237,244,0.28);
+  --border: rgba(232,237,244,0.1);
+  --border2: rgba(232,237,244,0.06);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--deep);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(44,95,158,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(58,157,191,0.1) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 0 28px 80px; position: relative; z-index: 1; }
+
+/* ── HERO ── */
+.hero { padding: 56px 0 0; margin-bottom: 64px; }
+.hero-inner { padding-bottom: 48px; border-bottom: 1px solid var(--border); }
+.hero-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 8px; }
+.hero-label { font-size: 10.5px; letter-spacing: 4px; text-transform: uppercase; color: var(--cyan); font-weight: 400; }
+.hero-date { font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted2); font-weight: 400; }
+.hero-content { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.hero-text { flex: 1; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(48px,8vw,76px); line-height: .95; font-weight: 700; color: var(--white); margin-bottom: 18px; }
+.hero h1 em { font-style: italic; color: var(--cyan); }
+.hero-sub { font-size: 14.5px; color: var(--muted); max-width: 440px; line-height: 1.7; }
+.hero-swimmer { font-size: 90px; line-height: 1; flex-shrink: 0; animation: bob 4s ease-in-out infinite; filter: drop-shadow(0 8px 24px rgba(58,157,191,0.3)); }
+@keyframes bob { 0%,100%{ transform: translateY(0) rotate(-3deg); } 50%{ transform: translateY(-12px) rotate(3deg); } }
+.hero-wave { width: 100%; overflow: hidden; line-height: 0; margin-top: 24px; opacity: .15; }
+
+/* ── SECTIONS ── */
+.section { margin-bottom: 64px; }
+.section-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted2); margin-bottom: 6px; font-weight: 400; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px,4.5vw,38px); line-height: 1.08; font-weight: 700; color: var(--white); margin-bottom: 22px; }
+.section-title em { font-style: italic; color: var(--cyan); }
+
+/* ── THEORY ── */
+.theory { background: rgba(26,58,107,0.35); border: 1px solid var(--border); border-radius: 14px; padding: 28px 32px; margin-bottom: 14px; backdrop-filter: blur(4px); }
+.theory p { font-size: 15.5px; color: var(--text); margin-bottom: 16px; line-height: 1.82; }
+.theory p:last-child { margin-bottom: 0; }
+
+/* ── PRATIQUE ── */
+.pratique { background: var(--cyan-pale2); border: 1px solid rgba(58,157,191,0.18); border-radius: 14px; padding: 24px 28px; margin-bottom: 14px; }
+.pratique-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.pratique-icon { font-size: 20px; }
+.pratique-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--cyan-light); }
+.pratique p { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.78; }
+.pratique p:last-child { margin-bottom: 0; }
+
+/* ── ACCENT CARDS ── */
+.amber-card { background: var(--amber-pale2); border: 1px solid rgba(232,168,74,0.2); border-left: 3px solid var(--amber); border-radius: 0 10px 10px 0; padding: 16px 20px; margin-top: 14px; }
+.amber-card p { font-size: 14.5px; color: var(--amber); margin: 0; line-height: 1.7; }
+.cyan-card { background: var(--cyan-pale2); border: 1px solid rgba(58,157,191,0.2); border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; padding: 16px 20px; margin-top: 14px; }
+.cyan-card p { font-size: 14.5px; color: var(--cyan-light); margin: 0; line-height: 1.7; }
+
+/* ── SI/ALORS BUILDER ── */
+.sialors-box { background: rgba(10,22,40,0.5); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; margin-top: 18px; }
+.sialors-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
+.sialors-desc { font-size: 13.5px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+.sialors-input-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.sialors-label { font-size: 12px; color: var(--cyan); font-weight: 500; letter-spacing: .5px; white-space: nowrap; }
+.sialors-input {
+  flex: 1; min-width: 180px;
+  padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  background: rgba(10,22,40,0.6); font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 300; color: var(--text); outline: none; transition: border-color .2s;
+}
+.sialors-input:focus { border-color: var(--cyan); }
+.sialors-input::placeholder { color: var(--muted2); font-size: 13px; }
+.sialors-btn {
+  padding: 10px 18px; border-radius: 8px; border: none;
+  background: var(--cyan); color: var(--deep);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.sialors-btn:hover { background: var(--cyan-light); }
+.sialors-result { display: none; background: rgba(58,157,191,0.08); border: 1px solid rgba(58,157,191,0.2); border-radius: 10px; padding: 14px 18px; }
+.sialors-result.show { display: block; }
+.sialors-result-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; font-weight: 500; }
+.sialors-result-text { font-family: 'Playfair Display', serif; font-size: 18px; font-style: italic; color: var(--white); line-height: 1.4; }
+
+/* ── SEQUENCE EDITOR ── */
+.seq-editor { margin-top: 14px; display: flex; flex-direction: column; gap: 5px; }
+.seq-editor-label { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted2); margin-bottom: 6px; font-weight: 400; }
+.seq-item { display: flex; align-items: center; gap: 8px; background: rgba(10,22,40,0.5); border: 1px solid rgba(58,157,191,0.15); border-radius: 8px; padding: 8px 12px; }
+.seq-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(58,157,191,0.15); border: 1px solid rgba(58,157,191,0.3); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--cyan); flex-shrink: 0; font-weight: 500; }
+.seq-label { flex: 1; font-size: 13px; color: var(--text); }
+.seq-arrows { display: flex; flex-direction: column; gap: 1px; }
+.seq-btn { background: none; border: 1px solid var(--border); color: var(--muted2); cursor: pointer; font-size: 10px; line-height: 1; padding: 3px 6px; border-radius: 3px; transition: all .15s; }
+.seq-btn:hover:not(:disabled) { color: var(--cyan); border-color: var(--cyan); }
+.seq-btn:disabled { opacity: .2; cursor: default; }
+.seq-remove { background: none; border: none; color: var(--muted2); cursor: pointer; font-size: 15px; padding: 0 2px; transition: color .15s; line-height: 1; margin-left: 4px; }
+.seq-remove:hover { color: var(--amber); }
+.seq-empty { font-size: 12px; color: var(--muted2); font-style: italic; padding: 6px 0; }
+.tc-note { font-size: 11.5px; color: var(--muted2); margin-top: 6px; font-style: italic; line-height: 1.5; }
+.obstacles-open { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.obstacle-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; }
+.ob-col label { display: block; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; font-weight: 500; }
+.ob-col-prob label { color: var(--amber); }
+.ob-col-sol label { color: var(--green); }
+.ob-input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; background: rgba(10,22,40,0.6); font-family: 'DM Sans',sans-serif; font-size: 13.5px; font-weight: 300; color: var(--text); outline: none; transition: border-color .2s; }
+.ob-input::placeholder { color: var(--muted2); font-size: 12.5px; }
+.ob-input:focus { border-color: var(--cyan); }
+.ob-input.prob:focus { border-color: var(--amber); }
+.ob-input.sol:focus { border-color: var(--green); }
+.ob-sep { color: var(--muted2); font-size: 16px; text-align: center; padding-top: 18px; }
+@media(max-width:600px){ .obstacle-row { grid-template-columns: 1fr; } .ob-sep { display: none; } }
+
+/* ── ROUTINE STEPS ── */
+.routine { display: flex; flex-direction: column; gap: 0; margin-top: 18px; }
+.step { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border2); }
+.step:last-child { border-bottom: none; }
+.step-ico { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.step-body { flex: 1; }
+.step-name { font-size: 14.5px; font-weight: 500; color: var(--white); margin-bottom: 3px; }
+.step-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.step-arrow { display: flex; align-items: center; justify-content: center; padding: 2px 0; color: rgba(58,157,191,0.3); font-size: 14px; margin-left: 50px; }
+.step-dynamic { font-size: 13px; color: var(--cyan-light); font-style: italic; margin-top: 4px; }
+
+/* Transition checkboxes inside step */
+.transition-checks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.tcheck { display: flex; align-items: center; gap: 8px; padding: 7px 12px; background: rgba(10,22,40,0.4); border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: all .2s; user-select: none; font-size: 13px; color: var(--muted); }
+.tcheck:hover { border-color: rgba(58,157,191,0.4); }
+.tcheck.on { border-color: var(--cyan); color: var(--cyan-light); background: var(--cyan-pale2); }
+.tcheck-box { width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; color: transparent; transition: all .2s; font-weight: 700; }
+.tcheck.on .tcheck-box { background: var(--cyan); border-color: var(--cyan); color: white; }
+.transition-custom-wrap { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+.tc-row { display: flex; gap: 8px; align-items: center; }
+.transition-custom { flex: 1; padding: 8px 12px; border: 1.5px solid var(--border2); border-radius: 7px; background: rgba(10,22,40,0.4); font-family: 'DM Sans',sans-serif; font-size: 13px; font-weight: 300; color: var(--text); outline: none; transition: border-color .2s; }
+.transition-custom::placeholder { color: var(--muted2); font-size: 12.5px; }
+.transition-custom:focus { border-color: var(--cyan); }
+.tc-add-btn { padding: 7px 12px; border-radius: 7px; border: 1.5px solid var(--border); background: rgba(10,22,40,0.4); color: var(--muted2); font-family: 'DM Sans',sans-serif; font-size: 12px; cursor: pointer; transition: all .2s; white-space: nowrap; flex-shrink: 0; }
+.tc-add-btn:hover { border-color: rgba(58,157,191,0.4); color: var(--cyan); }
+.tc-add-btn.active { border-color: var(--cyan); color: var(--cyan-light); background: var(--cyan-pale2); }
+
+/* ── GRAPHIQUE ATTENTION ── */
+.graph-wrap { background: rgba(15,34,68,0.6); border: 1px solid var(--border); border-radius: 12px; padding: 22px 20px 16px; margin-top: 16px; }
+.graph-label-top { font-size: 10.5px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted2); text-align: center; margin-bottom: 14px; }
+.graph-note { font-size: 11.5px; color: var(--muted2); text-align: center; margin-top: 8px; font-style: italic; }
+
+/* ── TOOL CHOICE ── */
+.tool-choice { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
+.tchoice { padding: 10px 16px; border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer; transition: all .2s; font-size: 13.5px; color: var(--muted); background: rgba(10,22,40,0.4); user-select: none; display: flex; align-items: center; gap: 8px; }
+.tchoice:hover { border-color: rgba(58,157,191,0.4); }
+.tchoice.on { border-color: var(--cyan); color: var(--cyan-light); background: var(--cyan-pale2); }
+
+/* ── PHONE PAUSE TOGGLE ── */
+.phone-pause-section { margin-top: 16px; }
+.phone-pause-q { font-size: 14.5px; color: var(--text); margin-bottom: 12px; }
+.toggle-row { display: flex; gap: 10px; margin-bottom: 12px; }
+.toggle-btn { padding: 10px 20px; border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer; font-size: 13.5px; color: var(--muted); background: rgba(10,22,40,0.4); user-select: none; transition: all .2s; }
+.toggle-btn:hover { border-color: rgba(58,157,191,0.4); }
+.toggle-btn.on-yes { border-color: var(--amber); color: var(--amber); background: var(--amber-pale2); }
+.toggle-btn.on-no { border-color: var(--green); color: var(--green); background: var(--green-pale); }
+.phone-yes-details { display: none; }
+.phone-yes-details.show { display: block; }
+.phone-pause-input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; background: rgba(10,22,40,0.6); font-family: 'DM Sans',sans-serif; font-size: 14px; font-weight: 300; color: var(--text); outline: none; margin-bottom: 10px; transition: border-color .2s; }
+.phone-pause-input:focus { border-color: var(--amber); }
+.phone-pause-input::placeholder { color: var(--muted2); font-size: 13px; }
+
+/* ── PAUSES GRID ── */
+.pause-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0 18px; }
+.pitem { background: rgba(26,58,107,0.4); border: 1.5px solid var(--border); border-radius: 10px; padding: 13px 15px; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 12px; user-select: none; }
+.pitem:hover { border-color: rgba(58,157,191,0.4); background: var(--cyan-pale); }
+.pitem.on { background: var(--cyan-pale); border-color: var(--cyan); }
+.p-ico { font-size: 22px; width: 28px; text-align: center; flex-shrink: 0; }
+.p-txt { flex: 1; }
+.p-name { font-weight: 400; font-size: 14px; color: var(--white); margin-bottom: 1px; }
+.p-desc { font-size: 12px; color: var(--muted2); line-height: 1.35; }
+.p-check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; transition: all .2s; color: transparent; }
+.pitem.on .p-check { background: var(--cyan); border-color: var(--cyan); color: white; }
+
+/* ── GÉNÉRATEUR ── */
+.gen-wrap { background: rgba(26,58,107,0.35); border: 1px solid var(--border); border-radius: 14px; padding: 28px 32px; margin-top: 6px; }
+.gen-sliders { display: flex; gap: 24px; margin-bottom: 22px; flex-wrap: wrap; }
+.gen-field { flex: 1; min-width: 180px; }
+.gen-field label { display: block; font-size: 10.5px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted2); margin-bottom: 10px; font-weight: 400; }
+.gen-val-row { display: flex; align-items: center; gap: 14px; }
+.gen-val { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; color: var(--white); min-width: 50px; text-align: center; line-height: 1; }
+.gen-unit { font-size: 12px; color: var(--muted2); }
+input[type=range] { -webkit-appearance: none; flex: 1; height: 3px; border-radius: 3px; outline: none; cursor: pointer; }
+input[type=range].work-r { background: linear-gradient(90deg,var(--mid),var(--cyan)); }
+input[type=range].rest-r { background: linear-gradient(90deg,var(--cyan),var(--cyan-light)); }
+input[type=range].cycle-r { background: linear-gradient(90deg,var(--amber),#f0c060); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--deep); box-shadow: 0 0 0 2px var(--cyan); }
+.gen-btn { width: 100%; padding: 15px; border-radius: 10px; border: none; background: linear-gradient(135deg,var(--mid),var(--cyan)); color: white; font-family: 'DM Sans',sans-serif; font-size: 13.5px; font-weight: 500; cursor: pointer; transition: all .25s; letter-spacing: 1.5px; text-transform: uppercase; }
+.gen-btn:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(58,157,191,0.25); }
+#genResult { display: none; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--border); }
+#genResult.show { display: block; }
+.result-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted2); margin-bottom: 16px; font-weight: 400; }
+.result-cycle-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.rc-work { border-radius: 10px; padding: 12px 14px; background: linear-gradient(135deg,var(--blue),var(--mid)); color: var(--white); display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 70px; border: 1px solid rgba(58,157,191,0.2); }
+.rc-rest { border-radius: 10px; padding: 12px 14px; background: var(--cyan-pale); border: 1.5px solid rgba(58,157,191,0.3); color: var(--cyan-light); display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 70px; }
+.rc-done { border-radius: 10px; padding: 12px 14px; background: var(--amber-pale); border: 1.5px solid rgba(232,168,74,0.3); color: var(--amber); display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 70px; }
+.r-ico { font-size: 18px; }
+.r-dur { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1; }
+.r-lbl { font-size: 10px; opacity: .65; font-weight: 400; letter-spacing: .5px; }
+.rc-arrow { font-size: 14px; color: var(--border); align-self: center; }
+.result-total { font-size: 13.5px; color: var(--muted); text-align: center; padding: 12px; background: rgba(58,157,191,0.06); border-radius: 8px; margin-bottom: 14px; }
+.result-total strong { color: var(--cyan-light); font-weight: 500; }
+
+/* ── PLAN GÉNÉRÉ ── */
+.plan-section { margin-bottom: 64px; }
+.plan-btn-wrap { text-align: center; margin-top: 16px; }
+.plan-generate-btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 32px; border-radius: 12px; border: none; background: linear-gradient(135deg, rgba(58,157,191,0.25), rgba(44,95,158,0.35)); border: 1px solid rgba(58,157,191,0.3); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all .25s; letter-spacing: .5px; }
+.plan-generate-btn:hover { background: linear-gradient(135deg, rgba(58,157,191,0.35), rgba(44,95,158,0.5)); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(58,157,191,0.2); }
+#planResult { display: none; margin-top: 24px; }
+#planResult.show { display: block; }
+
+.plan-card { background: linear-gradient(145deg, rgba(15,34,68,0.95), rgba(26,58,107,0.85)); border: 1px solid rgba(58,157,191,0.25); border-radius: 18px; padding: 36px; }
+.plan-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.plan-card-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--white); }
+.plan-card-title em { font-style: italic; color: var(--cyan); }
+.plan-card-sub { font-size: 12px; color: var(--muted2); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+.plan-ico { font-size: 44px; }
+
+.plan-steps { display: flex; flex-direction: column; gap: 0; }
+.plan-step { padding: 18px 0; border-bottom: 1px solid var(--border2); }
+.plan-step:last-child { border-bottom: none; }
+.plan-step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.plan-step-num { width: 26px; height: 26px; border-radius: 50%; background: rgba(58,157,191,0.15); border: 1px solid rgba(58,157,191,0.3); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--cyan); flex-shrink: 0; }
+.plan-step-title { font-size: 13px; font-weight: 500; color: var(--cyan-light); letter-spacing: .5px; text-transform: uppercase; }
+.plan-step-content { padding-left: 38px; }
+.plan-step-main { font-family: 'Playfair Display', serif; font-size: 17px; font-style: italic; color: var(--white); line-height: 1.4; margin-bottom: 6px; }
+.plan-step-detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.plan-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.plan-chip { padding: 4px 12px; border-radius: 50px; font-size: 12px; }
+.plan-chip-cyan { background: var(--cyan-pale); border: 1px solid rgba(58,157,191,0.25); color: var(--cyan-light); }
+.plan-chip-amber { background: var(--amber-pale2); border: 1px solid rgba(232,168,74,0.2); color: var(--amber); }
+.plan-missing { font-size: 13px; color: var(--muted2); font-style: italic; }
+
+/* ── DIVIDER ── */
+.divider { display: flex; align-items: center; gap: 16px; margin: 52px 0; opacity: .15; }
+.divider::before,.divider::after { content: ''; flex: 1; height: 1px; background: var(--cyan); }
+.divider span { font-size: 16px; color: var(--cyan); }
+
+/* ── FOOTER ── */
+.footer { text-align: center; padding: 32px 0 0; font-size: 11px; color: var(--muted2); letter-spacing: 2px; text-transform: uppercase; border-top: 1px solid var(--border); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+.fade { animation: fadeUp .55s ease forwards; opacity: 0; }
+.fade:nth-child(1) { animation-delay: .05s; }
+.fade:nth-child(2) { animation-delay: .15s; }
+.fade:nth-child(3) { animation-delay: .25s; }
+.fade:nth-child(4) { animation-delay: .32s; }
+.fade:nth-child(5) { animation-delay: .38s; }
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .wrap { padding: 0 16px 56px; }
+  .hero { padding: 36px 0 0; }
+  .hero h1 { font-size: 44px; }
+  .hero-swimmer { font-size: 64px; }
+  .hero-content { flex-direction: column; gap: 16px; }
+  .hero-swimmer { align-self: flex-end; margin-top: -16px; }
+  .theory, .gen-wrap { padding: 20px; }
+  .pratique { padding: 20px; }
+  .section-title { font-size: 26px; }
+  .pause-grid { grid-template-columns: 1fr; }
+  .gen-sliders { flex-direction: column; gap: 16px; }
+  .gen-field { min-width: unset; }
+  .gen-val { font-size: 32px; }
+  .rc-work,.rc-rest,.rc-done { min-width: 58px; padding: 10px 8px; }
+  .plan-card { padding: 22px; }
+  .ob-arrow { display: none; }
+  .obstacle-item { flex-direction: column; gap: 8px; }
+  .sialors-input-row { flex-direction: column; align-items: stretch; }
+  .sialors-btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero fade">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <span class="hero-label">Séance de coaching</span>
+      <span class="hero-date">Concentration &amp; téléphone</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Comprendre<br>pour <em>mieux</em><br>travailler.</h1>
+        <p class="hero-sub">Pourquoi ton téléphone est si difficile à lâcher, ce qu'il fait concrètement à ta concentration, et comment organiser tes sessions pour vraiment avancer.</p>
+      </div>
+      <div class="hero-swimmer">🏊</div>
+    </div>
+    <div class="hero-wave">
+      <svg viewBox="0 0 800 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:40px;">
+        <path d="M0,20 C100,5 200,35 300,20 C400,5 500,35 600,20 C700,5 750,35 800,20 L800,40 L0,40 Z" fill="rgba(58,157,191,0.6)"/>
+        <path d="M0,28 C120,12 240,38 360,25 C480,12 600,38 800,22 L800,40 L0,40 Z" fill="rgba(44,95,158,0.5)"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ── POINT 1 ── -->
+<div class="section fade">
+  <div class="section-label">Point 1</div>
+  <div class="section-title">Le téléphone et<br><em>ce qui se passe dans ton cerveau</em></div>
+
+  <div class="theory">
+    <p>Les applis que tu utilises le plus reposent toutes sur le même principe : tu ne sais jamais ce que tu vas trouver quand tu les ouvres. Parfois quelque chose d'intéressant, parfois rien, parfois exactement ce que tu attendais. Cette imprévisibilité n'est pas un hasard. C'est le mécanisme le plus efficace qui existe pour maintenir un comportement, chez les humains comme chez les animaux. On appelle ça le renforcement à ratio variable, et il est utilisé très consciemment par les équipes qui conçoivent ces applications.</p>
+    <p>Pour toi, avec un TDA, ce mécanisme est encore plus puissant. Le TDA n'est pas une incapacité à se concentrer : c'est une difficulté à maintenir l'attention sur quelque chose qui ne génère pas suffisamment de stimulation. Ton cerveau cherche activement la nouveauté et la récompense. Le téléphone lui en offre en continu, exactement au rythme dont il a besoin. Le travail scolaire, lui, n'offre rien de tel. Ce n'est donc pas une question de volonté ou de flemme. C'est ton cerveau qui fait exactement ce qu'il est câblé pour faire.</p>
+    <div class="amber-card">
+      <p>Ce que ça implique : compter uniquement sur ta volonté pour résister au téléphone ne sera jamais vraiment suffisant face à un système conçu pour capter ton attention. La bonne stratégie, ce n'est pas de résister plus fort. C'est de rendre l'accès au téléphone moins facile.</p>
+    </div>
+  </div>
+
+  <div class="pratique">
+    <div class="pratique-header">
+      <span class="pratique-icon">🎯</span>
+      <span class="pratique-title">En pratique</span>
+    </div>
+    <p>Plus il y a d'étapes entre le téléphone et toi, moins tu auras envie de le saisir. Si aller le chercher demande un effort, l'envie passe souvent avant d'y être arrivé. Le poser dans une autre pièce, au fond d'un tiroir, dans ton sac : c'est ça l'idée.</p>
+
+    <div class="sialors-box">
+      <div class="sialors-title">Construis ta règle</div>
+      <div class="sialors-desc">Le problème avec une bonne intention, c'est qu'elle te demande de prendre une décision au moment précis où c'est le plus difficile : quand tu rentres fatigué, téléphone en main, les cours qui t'attendent. C'est pour ça qu'on va construire une règle différente — ce qu'on appelle une intention de mise en œuvre, ou règle si/alors.<br><br>Le principe est simple : tu décides à l'avance, à tête reposée, quel geste précis tu feras dans quelle situation. Quand le moment arrive, ton cerveau n'a plus à peser le pour et le contre sous pression — il suit un chemin déjà tracé. C'est ce mécanisme qui rend ces règles bien plus efficaces qu'une simple bonne volonté. Plus la situation et le geste sont précis, plus ça marche.<br><br>Renseigne ci-dessous l'endroit où tu mettras ton téléphone. Ta règle sera générée automatiquement à partir de cette info et de la <em>dernière activité</em> de ta séquence de transition.</div>
+      <div class="sialors-input-row">
+        <span class="sialors-label">📵 Où :</span>
+        <input type="text" class="sialors-input" id="phoneLocation" placeholder="dans ma chambre, au fond de mon sac…" oninput="onLocationInput()">
+        <button class="sialors-btn" onclick="buildSiAlors()">Générer ma règle</button>
+      </div>
+      <div class="sialors-result" id="siAlorsResult">
+        <div class="sialors-result-label">Ta règle</div>
+        <div class="sialors-result-text" id="siAlorsText"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px; margin-bottom:10px;">
+      <div style="font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--muted2); margin-bottom:6px; font-weight:400;">Anticipe tes obstacles</div>
+      <div style="font-size:13px; color:var(--muted); margin-bottom:12px; line-height:1.6;">Qu'est-ce qui pourrait t'empêcher de mettre le téléphone à distance ? Note-le, et trouve ta solution avant que la situation se présente.</div>
+      <div class="obstacles-open" id="obstaclesOpen">
+        <div class="obstacle-row">
+          <div class="ob-col ob-col-prob"><label>⚠ Obstacle</label><input class="ob-input prob" data-ob="1" placeholder="Ex : j'ai besoin de ma musique…" oninput="updatePlan()"></div>
+          <div class="ob-sep">→</div>
+          <div class="ob-col ob-col-sol"><label>✓ Ma solution</label><input class="ob-input sol" data-sol="1" placeholder="Ta réponse concrète…" oninput="updatePlan()"></div>
+        </div>
+        <div class="obstacle-row">
+          <div class="ob-col ob-col-prob"><label>⚠ Obstacle</label><input class="ob-input prob" data-ob="2" placeholder="Un autre obstacle éventuel…" oninput="updatePlan()"></div>
+          <div class="ob-sep">→</div>
+          <div class="ob-col ob-col-sol"><label>✓ Ma solution</label><input class="ob-input sol" data-sol="2" placeholder="Ta réponse concrète…" oninput="updatePlan()"></div>
+        </div>
+        <div class="obstacle-row">
+          <div class="ob-col ob-col-prob"><label>⚠ Obstacle</label><input class="ob-input prob" data-ob="3" placeholder="Encore un autre…" oninput="updatePlan()"></div>
+          <div class="ob-sep">→</div>
+          <div class="ob-col ob-col-sol"><label>✓ Ma solution</label><input class="ob-input sol" data-sol="3" placeholder="Ta réponse concrète…" oninput="updatePlan()"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><span>〰</span></div>
+
+<!-- ── POINT 2 ── -->
+<div class="section fade">
+  <div class="section-label">Point 2</div>
+  <div class="section-title">Le piège<br><em>juste avant de commencer</em></div>
+
+  <div class="theory">
+    <p>Il y a un moment particulièrement délicat dans ta journée : la transition entre le téléphone et le bureau. Quand tu t'assieds pour bosser après avoir scrollé, ton cerveau vient de passer du temps dans un environnement à très haute stimulation. Tout y était rapide, varié, visuellement riche. Et là, on lui demande de s'installer sur un exercice ou un texte.</p>
+    <p>Le problème, c'est que passer directement de l'un à l'autre, c'est comme sauter dans l'eau froide sans s'échauffer. Le travail paraît soudainement très difficile, presque insupportable — pas parce qu'il l'est vraiment, mais parce que le contraste est trop brutal. C'est ça qui crée cette sensation pénible au moment de s'y mettre.</p>
+    <div class="amber-card">
+      <p>Autrement dit : le problème n'est pas toujours le travail lui-même. C'est souvent depuis où tu en pars.</p>
+    </div>
+  </div>
+
+  <div class="pratique">
+    <div class="pratique-header">
+      <span class="pratique-icon">🔁</span>
+      <span class="pratique-title">Construire une routine d'entrée</span>
+    </div>
+    <p>Une courte séquence entre le téléphone et le bureau change vraiment quelque chose, surtout pour un cerveau qui a du mal à changer de vitesse d'un coup. Voici comment la construire :</p>
+
+    <div class="routine">
+      <div class="step">
+        <div class="step-ico">🏠</div>
+        <div class="step-body">
+          <div class="step-name">Tu rentres chez toi</div>
+          <div class="step-desc">Pas besoin de te mettre au travail immédiatement.</div>
+        </div>
+      </div>
+      <div class="step-arrow">↓</div>
+      <div class="step">
+        <div class="step-ico">📱</div>
+        <div class="step-body">
+          <div class="step-name">Si tu veux utiliser le téléphone, tu règles une alarme dessus avant de l'ouvrir</div>
+          <div class="step-desc">L'alarme te rappelle quand passer à la suite. Tu n'as plus à surveiller l'heure ni à décider sur le moment que c'est assez — c'est la sonnerie qui s'en charge.</div>
+        </div>
+      </div>
+      <div class="step-arrow">↓</div>
+      <div class="step">
+        <div class="step-ico">⏸️</div>
+        <div class="step-body">
+          <div class="step-name">Quand le minuteur sonne, tu fais ta transition</div>
+          <div class="step-desc">Deux à trois minutes d'une activité calme pour redescendre en douceur. Coche celles qui te correspondent :</div>
+          <div class="transition-checks" id="transitionChecks">
+            <div class="tcheck" data-conjugated="préparé mon espace de travail"><div class="tcheck-box"></div>Préparer mon espace</div>
+            <div class="tcheck" data-conjugated="bu quelque chose"><div class="tcheck-box"></div>Boire quelque chose</div>
+            <div class="tcheck" data-conjugated="noté ce que je vais faire"><div class="tcheck-box"></div>Noter ce que je vais faire</div>
+            <div class="tcheck" data-conjugated="fait quelques étirements"><div class="tcheck-box"></div>Quelques étirements</div>
+            <div class="tcheck" data-conjugated="respiré deux minutes"><div class="tcheck-box"></div>Respirer deux minutes</div>
+            <div class="tcheck" data-conjugated="mis ma musique de travail"><div class="tcheck-box"></div>Mettre ma musique</div>
+          </div>
+          <div class="transition-custom-wrap" style="margin-top:12px;">
+            <div class="tc-row"><input class="transition-custom" id="tc1" placeholder="pris mon sac, rangé mes affaires…"><button class="tc-add-btn" id="tc1btn" onclick="toggleCustomTransition('tc1')">Ajouter</button></div>
+            <div class="tc-row"><input class="transition-custom" id="tc2" placeholder="encore une idée…"><button class="tc-add-btn" id="tc2btn" onclick="toggleCustomTransition('tc2')">Ajouter</button></div>
+            <div class="tc-row"><input class="transition-custom" id="tc3" placeholder="…"><button class="tc-add-btn" id="tc3btn" onclick="toggleCustomTransition('tc3')">Ajouter</button></div>
+          </div>
+          <div class="tc-note">Pour les champs libres, écris au participe passé (ex : «pris mon sac», «rangé mes affaires»). La règle si/alors utilisera ce texte directement.</div>
+          <div class="seq-editor" id="seqEditor">
+            <div class="seq-editor-label">Ta séquence — réorganise avec ↑↓</div>
+            <div class="seq-empty" id="seqEmpty">Coche ou ajoute des activités pour construire ta séquence.</div>
+          </div>
+        </div>
+      </div>
+      <div class="step-arrow">↓</div>
+      <div class="step">
+        <div class="step-ico">📵</div>
+        <div class="step-body">
+          <div class="step-name">La dernière chose de la séquence</div>
+          <div class="step-desc">Le téléphone va <span id="phoneLocationDisplay" style="color:var(--cyan-light); font-style:italic;">à l'endroit que tu auras choisi</span>. C'est le signal de départ.</div>
+        </div>
+      </div>
+      <div class="step-arrow">↓</div>
+      <div class="step">
+        <div class="step-ico">✏️</div>
+        <div class="step-body">
+          <div class="step-name">Tu commences à travailler</div>
+          <div class="step-desc">Dans un état bien plus propice à la concentration.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><span>〰</span></div>
+
+<!-- ── POINT 3 ── -->
+<div class="section fade">
+  <div class="section-label">Point 3</div>
+  <div class="section-title">Structurer<br><em>ta session de travail</em></div>
+
+  <div class="theory">
+    <p>Une fois lancé, il y a une erreur courante : attendre d'être épuisé pour faire une pause. Le problème, c'est qu'à ce stade la récupération prend plus de temps et la reprise est plus difficile. L'idée, c'est de s'arrêter avant de décrocher, tant que tu pourrais encore continuer.</p>
+
+    <div class="graph-wrap">
+      <div class="graph-label-top">Niveau d'attention au fil du temps</div>
+      <svg viewBox="0 0 600 165" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gN" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8a84a" stop-opacity="0.3"/><stop offset="100%" stop-color="#e8a84a" stop-opacity="0.02"/></linearGradient>
+        </defs>
+        <line x1="40" y1="130" x2="580" y2="130" stroke="rgba(232,237,244,0.12)" stroke-width="1"/>
+        <line x1="40" y1="10" x2="40" y2="130" stroke="rgba(232,237,244,0.12)" stroke-width="1"/>
+        <text x="8" y="75" font-size="10" fill="rgba(232,237,244,0.3)" font-family="DM Sans,sans-serif" transform="rotate(-90,14,72)">Attention</text>
+        <text x="38" y="144" font-size="10" fill="rgba(232,237,244,0.3)" font-family="DM Sans,sans-serif" text-anchor="middle">0</text>
+        <text x="175" y="144" font-size="10" fill="rgba(232,237,244,0.3)" font-family="DM Sans,sans-serif" text-anchor="middle">30 min</text>
+        <text x="310" y="144" font-size="10" fill="rgba(232,237,244,0.3)" font-family="DM Sans,sans-serif" text-anchor="middle">60 min</text>
+        <text x="445" y="144" font-size="10" fill="rgba(232,237,244,0.3)" font-family="DM Sans,sans-serif" text-anchor="middle">90 min</text>
+        <text x="578" y="144" font-size="10" fill="rgba(232,237,244,0.3)" font-family="DM Sans,sans-serif" text-anchor="middle">120 min</text>
+        <path d="M 40,28 C 80,26 120,33 175,50 C 230,66 270,80 310,94 C 360,108 410,117 460,122 C 510,126 545,128 578,129" fill="url(#gN)" stroke="none"/>
+        <path d="M 40,28 C 80,26 120,33 175,50 C 230,66 270,80 310,94 C 360,108 410,117 460,122 C 510,126 545,128 578,129" fill="none" stroke="#e8a84a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M 40,28 C 80,26 130,34 175,53" fill="none" stroke="#3a9dbf" stroke-width="2" stroke-linecap="round"/>
+        <rect x="175" y="10" width="40" height="120" fill="rgba(58,157,191,0.06)"/>
+        <line x1="175" y1="10" x2="175" y2="130" stroke="rgba(58,157,191,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="215" y1="10" x2="215" y2="130" stroke="rgba(58,157,191,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <path d="M 215,31 C 255,29 280,36 310,53" fill="none" stroke="#3a9dbf" stroke-width="2" stroke-linecap="round"/>
+        <rect x="310" y="10" width="40" height="120" fill="rgba(58,157,191,0.06)"/>
+        <line x1="310" y1="10" x2="310" y2="130" stroke="rgba(58,157,191,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="350" y1="10" x2="350" y2="130" stroke="rgba(58,157,191,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <path d="M 350,32 C 390,30 420,38 460,55" fill="none" stroke="#3a9dbf" stroke-width="2" stroke-linecap="round"/>
+        <rect x="460" y="10" width="40" height="120" fill="rgba(58,157,191,0.06)"/>
+        <line x1="460" y1="10" x2="460" y2="130" stroke="rgba(58,157,191,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="500" y1="10" x2="500" y2="130" stroke="rgba(58,157,191,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <path d="M 500,33 C 535,31 558,35 578,40" fill="none" stroke="#3a9dbf" stroke-width="2" stroke-linecap="round"/>
+        <line x1="50" y1="157" x2="72" y2="157" stroke="#e8a84a" stroke-width="2"/>
+        <text x="77" y="160" font-size="10" fill="rgba(232,237,244,0.45)" font-family="DM Sans,sans-serif">Sans pause</text>
+        <line x1="185" y1="157" x2="207" y2="157" stroke="#3a9dbf" stroke-width="2"/>
+        <text x="212" y="160" font-size="10" fill="rgba(232,237,244,0.45)" font-family="DM Sans,sans-serif">Avec pauses régulières</text>
+      </svg>
+      <div class="graph-note">Illustration schématique — la tendance est réelle, les valeurs sont indicatives.</div>
+    </div>
+  </div>
+
+  <div class="pratique">
+    <div class="pratique-header">
+      <span class="pratique-icon">⏱️</span>
+      <span class="pratique-title">La technique Pomodoro</span>
+    </div>
+    <p>Une structure qui fonctionne bien : 20 à 25 minutes de travail, 5 minutes de pause, puis on recommence. C'est la technique Pomodoro. Pour suivre le temps sans avoir à le surveiller toi-même, utilise un minuteur ou un réveil mécanique. Tu le règles, tu poses le téléphone, et tu n'as plus à y penser jusqu'à ce que ça sonne — la tête est libre pour le travail.</p>
+
+    <p style="margin-bottom:10px;">Quel outil vas-tu utiliser pour te minuter ?</p>
+    <div class="tool-choice" id="toolChoice">
+      <div class="tchoice" onclick="selectTool(this,'Réveil mécanique')">⏰ Réveil mécanique</div>
+      <div class="tchoice" onclick="selectTool(this,'Application de minuteur (sans réseau)')">📱 App minuteur (sans réseau)</div>
+      <div class="tchoice" onclick="selectTool(this,'Montre')">⌚ Montre</div>
+      <div class="tchoice" onclick="selectTool(this,'Minuteur de cuisine')">🍳 Minuteur de cuisine</div>
+    </div>
+
+    <div class="phone-pause-section">
+      <p class="phone-pause-q">Est-ce que tu veux pouvoir utiliser ton téléphone pendant les pauses ?</p>
+      <div class="toggle-row">
+        <div class="toggle-btn" id="btnOui" onclick="setPhonePause(true)">Oui, parfois</div>
+        <div class="toggle-btn" id="btnNon" onclick="setPhonePause(false)">Non, je préfère l'éviter</div>
+      </div>
+      <div class="phone-yes-details" id="phoneYesDetails">
+        <div class="cyan-card" style="margin-bottom:12px;">
+          <p>Si tu utilises le téléphone pendant la pause, ton cerveau repasse dans un état de forte stimulation et tu te retrouves dans la même situation qu'avant de commencer. Ce n'est pas interdit, mais pour que ça ne sabote pas la reprise, la règle est de décider à l'avance ce que tu vas faire et combien de temps — pas au moment où tu es déjà dedans.</p>
+        </div>
+        <input type="text" class="phone-pause-input" id="phoneWhatInput" placeholder="Ce que tu feras (ex : regarder mes messages…)" oninput="updatePlan()">
+        <input type="text" class="phone-pause-input" id="phoneHowLongInput" placeholder="Combien de temps maximum (ex : 3 minutes…)" oninput="updatePlan()">
+      </div>
+    </div>
+
+    <div style="margin-top:18px;">
+      <p style="font-size:14.5px; margin-bottom:6px;">Une pause qui permet vraiment de récupérer, c'est une pause où le cerveau décompresse sans être immédiatement restimulé. Se lever, bouger, souffler — pas forcément glamour, mais ça préserve l'élan pour la reprise. Coche tes idées de pauses :</p>
+    </div>
+    <div class="pause-grid" id="pauseGrid">
+      <div class="pitem" data-name="Se lever et marcher" onclick="togglePd(this)"><div class="p-ico">🚶</div><div class="p-txt"><div class="p-name">Se lever et marcher</div><div class="p-desc">Quelques pas, changer d'air</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Boire quelque chose" onclick="togglePd(this)"><div class="p-ico">💧</div><div class="p-txt"><div class="p-name">Boire quelque chose</div><div class="p-desc">Un verre d'eau, un jus</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Écouter de la musique" onclick="togglePd(this)"><div class="p-ico">🎵</div><div class="p-txt"><div class="p-name">Écouter de la musique</div><div class="p-desc">Sans écran, juste les oreilles</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Regarder par la fenêtre" onclick="togglePd(this)"><div class="p-ico">🪟</div><div class="p-txt"><div class="p-name">Regarder par la fenêtre</div><div class="p-desc">Laisser les yeux se reposer</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Manger un snack" onclick="togglePd(this)"><div class="p-ico">🍎</div><div class="p-txt"><div class="p-name">Manger un snack</div><div class="p-desc">Une petite collation</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="S'étirer" onclick="togglePd(this)"><div class="p-ico">🙆</div><div class="p-txt"><div class="p-name">S'étirer</div><div class="p-desc">Le corps apprécie après être resté assis</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Visualiser ma prochaine nage" onclick="togglePd(this)"><div class="p-ico">🏊</div><div class="p-txt"><div class="p-name">Visualiser ma prochaine nage</div><div class="p-desc">Deux minutes de déconnexion totale</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Fermer les yeux et respirer" onclick="togglePd(this)"><div class="p-ico">😮‍💨</div><div class="p-txt"><div class="p-name">Fermer les yeux</div><div class="p-desc">Deux minutes tête en arrière, on souffle</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Sortir prendre l'air" onclick="togglePd(this)"><div class="p-ico">🌿</div><div class="p-txt"><div class="p-name">Sortir prendre l'air</div><div class="p-desc">Même deux minutes dehors</div></div><div class="p-check">✓</div></div>
+      <div class="pitem" data-name="Parler à quelqu'un" onclick="togglePd(this)"><div class="p-ico">💬</div><div class="p-txt"><div class="p-name">Parler à quelqu'un</div><div class="p-desc">Deux mots avec quelqu'un dans la maison</div></div><div class="p-check">✓</div></div>
+    </div>
+    <div class="transition-custom-wrap" style="margin-bottom:12px;">
+      <input class="transition-custom" id="pc1" placeholder="Autre idée de pause…" oninput="updatePlan()">
+      <input class="transition-custom" id="pc2" placeholder="Encore une autre…" oninput="updatePlan()">
+    </div>
+  </div>
+
+  <div class="gen-wrap">
+    <div class="gen-sliders">
+      <div class="gen-field">
+        <label>Bloc de travail</label>
+        <div class="gen-val-row">
+          <div><div class="gen-val" id="workVal">25</div><div class="gen-unit">minutes</div></div>
+          <input type="range" class="work-r" id="workSlider" min="10" max="40" value="25" oninput="document.getElementById('workVal').textContent=this.value">
+        </div>
+      </div>
+      <div class="gen-field">
+        <label>Pause</label>
+        <div class="gen-val-row">
+          <div><div class="gen-val" id="restVal">5</div><div class="gen-unit">minutes</div></div>
+          <input type="range" class="rest-r" id="restSlider" min="3" max="15" value="5" oninput="document.getElementById('restVal').textContent=this.value">
+        </div>
+      </div>
+    </div>
+    <button class="gen-btn" onclick="generate()">Visualiser ma session</button>
+    <div id="genResult">
+      <div class="result-label">Ta session</div>
+      <div class="result-cycle-row" id="rCycle"></div>
+      <div class="result-total" id="rTotal"></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><span>〰</span></div>
+
+<!-- ── POINT 4 ── -->
+<div class="section fade">
+  <div class="section-label">Point 4</div>
+  <div class="section-title">Rendre le travail<br><em>plus facile à démarrer</em></div>
+
+  <div class="theory">
+    <p>Avec un TDA, «réviser mes maths» est un objectif trop flou pour que le cerveau s'y accroche vraiment. Quand la tâche n'est pas clairement définie, le cerveau cherche quelque chose de plus immédiatement stimulant — et il ne tarde pas à le trouver. Ce n'est pas de la mauvaise volonté, c'est un manque de signal de départ suffisamment concret.</p>
+    <p>Ce qui aide, c'est de définir très précisément ce que tu veux avoir fait ou compris à la fin du bloc, avant de commencer. Pas «je révise», mais «pendant ce bloc, je travaille sur l'exercice 3 page 47». Le cerveau a quelque chose de concret à viser, ce qui réduit le temps à tourner en rond avant de s'y mettre. Et la tâche n'a pas besoin d'être terminée à la fin du bloc : le temps porte sur la session, pas sur ce que tu dois accomplir.</p>
+  </div>
+</div>
+
+<div class="divider"><span>〰</span></div>
+
+<!-- ── PLAN GÉNÉRÉ ── -->
+<div class="section plan-section fade">
+  <div class="section-label">Ton plan</div>
+  <div class="section-title">Génère<br><em>ton plan personnalisé</em></div>
+
+  <div class="theory" style="margin-bottom:16px;">
+    <p>Sur base de tout ce que tu as renseigné dans cette page, génère ton plan de travail personnalisé. Tu peux en faire une capture d'écran pour l'avoir sous la main.</p>
+  </div>
+
+  <div class="plan-btn-wrap">
+    <button class="plan-generate-btn" onclick="generatePlan()">
+      <span>🏊</span> Générer mon plan
+    </button>
+  </div>
+
+  <div id="planResult">
+    <div class="plan-card" id="planCard">
+      <div class="plan-card-header">
+        <div>
+          <div class="plan-card-title">Mon plan de travail, <em>Gabriel</em></div>
+          <div class="plan-card-sub">Coaching scolaire · Session personnalisée</div>
+        </div>
+        <div class="plan-ico">🏊</div>
+      </div>
+      <div class="plan-steps" id="planSteps"></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Coaching scolaire · Gabriel · Concentration &amp; téléphone</div>
+</div>
+
+<script>
+// ── STATE ──
+// transitionOrder: array of { label, conjugated }
+let transitionOrder = [];
+let selPauses = [];
+let selectedTool = '';
+let phonePauseYes = null;
+
+// ── PAUSES ──
+function togglePd(el) {
+  const name = el.dataset.name;
+  el.classList.toggle('on');
+  selPauses = el.classList.contains('on')
+    ? [...selPauses, name]
+    : selPauses.filter(x => x !== name);
+}
+
+// ── TRANSITIONS: predefined ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.tcheck').forEach(el => {
+    const label = el.textContent.trim();
+    const conjugated = el.getAttribute('data-conjugated') || label.toLowerCase();
+    el.setAttribute('data-label', label);
+    el.onclick = null;
+    el.addEventListener('click', () => togglePredefined(el, label, conjugated));
+  });
+});
+
+function togglePredefined(el, label, conjugated) {
+  if (el.classList.contains('on')) {
+    el.classList.remove('on');
+    el.querySelector('.tcheck-box').textContent = '';
+    transitionOrder = transitionOrder.filter(x => x.label !== label);
+  } else {
+    el.classList.add('on');
+    transitionOrder = [...transitionOrder, { label, conjugated }];
+  }
+  renderSeqEditor();
+  refreshSiAlors();
+  updatePhoneLocationDisplay();
+}
+
+// ── TRANSITIONS: custom ──
+const customActive = { tc1: false, tc2: false, tc3: false };
+
+function toggleCustomTransition(id) {
+  const input = document.getElementById(id);
+  const btn = document.getElementById(id + 'btn');
+  const label = input.value.trim();
+  if (!label) return;
+
+  if (customActive[id]) {
+    // remove — find by label
+    transitionOrder = transitionOrder.filter(x => x.label !== label);
+    customActive[id] = false;
+    btn.textContent = 'Ajouter';
+    btn.classList.remove('active');
+    input.disabled = false;
+  } else {
+    transitionOrder = [...transitionOrder, { label, conjugated: label }];
+    customActive[id] = true;
+    btn.textContent = 'Retirer';
+    btn.classList.add('active');
+    input.disabled = true;
+  }
+  renderSeqEditor();
+  refreshSiAlors();
+  updatePhoneLocationDisplay();
+}
+
+// ── SEQUENCE EDITOR ──
+function renderSeqEditor() {
+  const editor = document.getElementById('seqEditor');
+  const empty = document.getElementById('seqEmpty');
+
+  // Remove old seq-items (keep label and empty)
+  editor.querySelectorAll('.seq-item').forEach(el => el.remove());
+
+  if (transitionOrder.length === 0) {
+    empty.style.display = 'block';
+    // clear tcheck-box numbers
+    document.querySelectorAll('.tcheck.on .tcheck-box').forEach(b => b.textContent = '');
+    return;
+  }
+  empty.style.display = 'none';
+
+  transitionOrder.forEach((item, idx) => {
+    const row = document.createElement('div');
+    row.className = 'seq-item';
+    row.dataset.idx = idx;
+    row.innerHTML = `
+      <div class="seq-num">${idx + 1}</div>
+      <div class="seq-label">${item.label}</div>
+      <div class="seq-arrows">
+        <button class="seq-btn" onclick="moveSeq(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>▲</button>
+        <button class="seq-btn" onclick="moveSeq(${idx}, 1)" ${idx === transitionOrder.length - 1 ? 'disabled' : ''}>▼</button>
+      </div>
+      <button class="seq-remove" onclick="removeSeq(${idx})" title="Retirer">×</button>`;
+    editor.appendChild(row);
+  });
+
+  // Update tcheck-box numbers
+  document.querySelectorAll('.tcheck').forEach(ch => {
+    const lbl = ch.getAttribute('data-label');
+    const idx = transitionOrder.findIndex(x => x.label === lbl);
+    const box = ch.querySelector('.tcheck-box');
+    if (idx >= 0) {
+      ch.classList.add('on');
+      box.textContent = idx + 1;
+    } else {
+      ch.classList.remove('on');
+      box.textContent = '';
+    }
+  });
+}
+
+function moveSeq(idx, dir) {
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= transitionOrder.length) return;
+  [transitionOrder[idx], transitionOrder[newIdx]] = [transitionOrder[newIdx], transitionOrder[idx]];
+  renderSeqEditor();
+  refreshSiAlors();
+}
+
+function removeSeq(idx) {
+  const removed = transitionOrder[idx];
+  transitionOrder.splice(idx, 1);
+
+  // If it was a custom item, reset its button
+  ['tc1','tc2','tc3'].forEach(id => {
+    const input = document.getElementById(id);
+    if (customActive[id] && input.value.trim() === removed.label) {
+      customActive[id] = false;
+      document.getElementById(id + 'btn').textContent = 'Ajouter';
+      document.getElementById(id + 'btn').classList.remove('active');
+      input.disabled = false;
+    }
+  });
+
+  renderSeqEditor();
+  refreshSiAlors();
+  updatePhoneLocationDisplay();
+}
+
+// ── SI/ALORS ──
+function makeSiAlorsRule(loc) {
+  if (!loc) return null;
+  if (transitionOrder.length > 0) {
+    const last = transitionOrder[transitionOrder.length - 1].conjugated;
+    return `Dès que j'ai ${last}, je mets mon téléphone ${loc}.`;
+  }
+  return `Quand je m'assieds à mon bureau pour travailler, je mets mon téléphone ${loc}.`;
+}
+
+function refreshSiAlors() {
+  const loc = document.getElementById('phoneLocation').value.trim();
+  if (document.getElementById('siAlorsResult').classList.contains('show') && loc) {
+    document.getElementById('siAlorsText').textContent = makeSiAlorsRule(loc);
+  }
+}
+
+function onLocationInput() {
+  updatePhoneLocationDisplay();
+  refreshSiAlors();
+}
+
+function buildSiAlors() {
+  const loc = document.getElementById('phoneLocation').value.trim();
+  if (!loc) return;
+  document.getElementById('siAlorsText').textContent = makeSiAlorsRule(loc);
+  document.getElementById('siAlorsResult').classList.add('show');
+  updatePhoneLocationDisplay();
+}
+
+function updatePlanStep4() { updatePhoneLocationDisplay(); }
+
+function updatePhoneLocationDisplay() {
+  const loc = document.getElementById('phoneLocation').value.trim();
+  const display = document.getElementById('phoneLocationDisplay');
+  if (display) display.textContent = loc || 'à l\'endroit que tu auras choisi';
+}
+
+// ── TOOL ──
+function selectTool(el, name) {
+  document.querySelectorAll('.tchoice').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  selectedTool = name;
+}
+
+// ── PHONE PAUSE ──
+function setPhonePause(yes) {
+  phonePauseYes = yes;
+  document.getElementById('btnOui').className = 'toggle-btn' + (yes ? ' on-yes' : '');
+  document.getElementById('btnNon').className = 'toggle-btn' + (!yes ? ' on-no' : '');
+  document.getElementById('phoneYesDetails').className = 'phone-yes-details' + (yes ? ' show' : '');
+}
+
+// ── GÉNÉRATEUR ──
+function generate() {
+  const w = +document.getElementById('workSlider').value;
+  const r = +document.getElementById('restSlider').value;
+
+  let html = '';
+  html += `<div class="rc-work"><span class="r-ico">✏️</span><span class="r-dur">${w}'</span><span class="r-lbl">Travail</span></div>`;
+  html += '<span class="rc-arrow">→</span>';
+  html += `<div class="rc-rest"><span class="r-ico">🌿</span><span class="r-dur">${r}'</span><span class="r-lbl">Pause</span></div>`;
+  html += '<span class="rc-arrow">→</span>';
+  html += `<div class="rc-work" style="opacity:.5;"><span class="r-ico">✏️</span><span class="r-dur">${w}'</span><span class="r-lbl">Travail</span></div>`;
+  html += '<span class="rc-arrow" style="opacity:.3;">→ …</span>';
+
+  document.getElementById('rCycle').innerHTML = html;
+  document.getElementById('rTotal').innerHTML = `Un cycle = <strong>${w + r} minutes</strong> · autant de cycles que nécessaire`;
+  document.getElementById('genResult').classList.add('show');
+  setTimeout(() => document.getElementById('genResult').scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+}
+
+// ── PLAN GÉNÉRÉ ──
+function updatePlan() {}
+
+function generatePlan() {
+  const loc = document.getElementById('phoneLocation').value.trim();
+  const w = document.getElementById('workSlider').value;
+  const r = document.getElementById('restSlider').value;
+  const phoneWhat = document.getElementById('phoneWhatInput').value.trim();
+  const phoneHowLong = document.getElementById('phoneHowLongInput').value.trim();
+
+  const obstacles = [];
+  for (let i = 1; i <= 3; i++) {
+    const ob = document.querySelector(`[data-ob="${i}"]`).value.trim();
+    const sol = document.querySelector(`[data-sol="${i}"]`).value.trim();
+    if (ob) obstacles.push({ ob, sol });
+  }
+
+  const pcCustom = [
+    document.getElementById('pc1').value.trim(),
+    document.getElementById('pc2').value.trim()
+  ].filter(Boolean);
+  const allPauses = [...selPauses, ...pcCustom];
+
+  const phoneStepNum = transitionOrder.length + 1;
+  const phoneLabel = loc ? `Téléphone ${loc}` : 'Téléphone ailleurs';
+  const fullRoutine = transitionOrder.length > 0
+    ? [...transitionOrder.map((t, i) => `${i + 1}. ${t.label}`), `${phoneStepNum}. ${phoneLabel}`].join(' · ')
+    : '';
+
+  const siAlorsRule = makeSiAlorsRule(loc);
+
+  function chip(text, color) {
+    return `<div class="plan-chip plan-chip-${color}">${text}</div>`;
+  }
+
+  const steps = [
+    {
+      num: 1, title: 'Routine d\'entrée', icon: '🔁',
+      main: transitionOrder.length > 0 ? 'Ma séquence avant de commencer :' : 'Séquence de transition à définir.',
+      detail: fullRoutine,
+      chips: [], chipColor: 'cyan'
+    },
+    {
+      num: 2, title: 'Règle si/alors', icon: '📵',
+      main: siAlorsRule || 'Lieu du téléphone non renseigné — remonte au point 1.',
+      detail: obstacles.length > 0
+        ? obstacles.map(o => `⚠ ${o.ob} → ${o.sol || '(solution à trouver)'}`).join('\n') : '',
+      chips: [], chipColor: 'cyan'
+    },
+    {
+      num: 3, title: 'Structure Pomodoro', icon: '⏱️',
+      main: `${w} min de travail · ${r} min de pause · autant de cycles que nécessaire`,
+      detail: selectedTool ? `Outil : ${selectedTool}` : 'Outil de minuterie : à choisir.',
+      chips: [], chipColor: 'cyan'
+    },
+    {
+      num: 4, title: 'Pendant les pauses', icon: '🌿',
+      main: allPauses.length > 0 ? 'Mes activités de pause :' : 'Activités de pause : à choisir.',
+      detail: phonePauseYes === true
+        ? `Téléphone autorisé : ${phoneWhat || '(quoi : à préciser)'}${phoneHowLong ? ', ' + phoneHowLong + ' max' : ''}.`
+        : phonePauseYes === false ? 'Téléphone évité pendant les pauses.'
+        : 'Téléphone pendant les pauses : non renseigné.',
+      chips: allPauses, chipColor: 'cyan'
+    },
+    {
+      num: 5, title: 'Objectif précis par bloc', icon: '🎯',
+      main: 'Avant chaque bloc : définir exactement ce que je vais travailler.',
+      detail: 'Pas «réviser mes maths» mais «exercice 3, page 47». La tâche peut continuer après la pause — le temps porte sur la session, pas sur ce que je dois finir.',
+      chips: [], chipColor: 'amber'
+    }
+  ];
+
+  let html = '';
+  steps.forEach(s => {
+    const chipsHtml = s.chips.length > 0
+      ? `<div class="plan-chips">${s.chips.map(c => chip(c, s.chipColor)).join('')}</div>` : '';
+    const detailLines = s.detail
+      ? s.detail.split('\n').map(l => `<div class="plan-step-detail">${l}</div>`).join('') : '';
+    html += `
+      <div class="plan-step">
+        <div class="plan-step-header">
+          <div class="plan-step-num">${s.num}</div>
+          <div class="plan-step-title">${s.icon} ${s.title}</div>
+        </div>
+        <div class="plan-step-content">
+          <div class="plan-step-main">${s.main}</div>
+          ${detailLines}
+          ${chipsHtml}
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('planSteps').innerHTML = html;
+  document.getElementById('planResult').classList.add('show');
+  setTimeout(() => document.getElementById('planResult').scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+}
+</script>
+
+</body>
+</html>
