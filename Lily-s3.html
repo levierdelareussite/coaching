@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séance de coaching — Lily</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf7f2;
+  --sand: #ede8df;
+  --sand2: #d9d0c2;
+  --navy: #1a2035;
+  --navy2: #2c3550;
+  --coral: #d95f3b;
+  --coral-light: #f07a58;
+  --coral-pale: rgba(217,95,59,0.08);
+  --teal: #2a7a72;
+  --teal-light: #3a9a90;
+  --teal-pale: rgba(42,122,114,0.08);
+  --text: #2a2e40;
+  --muted: rgba(42,46,64,0.5);
+  --muted2: rgba(42,46,64,0.28);
+  --white: #ffffff;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.78;
+  overflow-x: hidden;
+}
+
+.wrap { max-width:760px; margin:0 auto; padding:0 28px 72px; position:relative; z-index:1; }
+
+/* ── HERO ── */
+.hero {
+  padding:56px 0 0;
+  margin-bottom:60px;
+  position:relative;
+  overflow:hidden;
+}
+
+
+
+.hero-inner {
+  position:relative; z-index:2;
+  padding-bottom:48px;
+  border-bottom:1px solid var(--sand2);
+}
+
+.hero-top {
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin-bottom:22px; flex-wrap:wrap; gap:8px;
+}
+.hero-label { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--coral); font-weight:400; }
+.hero-date { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted2); font-weight:400; }
+
+.hero-content { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
+.hero-text { flex:1; }
+
+.hero h1 {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(50px,8.5vw,78px); line-height:.95;
+  font-weight:500; color:var(--navy);
+  margin-bottom:14px;
+}
+.hero h1 em { font-style:italic; color:var(--coral); }
+.hero-sub { font-size:14px; color:var(--muted); letter-spacing:.3px; max-width:440px; }
+
+.hero-ball-big {
+  font-size:88px;
+  line-height:1;
+  flex-shrink:0;
+  animation:float 3.5s ease-in-out infinite;
+  opacity:.85;
+  margin-top:4px;
+}
+@keyframes float {
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%{ transform:translateY(-10px) rotate(8deg); }
+}
+
+/* ── SECTIONS ── */
+.section { margin-bottom:64px; }
+.section-label { font-size:10.5px; letter-spacing:4px; text-transform:uppercase; color:var(--muted2); margin-bottom:6px; font-weight:400; }
+.section-title {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(28px,5vw,40px); line-height:1.05;
+  font-weight:500; color:var(--navy); margin-bottom:22px;
+}
+.section-title em { font-style:italic; }
+
+/* ── CARDS ── */
+.card {
+  background:var(--white);
+  border:1px solid var(--sand2);
+  border-radius:12px; padding:28px 32px;
+  margin-bottom:14px;
+}
+.card p { font-size:15.5px; color:var(--text); margin-bottom:14px; line-height:1.8; }
+.card p:last-child { margin-bottom:0; }
+
+.accent-card {
+  background:var(--coral-pale);
+  border:1px solid rgba(217,95,59,0.18);
+  border-left:3px solid var(--coral);
+  border-radius:0 10px 10px 0;
+  padding:16px 20px; margin-top:12px;
+}
+.accent-card p { color:var(--coral); font-weight:400; font-size:15px; margin:0; }
+
+.teal-card {
+  background:var(--teal-pale);
+  border:1px solid rgba(42,122,114,0.18);
+  border-left:3px solid var(--teal);
+  border-radius:0 10px 10px 0;
+  padding:16px 20px; margin-top:12px;
+}
+.teal-card p { color:var(--teal); font-weight:400; font-size:15px; margin:0; }
+
+/* ── ENCART CONSEIL pensées ── */
+.advice-card {
+  background:var(--white);
+  border:1px solid var(--sand2);
+  border-radius:12px; padding:24px 28px; margin-top:18px;
+}
+.advice-header {
+  display:flex; align-items:center; gap:12px; margin-bottom:14px;
+}
+.advice-icon { font-size:22px; }
+.advice-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:500; color:var(--navy); }
+.advice-body p { font-size:14.5px; color:var(--text); line-height:1.75; margin-bottom:10px; }
+.advice-body p:last-child { margin-bottom:0; }
+.advice-example {
+  background:var(--sand);
+  border-radius:8px; padding:14px 18px; margin-top:12px;
+  font-size:13.5px; color:var(--muted); line-height:1.6;
+}
+.advice-example strong { color:var(--navy); font-weight:500; }
+
+/* ── CHECKLIST ── */
+.checklist {
+  background:var(--white); border:1px solid var(--sand2);
+  border-radius:12px; padding:24px 28px; margin-top:18px;
+}
+.checklist-header {
+  display:flex; align-items:center; gap:12px; margin-bottom:16px;
+}
+.checklist-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:500; color:var(--navy); }
+.checklist-desc { font-size:14px; color:var(--muted); margin-bottom:16px; }
+.check-items { display:flex; flex-direction:column; gap:10px; }
+.check-item {
+  display:flex; align-items:center; gap:14px;
+  padding:12px 16px; border-radius:9px;
+  border:1.5px solid var(--sand2); background:var(--cream);
+  cursor:pointer; transition:all .2s; user-select:none;
+}
+.check-item:hover { border-color:var(--teal-light); background:var(--teal-pale); }
+.check-item.checked { background:var(--teal-pale); border-color:var(--teal); }
+.check-box {
+  width:20px; height:20px; border-radius:5px;
+  border:1.5px solid var(--sand2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; flex-shrink:0; transition:all .2s;
+  color:transparent;
+}
+.check-item.checked .check-box { background:var(--teal); border-color:var(--teal); color:white; }
+.check-text { font-size:14.5px; color:var(--text); }
+.check-ready {
+  display:none; margin-top:14px; text-align:center;
+  font-family:'Cormorant Garamond',serif; font-size:20px;
+  font-style:italic; color:var(--teal); font-weight:500;
+}
+.check-ready.show { display:block; }
+
+/* ── OUTIL REFORMULATION ── */
+.reframe-tool {
+  background:var(--white); border:1px solid var(--sand2);
+  border-radius:12px; padding:24px 28px; margin-top:18px;
+}
+.tool-header { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.tool-icon { font-size:22px; }
+.tool-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:500; color:var(--navy); }
+.tool-desc { font-size:14px; color:var(--muted); margin-bottom:18px; line-height:1.65; }
+
+.reframe-duration {
+  display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap;
+}
+.reframe-duration label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted2); font-weight:400; white-space:nowrap; }
+.duration-select {
+  padding:8px 14px; border:1.5px solid var(--sand2); border-radius:8px;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:300;
+  color:var(--text); background:var(--cream); outline:none; cursor:pointer;
+}
+
+.reframe-row { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center; margin-bottom:12px; }
+.reframe-col label { display:block; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted2); margin-bottom:8px; font-weight:400; }
+.reframe-input {
+  width:100%; padding:12px 16px;
+  border:1.5px solid var(--sand2); border-radius:8px;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:300;
+  color:var(--text); background:var(--cream);
+  outline:none; transition:border-color .2s;
+}
+.reframe-input:focus { border-color:var(--teal); }
+.reframe-input::placeholder { color:var(--muted2); font-size:13px; }
+.reframe-input[readonly] {
+  background:var(--teal-pale); border-color:rgba(42,122,114,0.25);
+  color:var(--teal); cursor:default;
+}
+.reframe-arrow { font-size:22px; color:var(--sand2); text-align:center; margin-top:20px; }
+
+.reframe-btn {
+  width:100%; padding:13px; border-radius:8px; border:none;
+  background:var(--teal); color:white;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
+  cursor:pointer; transition:all .2s; letter-spacing:.5px;
+}
+.reframe-btn:hover { background:var(--teal-light); transform:translateY(-1px); }
+
+.reframe-result {
+  display:none; margin-top:14px;
+  background:var(--teal-pale); border:1px solid rgba(42,122,114,0.2);
+  border-radius:10px; padding:16px 20px;
+}
+.reframe-result.show { display:block; }
+.reframe-result-label { font-size:10.5px; letter-spacing:3px; text-transform:uppercase; color:var(--teal); margin-bottom:8px; font-weight:500; }
+.reframe-result-text { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:500; color:var(--navy); font-style:italic; line-height:1.3; }
+
+/* ── PAUSES GRID ── */
+.pause-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:18px 0; }
+.pitem {
+  background:var(--white); border:1.5px solid var(--sand2);
+  border-radius:10px; padding:13px 15px;
+  cursor:pointer; transition:all .2s;
+  display:flex; align-items:center; gap:12px;
+  user-select:none;
+}
+.pitem:hover { border-color:var(--teal-light); background:var(--teal-pale); }
+.pitem.on { background:var(--teal-pale); border-color:var(--teal); }
+.p-ico { font-size:22px; width:28px; text-align:center; flex-shrink:0; }
+.p-txt { flex:1; }
+.p-name { font-weight:400; font-size:14px; color:var(--navy); margin-bottom:1px; }
+.p-desc { font-size:12px; color:var(--muted2); line-height:1.35; }
+.p-check {
+  width:18px; height:18px; border-radius:50%;
+  border:1.5px solid var(--sand2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; flex-shrink:0; transition:all .2s; color:transparent;
+}
+.pitem.on .p-check { background:var(--teal); border-color:var(--teal); color:white; }
+
+/* ── GÉNÉRATEUR ── */
+.gen-wrap {
+  background:var(--white); border:1px solid var(--sand2);
+  border-radius:12px; padding:28px 32px; margin-top:18px;
+}
+.gen-sliders { display:flex; gap:24px; margin-bottom:20px; flex-wrap:wrap; }
+.gen-field { flex:1; min-width:180px; }
+.gen-field label { display:block; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted2); margin-bottom:10px; font-weight:400; }
+.gen-val-row { display:flex; align-items:center; gap:14px; }
+.gen-val { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:500; color:var(--navy); min-width:52px; text-align:center; line-height:1; }
+.gen-unit { font-size:12px; color:var(--muted2); }
+
+input[type=range] { -webkit-appearance:none; flex:1; height:4px; border-radius:4px; outline:none; cursor:pointer; }
+input[type=range].work-r { background:linear-gradient(90deg,var(--navy2),var(--navy)); }
+input[type=range].rest-r { background:linear-gradient(90deg,var(--teal),var(--teal-light)); }
+input[type=range].cycle-r { background:linear-gradient(90deg,var(--coral),var(--coral-light)); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:white; box-shadow:0 1px 6px rgba(26,32,53,0.25); border:2px solid var(--sand2); }
+
+.gen-btn {
+  width:100%; padding:15px; border-radius:8px; border:none;
+  background:var(--navy); color:var(--cream);
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
+  cursor:pointer; transition:all .2s; letter-spacing:1px; text-transform:uppercase;
+}
+.gen-btn:hover { background:var(--navy2); transform:translateY(-1px); }
+
+#genResult { display:none; margin-top:24px; padding-top:22px; border-top:1px solid var(--sand); }
+#genResult.show { display:block; }
+.result-label { font-size:10.5px; letter-spacing:3px; text-transform:uppercase; color:var(--muted2); margin-bottom:16px; font-weight:400; }
+.result-cycle-row { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+
+.rc-work { border-radius:8px; padding:12px 14px; background:var(--navy); color:var(--cream); display:flex; flex-direction:column; align-items:center; gap:3px; min-width:72px; }
+.rc-rest { border-radius:8px; padding:12px 14px; background:var(--teal-pale); border:1.5px solid rgba(42,122,114,0.3); color:var(--teal); display:flex; flex-direction:column; align-items:center; gap:3px; min-width:72px; }
+.rc-done { border-radius:8px; padding:12px 14px; background:var(--coral-pale); border:1.5px solid rgba(217,95,59,0.25); color:var(--coral); display:flex; flex-direction:column; align-items:center; gap:3px; min-width:72px; }
+.r-ico { font-size:18px; }
+.r-dur { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:500; line-height:1; }
+.rc-work .r-dur { color:var(--cream); }
+.r-lbl { font-size:10px; opacity:.7; font-weight:400; letter-spacing:.5px; }
+.rc-arrow { font-size:14px; color:var(--sand2); align-self:center; }
+
+.result-total { font-size:14px; color:var(--muted); text-align:center; padding:12px; background:var(--sand); border-radius:8px; margin-bottom:14px; }
+.result-total strong { color:var(--navy); font-weight:500; }
+
+.result-pauses-box { background:var(--teal-pale); border:1px solid rgba(42,122,114,0.18); border-radius:10px; padding:16px 20px; }
+.rp-label { font-size:10.5px; letter-spacing:3px; text-transform:uppercase; color:var(--teal); margin-bottom:10px; font-weight:500; }
+.rp-chips { display:flex; flex-wrap:wrap; gap:7px; }
+.rp-chip { background:white; border:1px solid rgba(42,122,114,0.25); border-radius:50px; padding:4px 13px; font-size:13px; color:var(--teal); }
+.rp-empty { font-size:13px; color:var(--teal); font-style:italic; opacity:.75; }
+
+/* ── DIVIDER ── */
+.divider { display:flex; align-items:center; gap:16px; margin:52px 0; opacity:.18; }
+.divider::before,.divider::after { content:''; flex:1; height:1px; background:var(--navy); }
+.divider span { font-size:14px; }
+
+/* ── FOOTER ── */
+.footer {
+  text-align:center; padding:32px 0 0;
+  font-size:11.5px; color:var(--muted2); letter-spacing:1.5px; text-transform:uppercase;
+  border-top:1px solid var(--sand);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.fade { animation:fadeUp .5s ease forwards; opacity:0; }
+.fade:nth-child(1) { animation-delay:.05s; }
+.fade:nth-child(2) { animation-delay:.15s; }
+.fade:nth-child(3) { animation-delay:.25s; }
+.fade:nth-child(4) { animation-delay:.3s; }
+.fade:nth-child(5) { animation-delay:.35s; }
+
+/* ── MOBILE ── */
+@media (max-width:600px) {
+  .wrap { padding:0 16px 52px; }
+  .hero { padding:36px 0 0; }
+  .hero h1 { font-size:46px; }
+  .hero-ball-big { font-size:60px; }
+  .hero-top { flex-direction:column; gap:6px; }
+  .card { padding:20px 20px; }
+  .card p { font-size:15px; }
+  .pause-grid { grid-template-columns:1fr; }
+  .gen-sliders { flex-direction:column; gap:16px; }
+  .gen-field { min-width:unset; }
+  .reframe-row { grid-template-columns:1fr; gap:8px; }
+  .reframe-arrow { display:none; }
+  .section-title { font-size:28px; }
+  .gen-val { font-size:34px; }
+  .rc-work,.rc-rest,.rc-done { min-width:58px; padding:10px 8px; }
+  .r-dur { font-size:17px; }
+  .gen-wrap { padding:20px; }
+  .reframe-tool,.advice-card,.checklist { padding:20px; }
+  .hero-content { flex-direction:column; gap:16px; }
+  .hero-ball-big { align-self:flex-end; margin-top:-20px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero fade">
+
+  <div class="hero-inner">
+    <div class="hero-top">
+      <span class="hero-label">Séance de coaching</span>
+      <span class="hero-date">Concentration &amp; temps de travail</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Travailler<br><em>autrement,</em><br>Lily.</h1>
+        <p class="hero-sub">Gérer les pensées qui dérangent, apprivoiser les pauses, et poser les bonnes limites sur son temps de travail.</p>
+      </div>
+      <div class="hero-ball-big">🏐</div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. PENSÉES PARASITES -->
+<div class="section fade">
+  <div class="section-label">Point 1</div>
+  <div class="section-title">Les pensées qui<br><em>n'arrêtent pas</em></div>
+
+  <div class="card">
+    <p>Ton cerveau ne reste pas silencieux parce que tu lui demandes de bosser. Il continue à tourner en arrière-plan sur tout ce qui n'est pas terminé, tout ce qui t'a traversé l'esprit dans la journée, tout ce qui est en attente. C'est son fonctionnement normal, pas un signe que tu es distraite.</p>
+    <p>Ce qui aggrave les choses, c'est l'effort de résistance. Quand tu essaies d'ignorer une pensée ou de la chasser, tu obtiens souvent l'effet inverse : plus tu lui dis «non», plus elle revient. Lutter contre ses propres pensées consomme de l'énergie, et cette énergie ne peut plus aller au travail.</p>
+    <p>La stratégie qui marche, c'est de ne pas combattre la pensée mais de lui donner un endroit où aller. Ton cerveau tourne sur quelque chose parce qu'il a peur de l'oublier. Dès que c'est noté quelque part, il peut lâcher.</p>
+  </div>
+
+  <div class="advice-card">
+    <div class="advice-header">
+      <span class="advice-icon">📝</span>
+      <span class="advice-title">La feuille de stationnement</span>
+    </div>
+    <div class="advice-body">
+      <p>Garde une petite feuille à côté de toi quand tu travailles — ou un coin libre dans ton cahier. Quand une pensée arrive, tu la notes en deux mots et tu reviens immédiatement à ta tâche. Tu ne la perds pas, elle t'attend. Et ton cerveau peut arrêter de tourner dessus.</p>
+      <p>Le but n'est pas de la traiter sur le moment, juste de la poser quelque part. C'est ce geste simple qui coupe le cycle.</p>
+      <div class="advice-example">
+        <strong>Exemple :</strong> Tu es en plein exercice de maths et tu penses soudain que tu dois répondre à un message. Tu notes «répondre Emma» sur ta feuille, et tu reviens aux maths. La pensée est garée, elle ne prend plus de place dans ta tête.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- 2. PEUR DES PAUSES -->
+<div class="section fade">
+  <div class="section-label">Point 2 — essentiel</div>
+  <div class="section-title">Pourquoi tu <em>évites</em><br>les pauses</div>
+
+  <div class="card">
+    <p>Éviter les pauses pour ne pas décrocher, c'est une logique qui semble tenir. Sauf qu'elle repose sur une confusion. La reprise difficile ne vient pas de la pause en elle-même, elle vient de ce qu'on y fait. Une pause avec le téléphone ou une série maintient le cerveau dans un état d'activation élevée, et c'est ça qui rend le retour au travail pénible. Une pause où tu souffles vraiment, sans écran, produit une expérience complètement différente.</p>
+    <p>Pour en avoir le cœur net : la prochaine fois, essaie une seule pause de 10 minutes sans téléphone, et note comment tu te sens à la reprise. Pas de règle imposée, juste une observation. Compare avec une session sans pause. C'est souvent à ce moment-là que quelque chose se déverrouille.</p>
+  </div>
+
+  <div class="card">
+    <p>Il y a aussi quelque chose d'important à comprendre sur l'énergie. Travailler sans pauses ne la préserve pas, ça l'épuise plus vite. L'attention se dégrade progressivement au fil d'une longue session. Rester assise à bosser pendant 1h30 sans s'arrêter ne te donne pas 1h30 de travail utile, parce que la concentration des 40 dernières minutes n'est plus vraiment là.</p>
+
+    <!-- Petit visuel : attention avec et sans pause -->
+    <div style="background:var(--sand); border-radius:10px; padding:20px 20px 14px; margin-top:14px;">
+      <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; text-align:center;">Illustration — niveau d'attention au fil du temps</div>
+      <svg viewBox="0 0 600 160" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gNoBreak" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d95f3b" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#d95f3b" stop-opacity="0.03"/>
+          </linearGradient>
+          <linearGradient id="gBreak" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a7a72" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#2a7a72" stop-opacity="0.03"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Axe X -->
+        <line x1="40" y1="130" x2="580" y2="130" stroke="rgba(42,46,64,0.2)" stroke-width="1"/>
+        <!-- Axe Y -->
+        <line x1="40" y1="10" x2="40" y2="130" stroke="rgba(42,46,64,0.2)" stroke-width="1"/>
+
+        <!-- Label axe Y -->
+        <text x="8" y="72" font-size="10" fill="rgba(42,46,64,0.4)" font-family="DM Sans,sans-serif" transform="rotate(-90,14,72)">Attention</text>
+
+        <!-- Graduations X -->
+        <text x="38" y="144" font-size="10" fill="rgba(42,46,64,0.4)" font-family="DM Sans,sans-serif" text-anchor="middle">0</text>
+        <text x="175" y="144" font-size="10" fill="rgba(42,46,64,0.4)" font-family="DM Sans,sans-serif" text-anchor="middle">30 min</text>
+        <text x="310" y="144" font-size="10" fill="rgba(42,46,64,0.4)" font-family="DM Sans,sans-serif" text-anchor="middle">60 min</text>
+        <text x="445" y="144" font-size="10" fill="rgba(42,46,64,0.4)" font-family="DM Sans,sans-serif" text-anchor="middle">90 min</text>
+        <text x="578" y="144" font-size="10" fill="rgba(42,46,64,0.4)" font-family="DM Sans,sans-serif" text-anchor="middle">120 min</text>
+
+        <!-- Courbe SANS pause — descend progressivement -->
+        <path d="M 40,30 C 80,28 120,35 175,52 C 230,68 270,82 310,95 C 360,108 410,116 460,121 C 510,125 545,127 578,128"
+          fill="url(#gNoBreak)" stroke="none"/>
+        <path d="M 40,30 C 80,28 120,35 175,52 C 230,68 270,82 310,95 C 360,108 410,116 460,121 C 510,125 545,127 578,128"
+          fill="none" stroke="#d95f3b" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- Courbe AVEC pauses — remonte après chaque pause -->
+        <!-- Bloc 1 : 0-30min -->
+        <path d="M 40,30 C 80,28 130,36 175,55"
+          fill="none" stroke="#2a7a72" stroke-width="2" stroke-linecap="round"/>
+        <!-- Pause 1 : zone grisée 30-40min, remontée -->
+        <rect x="175" y="10" width="40" height="120" fill="rgba(42,122,114,0.07)"/>
+        <line x1="175" y1="10" x2="175" y2="130" stroke="rgba(42,122,114,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="215" y1="10" x2="215" y2="130" stroke="rgba(42,122,114,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Bloc 2 : 40-70min -->
+        <path d="M 215,33 C 255,31 280,38 310,55"
+          fill="none" stroke="#2a7a72" stroke-width="2" stroke-linecap="round"/>
+        <!-- Pause 2 : 70-80min -->
+        <rect x="310" y="10" width="40" height="120" fill="rgba(42,122,114,0.07)"/>
+        <line x1="310" y1="10" x2="310" y2="130" stroke="rgba(42,122,114,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="350" y1="10" x2="350" y2="130" stroke="rgba(42,122,114,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Bloc 3 : 80-110min -->
+        <path d="M 350,34 C 390,32 420,40 460,57"
+          fill="none" stroke="#2a7a72" stroke-width="2" stroke-linecap="round"/>
+        <!-- Pause 3 : 110-120min -->
+        <rect x="460" y="10" width="40" height="120" fill="rgba(42,122,114,0.07)"/>
+        <line x1="460" y1="10" x2="460" y2="130" stroke="rgba(42,122,114,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="500" y1="10" x2="500" y2="130" stroke="rgba(42,122,114,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Bloc 4 : 120min+ -->
+        <path d="M 500,35 C 535,33 558,37 578,42"
+          fill="none" stroke="#2a7a72" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- Légende -->
+        <line x1="50" y1="155" x2="75" y2="155" stroke="#d95f3b" stroke-width="2"/>
+        <text x="80" y="158" font-size="10" fill="rgba(42,46,64,0.6)" font-family="DM Sans,sans-serif">Sans pause</text>
+        <line x1="180" y1="155" x2="205" y2="155" stroke="#2a7a72" stroke-width="2"/>
+        <text x="210" y="158" font-size="10" fill="rgba(42,46,64,0.6)" font-family="DM Sans,sans-serif">Avec pauses (zones vertes)</text>
+      </svg>
+      <div style="font-size:11.5px; color:rgba(42,46,64,0.45); text-align:center; margin-top:4px; font-style:italic;">Illustration schématique — la tendance est réelle, les valeurs sont indicatives.</div>
+    </div>
+
+    <div class="accent-card">
+      <p>Une pause courte prise avant de décrocher récupère bien mieux qu'une pause longue prise quand tu es déjà épuisée.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- 3. TÉLÉPHONE ET PAUSES -->
+<div class="section fade">
+  <div class="section-label">Point 3</div>
+  <div class="section-title">Le téléphone<br>et <em>la reprise</em></div>
+
+  <div class="card">
+    <p>Quand tu reprends le travail après avoir utilisé ton téléphone, ton cerveau ne revient pas simplement à zéro. Les applis que tu utilises le plus, réseaux sociaux, vidéos, messages, sont conçues pour maintenir un niveau d'activation élevé. Elles sollicitent en permanence ton attention et ton système de récompense.</p>
+    <p>Résultat : quand tu te rassieds pour travailler, tu passes d'un état de forte stimulation à une tâche scolaire qui paraît plate en comparaison. Ton cerveau vient d'être dans un environnement très riche, et on lui demande de revenir à quelque chose de beaucoup plus calme. Cet inconfort, tu l'interprètes souvent comme «je n'y arrive plus» ou «je n'ai plus envie», alors que c'est juste le temps d'adaptation qui manque.</p>
+    <div class="accent-card">
+      <p>La difficulté à reprendre après le téléphone, c'est une réaction normale du cerveau face à un changement brutal d'environnement. Changer ce qu'on fait pendant la pause change presque tout à ce qui suit.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p>Une vraie pause de récupération, c'est une pause où l'esprit décompresse sans être immédiatement re-sollicité : se lever, manger quelque chose, écouter de la musique sans écran, regarder par la fenêtre deux minutes. Ce n'est pas glamour, mais ça ne crée pas cet inconfort à la reprise.</p>
+  </div>
+
+  <div class="section-label" style="margin-top:22px; margin-bottom:10px;">Tes idées de pauses</div>
+  <p style="font-size:14px; color:var(--muted); margin-bottom:14px; line-height:1.65;">Coche celles que tu te verrais faire entre deux blocs. Elles apparaîtront dans ton plan de session.</p>
+
+  <div class="pause-grid" id="pauseGrid">
+    <div class="pitem" onclick="toggleP(this,'Se lever et marcher')">
+      <div class="p-ico">🚶</div>
+      <div class="p-txt"><div class="p-name">Se lever et marcher</div><div class="p-desc">Quelques pas, changer d'air</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Boire quelque chose')">
+      <div class="p-ico">💧</div>
+      <div class="p-txt"><div class="p-name">Boire quelque chose</div><div class="p-desc">Un verre d'eau, un jus</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Écouter de la musique sans écran')">
+      <div class="p-ico">🎵</div>
+      <div class="p-txt"><div class="p-name">Écouter de la musique</div><div class="p-desc">Sans écran, juste les oreilles</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Regarder par la fenêtre')">
+      <div class="p-ico">🪟</div>
+      <div class="p-txt"><div class="p-name">Regarder par la fenêtre</div><div class="p-desc">Laisser les yeux se reposer</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Manger un snack')">
+      <div class="p-ico">🍓</div>
+      <div class="p-txt"><div class="p-name">Manger un snack</div><div class="p-desc">Une petite collation</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'S\'étirer')">
+      <div class="p-ico">🙆</div>
+      <div class="p-txt"><div class="p-name">S'étirer</div><div class="p-desc">Le corps apprécie après être resté assis</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Quelques gestes de volley')">
+      <div class="p-ico">🏐</div>
+      <div class="p-txt"><div class="p-name">Quelques gestes de volley</div><div class="p-desc">Manchettes, touches, bouger sans se fatiguer</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Fermer les yeux et respirer')">
+      <div class="p-ico">😮‍💨</div>
+      <div class="p-txt"><div class="p-name">Fermer les yeux</div><div class="p-desc">Deux minutes tête en arrière, on souffle</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Sortir prendre l\'air')">
+      <div class="p-ico">🌿</div>
+      <div class="p-txt"><div class="p-name">Sortir prendre l'air</div><div class="p-desc">Même deux minutes dehors</div></div>
+      <div class="p-check">✓</div>
+    </div>
+    <div class="pitem" onclick="toggleP(this,'Parler à quelqu\'un')">
+      <div class="p-ico">💬</div>
+      <div class="p-txt"><div class="p-name">Parler à quelqu'un</div><div class="p-desc">Deux mots avec quelqu'un dans la maison</div></div>
+      <div class="p-check">✓</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- 4. SE DÉPÊCHER + REFORMULATION -->
+<div class="section fade">
+  <div class="section-label">Point 4</div>
+  <div class="section-title">Fixer un temps de travail<br>sans se <em>sentir pressée</em></div>
+
+  <div class="card">
+    <p>Fixer une durée à ta session, par exemple «je bosse 30 minutes», ça peut donner l'impression que le chrono va te surveiller et te mettre une pression. Comme si le temps qui tourne t'obligeait à avancer plus vite, à tout finir avant que ça sonne. C'est souvent ce sentiment-là qui te freine.</p>
+    <p>Mais fixer un temps de travail, ça ne veut pas dire finir la tâche en 30 minutes. Ça veut dire y travailler avec attention pendant 30 minutes. La tâche peut continuer après la pause, après le bloc suivant. Le temps défini porte sur la session, pas sur ce que tu dois accomplir. Ce changement de lecture change beaucoup à l'expérience : au lieu de courir, tu travailles par tranches.</p>
+    <p>En pratique, un minuteur aide vraiment. Il enlève le besoin de surveiller l'heure toi-même, ce qui libère de la place dans ta tête. Tu lances, tu poses le téléphone, et tu n'as plus à y penser jusqu'à ce que ça sonne.</p>
+    <p>Une petite formulation à choisir avant de commencer peut suffire à ancrer ça concrètement.</p>
+  </div>
+
+  <div class="reframe-tool">
+    <div class="tool-header">
+      <span class="tool-icon">🎯</span>
+      <span class="tool-title">Reformule ton objectif de bloc</span>
+    </div>
+    <p class="tool-desc">Écris ce que tu as prévu de faire, choisis la durée du bloc, et l'outil reformule l'objectif pour toi.</p>
+
+    <div class="reframe-duration">
+      <label>Durée du bloc :</label>
+      <select class="duration-select" id="durationSelect">
+        <option value="15">15 minutes</option>
+        <option value="20">20 minutes</option>
+        <option value="25">25 minutes</option>
+        <option value="30" selected>30 minutes</option>
+        <option value="35">35 minutes</option>
+        <option value="40">40 minutes</option>
+      </select>
+    </div>
+
+    <div class="reframe-row">
+      <div class="reframe-col">
+        <label>Ce que tu as prévu</label>
+        <input type="text" class="reframe-input" id="reframeInput" placeholder="Ex : finir le résumé d'histoire…">
+      </div>
+      <div class="reframe-arrow">→</div>
+      <div class="reframe-col">
+        <label>Ce que tu vas faire</label>
+        <input type="text" class="reframe-input" id="reframeOutput" readonly placeholder="Ta reformulation apparaît ici">
+      </div>
+    </div>
+
+    <button class="reframe-btn" onclick="reframe()">Reformuler mon objectif</button>
+
+    <div class="reframe-result" id="reframeResult">
+      <div class="reframe-result-label">Ton objectif de bloc</div>
+      <div class="reframe-result-text" id="reframeResultText"></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- 5. CHECKLIST AVANT DE COMMENCER -->
+<div class="section fade">
+  <div class="section-label">Point 5 — avant de démarrer</div>
+  <div class="section-title">La checklist<br><em>avant de commencer</em></div>
+
+  <div class="card">
+    <p>Avant de lancer ton premier bloc, deux minutes pour vérifier que les conditions sont là. Quelques petits gestes simples qui te permettent de vraiment partir d'un bon pied, plutôt que de devoir résister à des distractions dès la première minute.</p>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-header">
+      <span class="advice-icon">✅</span>
+      <span class="checklist-title">Avant de commencer ma session</span>
+    </div>
+    <p class="checklist-desc">Coche chaque élément quand c'est prêt.</p>
+    <div class="check-items" id="checkItems">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <span class="check-text">Mon téléphone est posé hors de portée</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <span class="check-text">Ma feuille de stationnement est prête à côté de moi</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <span class="check-text">J'ai noté l'objectif de mon premier bloc</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <span class="check-text">J'ai réglé mon minuteur</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <span class="check-text">Je sais ce que je ferai pendant ma pause</span>
+      </div>
+    </div>
+    <div class="check-ready" id="checkReady">C'est parti. 🏐</div>
+  </div>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- 6. GÉNÉRATEUR -->
+<div class="section fade">
+  <div class="section-label">Point 6 — ton plan</div>
+  <div class="section-title">Construis<br>ta <em>session de travail</em></div>
+
+  <div class="card">
+    <p>Choisis la durée de tes blocs, la durée de tes pauses et le nombre de cycles. Le générateur assemble ton plan pour la session, avec les activités de pause que tu as choisies.</p>
+  </div>
+
+  <div class="gen-wrap">
+    <div class="gen-sliders">
+      <div class="gen-field">
+        <label>Bloc de travail</label>
+        <div class="gen-val-row">
+          <div>
+            <div class="gen-val" id="workVal">30</div>
+            <div class="gen-unit">minutes</div>
+          </div>
+          <input type="range" class="work-r" id="workSlider" min="1" max="40" value="30"
+            oninput="document.getElementById('workVal').textContent=this.value">
+        </div>
+      </div>
+      <div class="gen-field">
+        <label>Pause</label>
+        <div class="gen-val-row">
+          <div>
+            <div class="gen-val" id="restVal">10</div>
+            <div class="gen-unit">minutes</div>
+          </div>
+          <input type="range" class="rest-r" id="restSlider" min="1" max="15" value="10"
+            oninput="document.getElementById('restVal').textContent=this.value">
+        </div>
+      </div>
+      <div class="gen-field">
+        <label>Cycles</label>
+        <div class="gen-val-row">
+          <div>
+            <div class="gen-val" id="cycleVal">2</div>
+            <div class="gen-unit">cycles</div>
+          </div>
+          <input type="range" class="cycle-r" id="cycleSlider" min="1" max="3" value="2"
+            oninput="document.getElementById('cycleVal').textContent=this.value">
+        </div>
+      </div>
+    </div>
+
+    <button class="gen-btn" onclick="generate()">Générer ma session</button>
+
+    <div id="genResult">
+      <div class="result-label">Ta session</div>
+      <div class="result-cycle-row" id="rCycle"></div>
+      <div class="result-total" id="rTotal"></div>
+      <div class="result-pauses-box">
+        <div class="rp-label">Idées pour tes pauses</div>
+        <div id="rPauses"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Coaching scolaire · Lily · Concentration &amp; temps de travail</div>
+
+</div>
+
+<script>
+// ── PAUSES ──
+let sel = [];
+function toggleP(el, name) {
+  el.classList.toggle('on');
+  sel = el.classList.contains('on') ? [...sel, name] : sel.filter(x => x !== name);
+}
+
+// ── CHECKLIST ──
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  const all = document.querySelectorAll('.check-item');
+  const allChecked = [...all].every(i => i.classList.contains('checked'));
+  document.getElementById('checkReady').classList.toggle('show', allChecked);
+}
+
+// ── REFORMULATION ──
+function reframe() {
+  const raw = document.getElementById('reframeInput').value.trim();
+  const dur = document.getElementById('durationSelect').value;
+  if (!raw) return;
+
+  let cleaned = raw
+    .replace(/^(finir|terminer|faire|compléter)\s+/i, '')
+    .replace(/^(le|la|les|l'|l\u2019)\s*/i, '');
+  cleaned = cleaned.charAt(0).toLowerCase() + cleaned.slice(1);
+
+  const result = `Travailler sur ${cleaned} pendant ${dur} minutes.`;
+  document.getElementById('reframeOutput').value = result;
+  const resBox = document.getElementById('reframeResult');
+  document.getElementById('reframeResultText').textContent = result;
+  resBox.classList.add('show');
+}
+
+// ── GÉNÉRATEUR ──
+function generate() {
+  const w = +document.getElementById('workSlider').value;
+  const r = +document.getElementById('restSlider').value;
+  const n = +document.getElementById('cycleSlider').value;
+  const pauses = n > 1 ? n - 1 : 0;
+  const total = n * w + pauses * r;
+
+  const icons = ['📖', '✏️', '📚', '📝'];
+  let html = '';
+  for (let i = 0; i < n; i++) {
+    if (i > 0) html += '<span class="rc-arrow">→</span>';
+    html += `<div class="rc-work"><span class="r-ico">${icons[i % icons.length]}</span><span class="r-dur">${w}'</span><span class="r-lbl">Bloc ${i + 1}</span></div>`;
+    if (i < n - 1) {
+      html += '<span class="rc-arrow">→</span>';
+      html += `<div class="rc-rest"><span class="r-ico">🌿</span><span class="r-dur">${r}'</span><span class="r-lbl">Pause</span></div>`;
+    }
+  }
+  html += '<span class="rc-arrow">→</span>';
+  html += `<div class="rc-done"><span class="r-ico">🏐</span><span class="r-dur" style="color:var(--coral);">Fini</span><span class="r-lbl">C'est fait</span></div>`;
+  document.getElementById('rCycle').innerHTML = html;
+
+  document.getElementById('rTotal').innerHTML = `Durée totale estimée : <strong>${total} minute${total > 1 ? 's' : ''}</strong>`;
+
+  const pausesEl = document.getElementById('rPauses');
+  pausesEl.innerHTML = sel.length > 0
+    ? `<div class="rp-chips">${sel.map(p => `<div class="rp-chip">${p}</div>`).join('')}</div>`
+    : `<p class="rp-empty">Remonte au point 2 pour sélectionner tes idées de pauses.</p>`;
+
+  const result = document.getElementById('genResult');
+  result.classList.add('show');
+  setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+</script>
+</body>
+</html>
