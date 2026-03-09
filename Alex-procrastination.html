@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La boucle de procrastination</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #060810;
+  --surface: #0c1122;
+  --surface2: #101828;
+  --border: #1a2840;
+  --border-soft: #101e32;
+  --text: #e0e8f8;
+  --text-muted: #5a6e8a;
+  --text-dim: #2e3f58;
+  --accent: #5aa3fc;
+  --accent-soft: #091625;
+  --danger: #f07070;
+  --danger-soft: #1c0e0e;
+  --relief: #40d494;
+  --relief-soft: #071812;
+  --loop-color: #a08cf8;
+  --loop-soft: #0e0c1e;
+  --insight: #f0b84f;
+  --insight-soft: #181208;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 52px 24px 72px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(90,163,252,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.everything {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.main-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.025em;
+  margin-bottom: 6px;
+}
+
+.main-subtitle {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--text-muted);
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 40px;
+  background: var(--surface);
+  padding: 5px;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+.tab {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.tab:hover:not(.active) { color: var(--text); }
+
+.tab.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(90,163,252,0.28), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.tab.tab-insight.active {
+  background: var(--insight);
+  color: #100a00;
+  box-shadow: 0 0 18px rgba(240,184,79,0.28), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.section { width: 100%; max-width: 520px; }
+
+.step-row {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+.step-row.visible { opacity: 1; transform: translateY(0); }
+
+.card {
+  padding: 15px 18px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.card.card-start {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 20px rgba(90,163,252,0.08);
+}
+.card.card-relief {
+  border-color: var(--relief);
+  background: var(--relief-soft);
+  box-shadow: 0 0 20px rgba(64,212,148,0.08);
+}
+.card.card-danger {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  box-shadow: 0 0 20px rgba(240,112,112,0.08);
+}
+.card.card-loop {
+  border-color: var(--loop-color);
+  border-style: dashed;
+  background: var(--loop-soft);
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 0 20px rgba(160,140,248,0.07);
+}
+
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  min-width: 16px;
+  padding-top: 3px;
+  letter-spacing: 0.05em;
+}
+
+.step-body { flex: 1; }
+
+.step-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 5px;
+  line-height: 1.35;
+}
+
+.card.card-relief .step-name { color: var(--relief); }
+.card.card-danger .step-name { color: var(--danger); }
+.card.card-start  .step-name { color: var(--accent); }
+
+.step-desc {
+  font-size: 0.79rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.loop-icon { font-size: 0.95rem; color: var(--loop-color); }
+.loop-label {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--loop-color);
+}
+
+.arrow-row {
+  text-align: center;
+  padding: 4px 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.arrow-row.visible { opacity: 1; }
+
+.explanation {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.42s ease 0.1s, transform 0.42s ease 0.1s;
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border-soft);
+  font-size: 0.83rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.82;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+}
+.explanation.visible { opacity: 1; transform: translateY(0); }
+.explanation strong { font-weight: 500; color: var(--text); }
+.explanation p { margin-bottom: 10px; }
+.explanation p:last-child { margin-bottom: 0; }
+
+.controls {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn {
+  padding: 11px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-main {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 0 16px rgba(90,163,252,0.2);
+}
+.btn-main:hover:not(:disabled) {
+  background: #4892e8;
+  box-shadow: 0 0 26px rgba(90,163,252,0.35);
+  transform: translateY(-1px);
+}
+.btn-main:disabled {
+  background: var(--surface2);
+  color: var(--text-dim);
+  cursor: default;
+  box-shadow: none;
+}
+
+.btn-ghost {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+  transform: translateY(-1px);
+}
+
+.counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  min-width: 44px;
+  text-align: center;
+}
+
+.insight-panel {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeUp 0.38s ease forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.insight-card {
+  padding: 20px 22px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.insight-card.highlight {
+  border-color: var(--insight);
+  background: var(--insight-soft);
+  box-shadow: 0 0 24px rgba(240,184,79,0.07);
+}
+
+.insight-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.insight-card.highlight .insight-tag { color: var(--insight); }
+
+.insight-heading {
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.insight-body {
+  font-size: 0.81rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.82;
+}
+.insight-body p { margin-bottom: 10px; }
+.insight-body p:last-child { margin-bottom: 0; }
+.insight-body strong { font-weight: 500; color: var(--text); }
+
+.insight-body ul {
+  margin: 8px 0 10px 4px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.insight-body ul li {
+  padding-left: 14px;
+  position: relative;
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.insight-body ul li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--insight);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.insight-card:not(.highlight) .insight-body ul li::before {
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+<div class="everything">
+
+  <div class="header">
+    <div class="eyebrow">Séance 1</div>
+    <div class="main-title">La boucle de procrastination</div>
+    <div class="main-subtitle">Comprendre le mécanisme avant de chercher des solutions</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(0)">Pendant la session</button>
+    <button class="tab" onclick="switchTab(1)">Les jours où tu reportes</button>
+    <button class="tab tab-insight" onclick="switchTab(2)">Pourquoi c'est utile</button>
+  </div>
+
+  <div id="mainSection" class="section">
+    <div id="loopWrap"></div>
+    <div class="explanation" id="explanation"></div>
+    <div class="controls">
+      <button class="btn btn-ghost" onclick="resetLoop()">↺ Recommencer</button>
+      <span class="counter" id="counter">—</span>
+      <button class="btn btn-main" id="nextBtn" onclick="nextStep()">Commencer →</button>
+    </div>
+  </div>
+
+  <div id="insightSection" style="display:none; width:100%; max-width:520px;">
+    <div class="insight-panel">
+
+      <div class="insight-card highlight">
+        <div class="insight-tag">Ce que ça change</div>
+        <div class="insight-heading">Pourquoi se forcer ne suffit pas</div>
+        <div class="insight-body">
+          <p>Deux choses alimentent ces boucles chez toi. La première : les tâches prescrites telles qu'elles sont formulées t'intéressent moins que ce que tu pourrais en faire librement, donc ton cerveau cherche quelque chose de plus stimulant.</p>
+          <p>La deuxième est peut-être moins évidente. Tu n'as jamais eu à vraiment travailler pour réussir jusqu'ici. <strong>Se mettre sérieusement au boulot maintenant, c'est prendre un risque que tu n'avais pas encore eu à prendre : s'investir vraiment et rater quand même.</strong> Tant que tu ne t'y mets pas vraiment, ce scénario reste hors d'atteinte. Ce n'est probablement pas un calcul conscient, mais c'est un mécanisme réel.</p>
+          <p>Dans les deux cas, se répéter « cette fois je vais m'y mettre » ne change rien : ça n'agit pas sur ce qui déclenche l'évitement.</p>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-tag">Ce que ça permet</div>
+        <div class="insight-heading">Deux moments précis où quelque chose peut changer</div>
+        <div class="insight-body">
+          <p>Connaître la boucle permet de repérer où elle peut être interrompue. Il y a deux endroits précis :</p>
+          <ul>
+            <li><strong>Pendant la session</strong>, quand une piste plus intéressante apparaît et commence à t'emporter. L'outil qu'on va mettre en place agit à ce moment exact : il capte l'envie d'explorer avant qu'elle ne prenne toute la session.</li>
+            <li><strong>Avant même de démarrer</strong>, quand la résistance s'installe sans que tu aies encore rien ouvert. L'outil qui agit là court-circuite cette résistance en rendant le premier pas tellement petit qu'il n'y a plus vraiment de raison de le repousser.</li>
+          </ul>
+          <p>Dans les deux cas, ce ne sont pas des outils de motivation. Ce sont des outils qui agissent au moment précis où le réflexe se déclenche.</p>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-tag">En pratique</div>
+        <div class="insight-heading">Reconnaître la boucle au moment où elle commence</div>
+        <div class="insight-body">
+          <p>Dans les deux cas, c'est toujours le même enchaînement : un inconfort réel ou anticipé, suivi d'un soulagement immédiat qui renforce le réflexe pour la prochaine fois.</p>
+          <p>Connaître ça, ça te permet de le voir se mettre en route. Par exemple : tu es sur un exercice, tu tombes sur une généralisation intéressante, et tu sens l'envie de partir dessus. C'est exactement là, à ce moment précis, que tu peux faire quelque chose de différent — <strong>avant que la dérive ne soit déjà lancée depuis dix minutes.</strong></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const loops = [
+  {
+    steps: [
+      {
+        name: "Tâche prescrite",
+        desc: "Un exercice du prof, un travail à rendre. Tu sais exactement ce que tu dois faire.",
+        type: "start"
+      },
+      {
+        name: "Ennui cognitif",
+        desc: "La tâche telle qu'elle est formulée est moins stimulante que ce que tu pourrais faire avec le même sujet. Ce n'est pas un problème de compréhension : tu aimerais simplement aller plus loin que ce qui est demandé.",
+        type: ""
+      },
+      {
+        name: "Dérive",
+        desc: "Tu pars explorer quelque chose de plus stimulant : généraliser un résultat, creuser un mécanisme, suivre une piste connexe. Et c'est souvent bien plus intéressant que ce que le prof avait demandé.",
+        type: ""
+      },
+      {
+        name: "Plaisir immédiat",
+        desc: "Tu fais quelque chose d'intéressant, et c'est agréable. C'est là que le piège se referme.",
+        type: "relief"
+      },
+      {
+        name: "L'exercice du prof n'est pas fait",
+        desc: "30 minutes plus tard, tu as travaillé — mais pas sur ce qu'on t'avait demandé.",
+        type: "danger"
+      },
+      {
+        name: "Inconfort amplifié",
+        desc: "La deadline se rapproche et l'impression de ne pas avancer s'installe.",
+        type: "danger"
+      },
+      {
+        name: "↺ Et ça recommence",
+        desc: "",
+        type: "loop"
+      }
+    ],
+    explanation: `<p>Ce qui est particulier dans ce cycle, c'est que tu travailles vraiment. Tu fais des maths, tu réfléchis, tu creuses. Mais tu vas au-delà de ce qui était demandé et tu finis par ne pas faire la tâche précise du prof — même si elle t'aurait pris 10 minutes.</p>
+
+<p>Ton cerveau a trouvé quelque chose de plus stimulant et il a suivi. <strong>Le soulagement de la dérive arrive immédiatement. L'inconfort de la tâche non faite, lui, arrive bien plus tard.</strong> Ton cerveau retient le premier, pas le second. C'est pour ça que le réflexe revient à chaque fois, souvent encore plus vite.</p>`
+  },
+  {
+    steps: [
+      {
+        name: "Tâche prescrite dans ta tête",
+        desc: "Tu sais que tu dois la faire. Mais tu ne t'y mets pas encore.",
+        type: "start"
+      },
+      {
+        name: "Résistance avant même de commencer",
+        desc: "Tu n'as pas encore ouvert le document, mais tu sais déjà que la tâche telle qu'elle est ne va pas vraiment t'intéresser. La résistance s'installe avant même d'avoir essayé.",
+        type: ""
+      },
+      {
+        name: "« Je le ferai plus tard »",
+        desc: "Ce n'est pas vraiment une décision raisonnée : c'est une réponse automatique à un inconfort que ton cerveau a déjà anticipé, sans que tu aies encore rien fait.",
+        type: ""
+      },
+      {
+        name: "Soulagement immédiat",
+        desc: "La pression se relâche un peu. La décision est reportée, et pour l'instant ça suffit.",
+        type: "relief"
+      },
+      {
+        name: "La deadline se rapproche",
+        desc: "La tâche est toujours là, et plus le temps passe, plus elle prend de la place dans ta tête.",
+        type: "danger"
+      },
+      {
+        name: "Inconfort amplifié",
+        desc: "La résistance est maintenant plus forte qu'au départ.",
+        type: "danger"
+      },
+      {
+        name: "↺ Et ça recommence",
+        desc: "",
+        type: "loop"
+      }
+    ],
+    explanation: `<p>Ici la résistance se déclenche avant même d'avoir ouvert quoi que ce soit. Tu évites la tâche sur la base de ce que tu imagines ressentir, pas de ce que tu ressentirais une fois dedans.</p>
+
+<p>Dans la plupart des cas, dès que tu ouvres l'énoncé et que tu commences à lire, la résistance tombe bien plus vite que prévu. <strong>Le problème, c'est que la décision de ne pas ouvrir se prend avant d'avoir cette information.</strong></p>
+
+<p>Même mécanique qu'avant : le soulagement du report arrive tout de suite, l'inconfort amplifié arrive bien plus tard. Ton cerveau retient le premier. D'où le même réflexe la fois suivante, souvent encore plus fort.</p>`
+  }
+];
+
+let currentLoop = 0;
+let currentStep = -1;
+
+function buildLoop(idx) {
+  const wrap = document.getElementById('loopWrap');
+  wrap.innerHTML = '';
+  const steps = loops[idx].steps;
+  steps.forEach((s, i) => {
+    if (i > 0) {
+      const ar = document.createElement('div');
+      ar.className = 'arrow-row';
+      ar.id = `ar-${i}`;
+      ar.textContent = '↓';
+      wrap.appendChild(ar);
+    }
+    const row = document.createElement('div');
+    row.className = 'step-row';
+    row.id = `sr-${i}`;
+
+    if (s.type === 'loop') {
+      row.innerHTML = `<div class="card card-loop">
+        <span class="loop-icon">↺</span>
+        <span class="loop-label">${s.name.replace('↺ ', '')}</span>
+      </div>`;
+    } else {
+      row.innerHTML = `
+        <div class="card ${s.type ? 'card-' + s.type : ''}">
+          <div class="step-num">${String(i + 1).padStart(2, '0')}</div>
+          <div class="step-body">
+            <div class="step-name">${s.name}</div>
+            ${s.desc ? `<div class="step-desc">${s.desc}</div>` : ''}
+          </div>
+        </div>`;
+    }
+    wrap.appendChild(row);
+  });
+}
+
+function syncUI() {
+  const total = loops[currentLoop].steps.length;
+  const shown = currentStep + 1;
+  const btn = document.getElementById('nextBtn');
+  const counter = document.getElementById('counter');
+  const expl = document.getElementById('explanation');
+
+  counter.textContent = shown > 0 ? `${shown} / ${total}` : '—';
+
+  if (currentStep >= total - 1) {
+    btn.disabled = true;
+    btn.textContent = 'Terminé';
+    expl.innerHTML = loops[currentLoop].explanation;
+    setTimeout(() => expl.classList.add('visible'), 80);
+  } else {
+    btn.disabled = false;
+    btn.textContent = currentStep === -1 ? 'Commencer →' : 'Étape suivante →';
+    expl.classList.remove('visible');
+    expl.innerHTML = '';
+  }
+}
+
+function nextStep() {
+  const total = loops[currentLoop].steps.length;
+  if (currentStep >= total - 1) return;
+  currentStep++;
+  document.getElementById(`sr-${currentStep}`)?.classList.add('visible');
+  if (currentStep > 0) document.getElementById(`ar-${currentStep}`)?.classList.add('visible');
+  syncUI();
+}
+
+function resetLoop() {
+  currentStep = -1;
+  document.getElementById('explanation').classList.remove('visible');
+  document.getElementById('explanation').innerHTML = '';
+  buildLoop(currentLoop);
+  syncUI();
+}
+
+function switchTab(idx) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  const main = document.getElementById('mainSection');
+  const insight = document.getElementById('insightSection');
+
+  if (idx === 2) {
+    main.style.display = 'none';
+    insight.style.display = 'block';
+  } else {
+    insight.style.display = 'none';
+    main.style.display = 'block';
+    if (currentLoop !== idx) {
+      currentLoop = idx;
+      currentStep = -1;
+      document.getElementById('explanation').classList.remove('visible');
+      document.getElementById('explanation').innerHTML = '';
+      buildLoop(idx);
+      syncUI();
+    }
+  }
+}
+
+buildLoop(0);
+syncUI();
+</script>
+</body>
+</html>
