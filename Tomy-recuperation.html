@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séance Tomy — Apprendre autrement</title>
+<style>
+  :root {
+    --bg:#0f0f13; --sur:#1a1a23; --sur2:#22222e;
+    --acc:#6c63ff; --red:#ff6b6b; --teal:#43d9ad;
+    --txt:#e8e8f0; --mut:#8888a0; --bor:#2e2e3e; --yel:#ffd166;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;line-height:1.7;font-size:15px;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,15,19,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--bor);display:flex;align-items:center;padding:0 1.25rem;height:54px;gap:0.3rem;}
+  .nav-logo{font-weight:700;font-size:0.72rem;color:var(--mut);letter-spacing:0.1em;text-transform:uppercase;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
+  .nb{background:none;border:none;color:var(--mut);font-size:0.82rem;cursor:pointer;padding:0.45rem 0.75rem;border-radius:8px;transition:all 0.2s;font-family:inherit;white-space:nowrap;min-height:44px;display:flex;align-items:center;}
+  .nb.on{color:var(--txt);background:var(--sur2);}
+  .nb:hover{color:var(--txt);}
+
+  /* PAGES */
+  .page{display:none;padding:70px 1.1rem 5rem;max-width:780px;margin:0 auto;}
+  .page.on{display:block;}
+
+  /* HERO */
+  .hero{text-align:center;padding:2rem 0 1.5rem;}
+  .hero-pill{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);background:rgba(108,99,255,0.12);padding:0.28rem 0.8rem;border-radius:20px;margin-bottom:0.9rem;}
+  .hero h1{font-size:clamp(1.45rem,5vw,2.3rem);font-weight:800;line-height:1.22;margin-bottom:0.8rem;}
+  .hero p{color:var(--mut);font-size:0.92rem;max-width:520px;margin:0 auto;line-height:1.65;}
+
+  /* CARDS */
+  .card{background:var(--sur);border:1px solid var(--bor);border-radius:16px;padding:1.3rem 1.2rem;margin-bottom:1.1rem;}
+  .ctag{font-size:0.67rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--acc);margin-bottom:0.6rem;}
+  .card h2{font-size:1.08rem;font-weight:700;margin-bottom:0.75rem;line-height:1.3;}
+  .card p,.card li{color:#c0c0d8;font-size:0.91rem;line-height:1.7;}
+
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;border:none;border-radius:10px;padding:0.65rem 1.15rem;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.18s;background:var(--acc);color:white;min-height:44px;-webkit-tap-highlight-color:transparent;}
+  .btn:hover{opacity:0.85;transform:translateY(-1px);}
+  .btn:active{transform:none;opacity:0.9;}
+  .btn.gh{background:var(--sur2);color:var(--txt);border:1px solid var(--bor);}
+  .btn.tl{background:var(--teal);color:#0c1e18;}
+  .btn.sel{background:rgba(67,217,173,0.15);color:var(--teal);border:1px solid rgba(67,217,173,0.3);}
+
+  /* CALLOUTS */
+  .co{border-left:3px solid var(--acc);padding:0.85rem 1rem;background:rgba(108,99,255,0.07);border-radius:0 12px 12px 0;margin:1rem 0;font-size:0.9rem;color:#c8c8e0;line-height:1.65;}
+  .co.am{border-color:var(--yel);background:rgba(255,209,102,0.07);}
+  .co.tl{border-color:var(--teal);background:rgba(67,217,173,0.07);}
+
+  .sep{height:1px;background:var(--bor);margin:1.4rem 0;}
+
+  /* SLIDER */
+  .slw{margin:1rem 0 1.2rem;}
+  .slq{font-size:0.91rem;color:#c8c8e0;margin-bottom:0.65rem;line-height:1.6;}
+  input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;outline:none;cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--acc);cursor:pointer;border:3px solid var(--bg);}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--acc);cursor:pointer;border:3px solid var(--bg);}
+  .slends{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--mut);margin-top:0.32rem;}
+  .slval{text-align:center;font-size:1.85rem;font-weight:800;color:var(--acc);margin:0.4rem 0 0.75rem;}
+
+  /* COURS BLOCK */
+  .cours{background:var(--sur2);border:1px solid var(--bor);border-radius:12px;padding:1.1rem 1.1rem;font-size:0.89rem;color:#c4c4dc;line-height:1.78;margin:1rem 0;}
+  .ctitle{font-size:0.66rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mut);display:block;margin-bottom:0.75rem;}
+  .cours strong{color:var(--txt);}
+  .cours ul{padding-left:1rem;margin-top:0.25rem;}
+  .cours li{margin-bottom:0.3rem;}
+
+  /* QUESTIONS */
+  .ql{margin:1rem 0;}
+  .qb{background:var(--sur2);border:1px solid var(--bor);border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.7rem;}
+  .qtxt{font-size:0.88rem;color:#c8c8e0;font-weight:600;margin-bottom:0.55rem;}
+  .qb textarea{width:100%;min-height:56px;background:var(--bg);border:1px solid var(--bor);border-radius:8px;padding:0.55rem 0.8rem;color:var(--txt);font-size:0.88rem;font-family:inherit;resize:vertical;outline:none;transition:border-color 0.2s;line-height:1.6;}
+  .qb textarea:focus{border-color:var(--acc);}
+  .qans{display:none;margin-top:0.65rem;font-size:0.84rem;color:var(--teal);padding:0.5rem 0.75rem;background:rgba(67,217,173,0.07);border-radius:8px;border-left:2px solid var(--teal);}
+  .qans.vis{display:block;}
+
+  /* SCORE BUTTONS */
+  .score-row{display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;}
+  .score-row .btn{min-width:64px;padding:0.65rem 0.8rem;}
+
+  /* BILAN GRID */
+  .bilan3{display:grid;grid-template-columns:repeat(3,1fr);gap:0.7rem;margin:1rem 0;}
+  .bt{border-radius:12px;padding:0.85rem 0.7rem;text-align:center;}
+  .bt .bt-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mut);margin-bottom:0.3rem;}
+  .bt .bt-num{font-size:1.6rem;font-weight:800;line-height:1;}
+  .bt .bt-sub{font-size:0.72rem;color:var(--mut);margin-top:0.3rem;}
+  .bt.b1{background:rgba(108,99,255,0.07);border:1px solid rgba(108,99,255,0.18);}
+  .bt.b1 .bt-num{color:var(--acc);}
+  .bt.b2{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.2);}
+  .bt.b2 .bt-num{color:var(--red);}
+  .bt.b3{background:rgba(67,217,173,0.07);border:1px solid rgba(67,217,173,0.2);}
+  .bt.b3 .bt-num{color:var(--teal);}
+
+  /* SCHEMA */
+  .schema{display:flex;gap:0.55rem;align-items:stretch;margin:1.15rem 0;}
+  .sb{flex:1;border-radius:12px;padding:0.95rem 0.75rem;text-align:center;}
+  .sb .sbi{font-size:1.75rem;margin-bottom:0.4rem;}
+  .sb h4{font-size:0.85rem;font-weight:700;margin-bottom:0.3rem;}
+  .sb p{font-size:0.77rem;color:var(--mut);}
+  .sb.sr{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.18);}
+  .sb.sr h4{color:var(--red);}
+  .sarr{display:flex;align-items:center;color:var(--mut);font-size:1.1rem;padding:0 0.05rem;}
+
+  /* GRAPH */
+  .gw{height:175px;margin:1.1rem 0;}
+  .gw canvas{width:100%;height:100%;display:block;}
+  .gleg{display:flex;gap:1rem;justify-content:center;font-size:0.78rem;color:var(--mut);margin-top:0.5rem;flex-wrap:wrap;}
+  .ld{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:0.3rem;}
+
+  /* STEPS */
+  .steps{margin:1.1rem 0;}
+  .step{display:flex;gap:0.85rem;align-items:flex-start;padding:0.85rem 0;border-bottom:1px solid var(--bor);}
+  .step:last-child{border-bottom:none;}
+  .sn{width:30px;height:30px;min-width:30px;border-radius:50%;background:rgba(108,99,255,0.12);border:1px solid rgba(108,99,255,0.26);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.84rem;color:var(--acc);}
+  .sc h4{font-size:0.9rem;font-weight:700;margin-bottom:0.18rem;}
+  .sc p{font-size:0.84rem;color:var(--mut);}
+
+  /* FEUILLE BLANCHE */
+  .feuille{background:#f9f9f5;border:1px dashed #b8b8a8;border-radius:12px;padding:1.1rem 1.1rem;margin:1rem 0;}
+  .flbl{font-size:0.66rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:0.65rem;}
+  .feuille textarea{width:100%;min-height:130px;background:transparent;border:none;outline:none;font-size:0.9rem;color:#333;font-family:inherit;resize:vertical;line-height:1.75;}
+  .feuille textarea::placeholder{color:#c0c0b0;}
+
+  /* COMPARE GRID */
+  .cmpg{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin:1rem 0;}
+
+  /* NOTE */
+  .note{display:flex;align-items:flex-start;gap:0.6rem;background:rgba(255,209,102,0.07);border:1px solid rgba(255,209,102,0.18);border-radius:10px;padding:0.7rem 0.9rem;margin:0.75rem 0;font-size:0.83rem;color:#d0c898;line-height:1.6;}
+
+  /* ENCODE EXAMPLES */
+  .encode-examples{margin:0.9rem 0;display:flex;flex-direction:column;gap:0.5rem;}
+  .ee{display:flex;align-items:flex-start;gap:0.65rem;background:var(--sur2);border:1px solid var(--bor);border-radius:10px;padding:0.7rem 0.9rem;font-size:0.86rem;color:#c0c0d8;line-height:1.6;}
+  .ee-icon{font-size:1.1rem;margin-top:0.05rem;min-width:1.4rem;}
+
+  .subrow{display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.65rem;}
+  .hidden{display:none;}
+  .bot-nav{display:flex;justify-content:space-between;margin-top:1.9rem;}
+
+  /* MOBILE BREAKPOINTS */
+  @media(max-width:540px){
+    nav{padding:0 0.9rem;height:52px;}
+    .nav-logo{font-size:0.68rem;max-width:90px;}
+    .nb{font-size:0.78rem;padding:0.4rem 0.6rem;}
+    .page{padding:64px 0.9rem 4rem;}
+    .card{padding:1.1rem 1rem;}
+    .hero{padding:1.5rem 0 1.2rem;}
+    .bilan3{grid-template-columns:1fr;}
+    .bt .bt-num{font-size:1.85rem;}
+    .cmpg{grid-template-columns:1fr;}
+    .schema{flex-direction:column;}
+    .sarr{transform:rotate(90deg);align-self:center;}
+    .score-row .btn{flex:1;min-width:0;}
+    .subrow .btn{flex:1;min-width:0;font-size:0.82rem;padding:0.6rem 0.5rem;}
+    .co{font-size:0.87rem;}
+  }
+
+  @media(max-width:360px){
+    .nb{font-size:0.72rem;padding:0.4rem 0.45rem;}
+    .nav-logo{max-width:70px;}
+    .card{padding:1rem 0.85rem;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Tomy · Séance 6</span>
+  <button class="nb on" onclick="go('p1')">🧠 Comprendre</button>
+  <button class="nb"    onclick="go('p2')">⚡ La méthode</button>
+</nav>
+
+<div id="p1" class="page on">
+  <div class="hero">
+    <div class="hero-pill">Partie 1 — Comprendre</div>
+    <h1>Pourquoi tu travailles,<br>et pourquoi ça ne tient pas</h1>
+    <p>Tu relis, tu recopies, tu as l'impression de maîtriser. Et au contrôle, c'est le blanc. Ça ne vient pas d'un manque de travail.</p>
+  </div>
+
+  <div class="card">
+    <div class="ctag">🧪 Test · 4 minutes</div>
+    <h2>D'abord, vis-le toi-même</h2>
+    <p>Tu vas lire un extrait de cours, puis répondre à quelques questions dessus. À chaque étape, on note ta confiance. Tu verras pourquoi à la fin.</p>
+
+    <div id="ph1">
+      <div class="sep"></div>
+      <p style="font-size:0.86rem;color:var(--mut);margin-bottom:0.55rem;">Lis ça normalement, comme tu ferais chez toi.</p>
+      <div class="cours">
+        <span class="ctitle">📖 La Première Guerre mondiale — déclenchement</span>
+        <ul>
+          <li>La guerre éclate en <strong>1914</strong> après l'assassinat de l'archiduc <strong>François-Ferdinand</strong> à Sarajevo.</li>
+          <li>Deux alliances s'affrontent : la <strong>Triple-Entente</strong> (France, Russie, Royaume-Uni) contre la <strong>Triple Alliance</strong> (Allemagne, Autriche-Hongrie, Italie).</li>
+          <li>La guerre de tranchées s'installe dès <strong>fin 1914</strong> sur le front Ouest.</li>
+          <li>Les États-Unis entrent en guerre en <strong>1917</strong>, ce qui fait basculer le conflit.</li>
+          <li>L'armistice est signé le <strong>11 novembre 1918</strong>.</li>
+        </ul>
+      </div>
+      <div class="slw">
+        <div class="slq">Tu viens de le lire une fois. Sur 10, tu penses pouvoir répondre à combien de questions là-dessus ?</div>
+        <input type="range" min="1" max="10" value="5" id="s1" oninput="sl('s1','sv1')">
+        <div class="slends"><span>Presque rien</span><span>Tout</span></div>
+        <div class="slval" id="sv1">5 / 10</div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn" onclick="openPh('ph2')">Et si je relis une 2e fois ? →</button>
+      </div>
+    </div>
+
+    <div id="ph2" class="hidden">
+      <div class="sep"></div>
+      <p style="font-size:0.86rem;color:var(--mut);margin-bottom:0.55rem;">Relis. Prends le temps.</p>
+      <div class="cours">
+        <span class="ctitle">📖 La Première Guerre mondiale — déclenchement</span>
+        <ul>
+          <li>La guerre éclate en <strong>1914</strong> après l'assassinat de l'archiduc <strong>François-Ferdinand</strong> à Sarajevo.</li>
+          <li>Deux alliances s'affrontent : la <strong>Triple-Entente</strong> (France, Russie, Royaume-Uni) contre la <strong>Triple Alliance</strong> (Allemagne, Autriche-Hongrie, Italie).</li>
+          <li>La guerre de tranchées s'installe dès <strong>fin 1914</strong> sur le front Ouest.</li>
+          <li>Les États-Unis entrent en guerre en <strong>1917</strong>, ce qui fait basculer le conflit.</li>
+          <li>L'armistice est signé le <strong>11 novembre 1918</strong>.</li>
+        </ul>
+      </div>
+      <div class="slw">
+        <div class="slq">Après cette 2e lecture, ta confiance a changé ?</div>
+        <input type="range" min="1" max="10" value="5" id="s2" oninput="sl('s2','sv2')">
+        <div class="slends"><span>Presque rien</span><span>Tout</span></div>
+        <div class="slval" id="sv2">5 / 10</div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn" onclick="openPh('ph3')">Maintenant on teste vraiment →</button>
+      </div>
+    </div>
+
+    <div id="ph3" class="hidden">
+      <div class="sep"></div>
+      <p style="font-size:0.92rem;color:#c8c8e0;margin-bottom:0.9rem;">Sans regarder le cours. Réponds de mémoire.</p>
+      <div class="ql">
+        <div class="qb">
+          <div class="qtxt">En quelle année la guerre éclate-t-elle, et suite à quel événement ?</div>
+          <textarea placeholder="Ta réponse..."></textarea>
+          <div class="qans" id="qa1">✓ 1914 / assassinat de l'archiduc François-Ferdinand à Sarajevo</div>
+        </div>
+        <div class="qb">
+          <div class="qtxt">Quels pays composent la Triple-Entente ? Et la Triple Alliance ?</div>
+          <textarea placeholder="Ta réponse..."></textarea>
+          <div class="qans" id="qa2">✓ Triple-Entente : France, Russie, Royaume-Uni / Triple Alliance : Allemagne, Autriche-Hongrie, Italie</div>
+        </div>
+        <div class="qb">
+          <div class="qtxt">Quand les États-Unis entrent-ils en guerre ? Quand l'armistice est-il signé ?</div>
+          <textarea placeholder="Ta réponse..."></textarea>
+          <div class="qans" id="qa3">✓ USA en 1917 / armistice le 11 novembre 1918</div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn tl" onclick="revealAnswers()">Voir les réponses →</button>
+      </div>
+    </div>
+
+    <div id="ph4" class="hidden">
+      <div class="sep"></div>
+      <p style="font-size:0.92rem;color:#c8c8e0;margin-bottom:0.85rem;">Les réponses s'affichent ci-dessus. Sur les 3 questions, tu en as bien répondu à combien ?</p>
+      <div class="score-row">
+        <button class="btn gh" onclick="setScore(this,0)">0 / 3</button>
+        <button class="btn gh" onclick="setScore(this,1)">1 / 3</button>
+        <button class="btn gh" onclick="setScore(this,2)">2 / 3</button>
+        <button class="btn gh" onclick="setScore(this,3)">3 / 3</button>
+      </div>
+      <div id="bilan-block" class="hidden">
+        <p style="font-size:0.88rem;color:var(--mut);margin-bottom:0.75rem;">Voilà ce qui s'est passé :</p>
+        <div class="bilan3">
+          <div class="bt b1">
+            <div class="bt-lbl">Après 1re lecture</div>
+            <div class="bt-num" id="bv1">—</div>
+            <div class="bt-sub">Ta confiance</div>
+          </div>
+          <div class="bt b2">
+            <div class="bt-lbl">Après 2e lecture</div>
+            <div class="bt-num" id="bv2">—</div>
+            <div class="bt-sub">Ta confiance</div>
+          </div>
+          <div class="bt b3">
+            <div class="bt-lbl">Bonnes réponses</div>
+            <div class="bt-num" id="bvp">—</div>
+            <div class="bt-sub">La réalité</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:1rem">
+          <button class="btn" onclick="showWordsExercise()">Deuxième test →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="words-exercise" class="hidden">
+    <div class="card">
+      <div class="ctag">🔤 Deuxième test · 2 minutes</div>
+      <h2>Le même mécanisme, autrement</h2>
+      <p style="margin-bottom:0.95rem;">Une liste de mots va s'afficher pendant 30 secondes. Essaie de les retenir.</p>
+
+      <div id="we-step1" style="text-align:center">
+        <button class="btn" onclick="weStart()">Afficher les mots →</button>
+      </div>
+
+      <div id="we-step2" class="hidden">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.9rem;margin:0.75rem 0;">
+          <div style="position:relative;width:68px;height:68px;">
+            <svg viewBox="0 0 68 68" width="68" height="68">
+              <circle cx="34" cy="34" r="27" fill="none" stroke="var(--bor)" stroke-width="4"/>
+              <circle id="we-tCircle" cx="34" cy="34" r="27" fill="none" stroke="var(--acc)" stroke-width="4" stroke-linecap="round" transform="rotate(-90 34 34)" stroke-dasharray="169.6" stroke-dashoffset="0"/>
+            </svg>
+            <span id="we-tNum" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.35rem;font-weight:800;color:var(--acc);">30</span>
+          </div>
+          <div id="we-wordGrid" style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;max-width:440px;"></div>
+        </div>
+      </div>
+
+      <div id="we-step3" class="hidden">
+        <div class="sep"></div>
+        <p style="font-size:0.88rem;color:#c8c8e0;margin-bottom:0.65rem;">Autre chose d'abord. Résous ces calculs.</p>
+        <div style="text-align:center;margin-bottom:0.75rem;">
+          <div id="we-distrQ" style="font-size:1.65rem;font-weight:800;color:var(--txt);margin-bottom:0.5rem;"></div>
+          <div style="display:flex;gap:0.5rem;align-items:center;justify-content:center;">
+            <input type="text" id="we-distrIn" autocomplete="off" placeholder="?" style="width:100px;padding:0.5rem 0.8rem;background:var(--bg);border:1px solid var(--bor);border-radius:8px;color:var(--txt);font-size:1rem;text-align:center;outline:none;" onkeydown="if(event.key==='Enter')weCheckD()">
+            <button class="btn gh" onclick="weCheckD()">→</button>
+          </div>
+          <p id="we-distrFb" style="font-size:0.8rem;color:var(--mut);min-height:1.2rem;margin:0.3rem 0 0;"></p>
+        </div>
+      </div>
+
+      <div id="we-step4" class="hidden">
+        <div class="sep"></div>
+        <p style="font-size:0.88rem;color:#c8c8e0;margin-bottom:0.65rem;">Écris tous les mots dont tu te souviens (séparés par des virgules ou un retour à la ligne).</p>
+        <textarea id="we-recallTa" placeholder="château, fusée, lanterne…" style="width:100%;min-height:72px;background:var(--bg);border:1px solid var(--bor);border-radius:8px;padding:0.55rem 0.8rem;color:var(--txt);font-size:0.88rem;font-family:inherit;resize:vertical;outline:none;line-height:1.6;"></textarea>
+        <div style="text-align:center;margin-top:0.75rem">
+          <button class="btn tl" onclick="weGoRecog()">Valider →</button>
+        </div>
+      </div>
+
+      <div id="we-step5" class="hidden">
+        <div class="sep"></div>
+        <p style="font-size:0.88rem;color:#c8c8e0;margin-bottom:0.65rem;">Coche maintenant tous les mots qui figuraient dans la liste originale.</p>
+        <div id="we-recogGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.45rem;margin-bottom:0.75rem;"></div>
+        <div style="text-align:center">
+          <button class="btn tl" onclick="weShowResults()">Voir les résultats →</button>
+        </div>
+      </div>
+
+      <div id="we-step6" class="hidden">
+        <div class="sep"></div>
+        <div style="display:flex;gap:0.7rem;margin-bottom:1rem;">
+          <div style="flex:1;background:rgba(108,99,255,0.07);border:1px solid rgba(108,99,255,0.18);border-radius:12px;padding:0.85rem;text-align:center;">
+            <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mut);margin-bottom:0.3rem;">Mots rappelés</div>
+            <div id="we-recallN" style="font-size:1.6rem;font-weight:800;color:var(--acc);">—</div>
+            <div style="font-size:0.72rem;color:var(--mut);margin-top:0.2rem;">sans indices</div>
+          </div>
+          <div style="flex:1;background:rgba(67,217,173,0.07);border:1px solid rgba(67,217,173,0.2);border-radius:12px;padding:0.85rem;text-align:center;">
+            <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mut);margin-bottom:0.3rem;">Mots reconnus</div>
+            <div id="we-recogN" style="font-size:1.6rem;font-weight:800;color:var(--teal);">—</div>
+            <div style="font-size:0.72rem;color:var(--mut);margin-top:0.2rem;">avec liste</div>
+          </div>
+        </div>
+        <div id="we-resultsText" class="co" style="font-size:0.9rem;line-height:1.7;"></div>
+        <div style="text-align:center;margin-top:1rem">
+          <button class="btn" onclick="showExplFromWords()">Comprendre pourquoi →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="expl" class="hidden">
+    <div class="card">
+      <div class="ctag">Le mécanisme</div>
+      <h2>Reconnaître une info, c'est différent de savoir la retrouver seul</h2>
+      <p style="margin-bottom:0.95rem;"><strong style="color:var(--txt);">C'est exactement ce que tu viens de vivre deux fois.</strong> D'abord avec les questions d'histoire, ensuite avec les mots : dans les deux cas, reconnaître était plus facile que retrouver seul. Ce n'est pas une coïncidence.</p>
+      <p style="margin-bottom:0.95rem;">Quand tu relis tes notes, le cours est là devant toi. Ton cerveau voit les mots, il les reconnaît, et ça crée un sentiment de familiarité, un peu comme quand tu reconnais un visage dans la rue sans pouvoir mettre le prénom dessus. Ce sentiment peut ressembler à de la maîtrise, mais c'est autre chose.</p>
+      <p style="margin-bottom:0.95rem;">Pour reconnaître une info, le cerveau s'appuie sur ce qu'il a devant lui : la mise en page, l'ordre des phrases, les mots en gras. Tout ça l'aide à retrouver l'information. En contrôle, ces indices disparaissent. Le cerveau doit aller chercher seul dans sa mémoire, sans rien devant lui. Et si cette capacité n'a jamais été entraînée, c'est souvent le vide.</p>
+      <p style="margin-bottom:0.95rem;">Ces deux choses, reconnaître et récupérer seul, font appel à des processus différents. La relecture entraîne la première, mais ne prépare pas vraiment à la seconde.</p>
+      <div class="schema">
+        <div class="sb sr">
+          <div class="sbi">😌</div>
+          <h4>Relire</h4>
+          <p>Le cours est là. Le cerveau reconnaît. Il croit savoir.</p>
+        </div>
+        <div class="sarr">→</div>
+        <div class="sb sr">
+          <div class="sbi">😶</div>
+          <h4>Le contrôle</h4>
+          <p>Plus rien devant soi. Le cerveau doit retrouver seul. Souvent : le vide.</p>
+        </div>
+      </div>
+      <div class="co am">
+        Tu as travaillé : le problème, c'est que la méthode que tu utilisais entraînait autre chose que ce qu'un contrôle va tester.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctag">Ce qui fonctionne mieux</div>
+      <h2>La récupération active, et pourquoi tu as cru que ça ne marchait pas</h2>
+      <p style="margin-bottom:0.95rem;">La récupération active, c'est le fait d'aller chercher une information dans sa mémoire sans avoir le support sous les yeux : répondre à des questions, reconstruire un cours de tête, réexpliquer sans regarder ses notes. C'est exactement ce que tu viens de faire avec les 3 questions d'histoire et les mots à rappeler.</p>
+      <p style="margin-bottom:0.95rem;">Des études montrent que cette méthode produit une bien meilleure rétention que la relecture, surtout sur les jours qui suivent la révision. Roediger et Karpicke (2006) ont notamment montré que la récupération active surpassait nettement la relecture sur des tests passés 2 jours et 1 semaine après.</p>
+      <p style="margin-bottom:1rem;">Tu as déjà essayé quelque chose de similaire (cacher, réécrire) et tu n'as pas vu de différence. Probablement pour deux raisons :</p>
+      <div class="steps" style="margin-top:0">
+        <div class="step">
+          <div class="sn">1</div>
+          <div class="sc">
+            <h4>Se tester fait plus d'effort que relire, et on interprète ça comme un signe que ça marche moins bien</h4>
+            <p>Quand on essaie de récupérer une info et qu'on galère, on ressent de la difficulté. On peut avoir l'impression que ça « ne rentre pas ». En réalité, c'est précisément cet effort qui renforce la mémorisation. La difficulté ressentie sur le moment ne dit rien sur l'efficacité réelle de la méthode.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="sn">2</div>
+          <div class="sc">
+            <h4>La veille, en une seule session, sans revenir sur ses erreurs</h4>
+            <p>La récupération active a besoin de conditions minimales pour produire son effet : plusieurs sessions espacées, et un vrai retour sur ce qu'on n'a pas su retrouver. Pratiquée la veille en une seule fois, le bénéfice reste très limité. Ce n'était pas la méthode le problème, c'était le moment et la façon de l'utiliser.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctag">Ce que ça donne dans le temps</div>
+      <h2>L'écart entre les deux méthodes se creuse avec les jours</h2>
+      <p style="margin-bottom:0.85rem;">Ce que tu viens de constater sur toi, des études l'ont mesuré à grande échelle. Juste après la révision, les deux méthodes sont assez proches. Quelques jours plus tard, là où les contrôles arrivent, l'écart devient net.</p>
+      <div class="gw"><canvas id="rc"></canvas></div>
+      <div class="gleg">
+        <span><span class="ld" style="background:#ff6b6b"></span>Relecture passive</span>
+        <span><span class="ld" style="background:#43d9ad"></span>Récupération active</span>
+      </div>
+      <p style="color:var(--mut);font-size:0.81rem;margin-top:0.75rem;">Inspiré de Roediger &amp; Karpicke (2006). Dans leur étude, la relecture avait même un léger avantage sur un test immédiat. C'est sur les tests différés (2 jours, 1 semaine) que la récupération active surpassait nettement. Les valeurs ici sont illustratives : l'effet est robuste et répliqué dans de nombreuses études.</p>
+    </div>
+
+    <div class="bot-nav">
+      <span></span>
+      <button class="btn" onclick="go('p2')">La méthode →</button>
+    </div>
+  </div>
+</div>
+
+<div id="p2" class="page">
+  <div class="hero">
+    <div class="hero-pill">Partie 2 — Pratiquer</div>
+    <h1>La feuille blanche structurée</h1>
+    <p>Un support retourné. Tes titres comme seuls indices. Tout ce que tu retrouves de mémoire.</p>
+  </div>
+
+  <div class="card">
+    <div class="ctag">Le principe</div>
+    <h2>Comment ça marche</h2>
+    <p style="margin-bottom:0.95rem;">Tu retournes ton support de cours — synthèse ou cours directement, selon ce que tu as — et tu essaies de reconstruire ce que tu sais de mémoire, avec seulement les titres ou mots-clés devant toi. Puis tu rouvres le support et tu vois ce qui manque. Ce que tu n'as pas retrouvé, c'est exactement ce sur quoi tu dois encore travailler.</p>
+    <div class="co tl" style="margin-top:1rem;">
+      Un point avant de commencer : cette méthode suppose que tu as d'abord <em>compris</em> la matière. Si un passage n'est pas clair, commence par le comprendre avant de te tester dessus — on y revient dans les étapes.
+    </div>
+    <div class="steps">
+      <div class="step"><div class="sn">1</div><div class="sc"><h4>Retourne ton support de cours</h4><p>Face cachée, tu ne regardes plus rien.</p></div></div>
+      <div class="step"><div class="sn">2</div><div class="sc"><h4>Recopie les titres sur une feuille vierge</h4><p>Juste les grands titres, en guise d'ancres. Rien d'autre.</p></div></div>
+      <div class="step"><div class="sn">3</div><div class="sc"><h4>Récupère tout ce dont tu te souviens</h4><p>Sans regarder, avec tes propres mots. Les blancs sont normaux — c'est justement eux qui sont utiles.</p></div></div>
+      <div class="step"><div class="sn">4</div><div class="sc"><h4>Compare et marque en rouge ce qui manque</h4><p>Tu rouvres le support et tu corriges sur ta feuille : ce qui manque, ce qui est faux, ce qui est incomplet. Le rouge devient ta liste de travail.</p></div></div>
+      <div class="step">
+        <div class="sn">5</div>
+        <div class="sc">
+          <h4>Travaille ce qui est en rouge — vraiment</h4>
+          <p>Reformule avec tes mots, trouve un exemple, demande de l'aide, associe l'information à quelque chose que tu connais déjà, traduis en un petit dessin, etc. Puis reteste-toi sur ces points avant de passer à la suite.</p>
+        </div>
+      </div>
+      <div class="step"><div class="sn">6</div><div class="sc"><h4>Reviens dessus un autre jour</h4><p>Une seule session ne suffit pas. Plusieurs passages espacés valent bien mieux qu'une longue session la veille — et même la veille, c'est plus utile que relire, parce qu'au moins tu sais exactement ce qui manque.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctag">Essaie maintenant</div>
+    <h2>Un exemple sur un cours de sciences</h2>
+    <div id="demo-step-a">
+      <p style="margin-bottom:0.9rem;">Voici un extrait de cours sur la cellule. Lis-le attentivement.</p>
+      <div class="cours">
+        <span class="ctitle">📖 La cellule — à lire</span>
+        <p style="margin-bottom:0.55rem;"><strong>1. Définition</strong><br>La cellule est l'unité de base du vivant. Tout être vivant est composé d'une ou plusieurs cellules.</p>
+        <p style="margin-bottom:0.35rem;"><strong>2. Composition et rôles</strong></p>
+        <ul style="margin-bottom:0.55rem;">
+          <li>La <strong>membrane cellulaire</strong> : entoure la cellule et contrôle les échanges avec l'extérieur</li>
+          <li>Le <strong>cytoplasme</strong> : liquide à l'intérieur de la cellule, dans lequel baignent les organites</li>
+          <li>Le <strong>noyau</strong> : contient l'ADN et orchestre les activités de la cellule</li>
+        </ul>
+        <p><strong>3. Deux grands types de cellules</strong></p>
+        <ul>
+          <li><strong>Procaryote</strong> : pas de noyau délimité (ex : bactérie)</li>
+          <li><strong>Eucaryote</strong> : noyau bien délimité (ex : cellule humaine, cellule végétale)</li>
+        </ul>
+      </div>
+      <div style="text-align:center"><button class="btn" onclick="openPh('demo-step-b')">J'ai lu →</button></div>
+    </div>
+
+    <div id="demo-step-b" class="hidden">
+      <div class="sep"></div>
+      <p style="margin-bottom:0.85rem;font-size:0.93rem;color:#c8c8e0;">Dans la vraie vie, avant de te tester sur ce cours, tu aurais d'abord travaillé la compréhension. Par exemple :</p>
+      <div class="encode-examples">
+        <div class="ee"><span class="ee-icon">✏️</span><span><strong>Redessiner la cellule</strong> avec les trois parties et le rôle de chacune noté à côté. Sur ce type de cours, c'est souvent bien plus utile que relire — ça oblige à comprendre les liens entre les éléments plutôt que de mémoriser des étiquettes.</span></div>
+        <div class="ee"><span class="ee-icon">💬</span><span><strong>Reformuler à voix haute</strong> comme si tu expliquais à quelqu'un qui n'a jamais entendu parler de cellule. Si tu butes sur un mot ou une explication, c'est là que la compréhension est encore fragile.</span></div>
+        <div class="ee"><span class="ee-icon">❓</span><span><strong>Se poser des questions de sens :</strong> « À quoi sert le noyau concrètement ? Qu'est-ce qui se passerait dans une cellule sans noyau ? » Ce genre de questions pousse à comprendre le mécanisme plutôt qu'à retenir des mots, et c'est ce qui reste.</span></div>
+      </div>
+      <p style="font-size:0.86rem;color:var(--mut);margin-top:0.6rem;margin-bottom:1rem;">Ici on saute cette étape pour aller directement à la récupération. Tu vas probablement surtout retrouver des mots — c'est normal pour cet exercice.</p>
+      <p style="font-size:0.93rem;color:#c8c8e0;margin-bottom:0.5rem;">Relis une dernière fois l'extrait, puis essaie de le reconstruire.</p>
+      <div class="cours" style="margin-bottom:1rem;">
+        <span class="ctitle">📖 La cellule — relis une dernière fois</span>
+        <p style="margin-bottom:0.55rem;"><strong>1. Définition</strong><br>La cellule est l'unité de base du vivant. Tout être vivant est composé d'une ou plusieurs cellules.</p>
+        <p style="margin-bottom:0.35rem;"><strong>2. Composition et rôles</strong></p>
+        <ul style="margin-bottom:0.55rem;">
+          <li>La <strong>membrane cellulaire</strong> : entoure la cellule et contrôle les échanges avec l'extérieur</li>
+          <li>Le <strong>cytoplasme</strong> : liquide à l'intérieur de la cellule, dans lequel baignent les organites</li>
+          <li>Le <strong>noyau</strong> : contient l'ADN et orchestre les activités de la cellule</li>
+        </ul>
+        <p><strong>3. Deux grands types de cellules</strong></p>
+        <ul>
+          <li><strong>Procaryote</strong> : pas de noyau délimité (ex : bactérie)</li>
+          <li><strong>Eucaryote</strong> : noyau bien délimité (ex : cellule humaine, cellule végétale)</li>
+        </ul>
+      </div>
+      <div style="text-align:center"><button class="btn" onclick="openPh('demo-step-c')">C'est bon — cache le cours →</button></div>
+    </div>
+
+    <div id="demo-step-c" class="hidden">
+      <div class="sep"></div>
+      <div class="feuille">
+        <div class="flbl">✏️ Ta feuille blanche</div>
+        <p style="font-size:0.79rem;color:#bbb;margin-bottom:0.65rem;">Indices : <em>1. Définition &nbsp;|&nbsp; 2. Composition et rôles &nbsp;|&nbsp; 3. Deux types</em></p>
+        <textarea id="dta" placeholder="Reconstruit le cours de mémoire — les rôles aussi, pas seulement les noms..."></textarea>
+      </div>
+      <div class="note">
+        <span style="font-size:1.05rem;margin-top:0.1rem;">🖊️</span>
+        <span>Sur papier, tu marquerais en rouge ce qui manque après avoir comparé, puis tu retravaillerais ces points. Ici on compare directement à l'écran.</span>
+      </div>
+      <div style="text-align:right"><button class="btn tl" onclick="showCmp()">Comparer avec le cours →</button></div>
+    </div>
+
+    <div id="demo-cmp" class="hidden" style="margin-top:0.8rem">
+      <div class="cmpg">
+        <div class="cours" style="margin:0;font-size:0.86rem;">
+          <span class="ctitle">📖 Le cours</span>
+          <p style="margin-bottom:0.4rem;"><strong>1.</strong> Unité de base du vivant</p>
+          <p style="margin-bottom:0.25rem;"><strong>2. Composition</strong></p>
+          <ul style="margin-bottom:0.4rem;">
+            <li>Membrane : contrôle les échanges</li>
+            <li>Cytoplasme : liquide intérieur</li>
+            <li>Noyau : ADN, orchestre la cellule</li>
+          </ul>
+          <p><strong>3. Types</strong></p>
+          <ul>
+            <li>Procaryote : pas de noyau</li>
+            <li>Eucaryote : noyau délimité</li>
+          </ul>
+        </div>
+        <div class="feuille" style="margin:0;background:#f9f9f5;">
+          <div class="flbl" style="color:#888;">✏️ Ce que tu as écrit</div>
+          <p id="dout" style="font-size:0.86rem;white-space:pre-wrap;color:#444;line-height:1.7;"></p>
+        </div>
+      </div>
+      <div class="co" style="margin-top:0.8rem">
+        Ce qui est dans le cours mais absent de ta feuille, c'est ce que tu marquerais en rouge. Tu travailles ces points, tu comprends pourquoi ça manquait, puis tu te retestes dessus.
+      </div>
+      <div style="margin-top:0.9rem;padding:1rem 1rem;background:var(--sur2);border-radius:12px;">
+        <p style="font-size:0.88rem;color:var(--mut);margin-bottom:0.65rem;">Est-ce que tu aurais vu ces lacunes en relisant simplement ton cours ?</p>
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+          <button class="btn gh" onclick="dfin('no')" style="flex:1;min-width:0;">Non, j'aurais cru que je savais</button>
+          <button class="btn gh" onclick="dfin('yes')" style="flex:1;min-width:0;">Oui, probablement</button>
+        </div>
+        <div id="dfin" class="hidden" style="margin-top:0.75rem;padding:0.85rem 0.95rem;background:rgba(67,217,173,0.06);border:1px solid rgba(67,217,173,0.18);border-radius:10px;font-size:0.89rem;color:#c0c0d8;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctag">Ce que tu retiens</div>
+    <h2>La question à se poser avant un contrôle</h2>
+    <p style="margin-bottom:0.95rem;">Avant, la question c'était : <em style="color:var(--mut);">« Est-ce que je sens que je maîtrise ? »</em></p>
+    <div class="co" style="font-size:0.96rem;line-height:1.65;">
+      <strong>Est-ce que je peux reconstruire cette partie sans regarder ?</strong><br>
+      <span style="color:var(--mut);font-size:0.86rem;">Si oui : c'est bon. Si non : c'est là qu'il reste du travail.</span>
+    </div>
+    <div style="margin-top:1.2rem;padding:1rem 1rem;background:var(--sur2);border-radius:12px;">
+      <p style="font-size:0.89rem;margin-bottom:0.25rem;"><strong>Pour cette semaine :</strong></p>
+      <p style="font-size:0.86rem;color:var(--mut);margin-bottom:0.75rem;">Un support. 15 minutes. Tu verras la différence.</p>
+      <p style="font-size:0.84rem;color:var(--mut);margin-bottom:0.55rem;">Sur quelle matière tu veux tester ça ?</p>
+      <div class="subrow" id="sbrow">
+        <button class="btn gh" onclick="pickS(this,'Sciences')">Sciences</button>
+        <button class="btn gh" onclick="pickS(this,'Histoire')">Histoire</button>
+        <button class="btn gh" onclick="pickS(this,'Géo')">Géo</button>
+        <button class="btn gh" onclick="pickS(this,'Français')">Français</button>
+        <button class="btn gh" onclick="pickS(this,'Maths')">Maths</button>
+      </div>
+      <div id="sout" class="hidden" style="margin-top:0.75rem;padding:0.85rem 0.9rem;background:rgba(67,217,173,0.06);border:1px solid rgba(67,217,173,0.18);border-radius:10px;font-size:0.88rem;color:#c0c0d8;line-height:1.65;"></div>
+    </div>
+  </div>
+
+  <div class="bot-nav">
+    <button class="btn gh" onclick="go('p1')">← Retour</button>
+    <span></span>
+  </div>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.nb')[id==='p1'?0:1].classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function openPh(id){
+  var el=document.getElementById(id);
+  el.classList.remove('hidden');
+  setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'start'});},60);
+}
+function unhide(id){
+  var el=document.getElementById(id);
+  el.classList.remove('hidden');
+  setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'start'});},60);
+}
+function sl(sid,vid){
+  var v=document.getElementById(sid).value;
+  document.getElementById(vid).textContent=v+' / 10';
+  var p=(v-1)/9*100;
+  document.getElementById(sid).style.background='linear-gradient(to right,#6c63ff '+p+'%,#2e2e3e '+p+'%)';
+}
+window.addEventListener('DOMContentLoaded',function(){sl('s1','sv1');sl('s2','sv2');});
+
+function revealAnswers(){
+  ['qa1','qa2','qa3'].forEach(function(id){document.getElementById(id).classList.add('vis');});
+  unhide('ph4');
+}
+
+function setScore(btn,n){
+  document.querySelectorAll('.score-row .btn').forEach(function(b){b.classList.remove('on');b.classList.add('gh');});
+  btn.classList.add('on');btn.classList.remove('gh');
+  var s1=parseInt(document.getElementById('s1').value);
+  var s2=parseInt(document.getElementById('s2').value);
+  document.getElementById('bv1').textContent=s1+'/10';
+  document.getElementById('bv2').textContent=s2+'/10';
+  document.getElementById('bvp').textContent=n+'/3';
+  unhide('bilan-block');
+}
+
+function showExpl(){
+  unhide('expl');
+  setTimeout(drawGraph,250);
+}
+
+function drawGraph(){
+  var c=document.getElementById('rc');
+  if(!c||c.dataset.d)return;
+  c.dataset.d='1';
+  var dpr=window.devicePixelRatio||1;
+  c.width=c.offsetWidth*dpr;c.height=c.offsetHeight*dpr;
+  var ctx=c.getContext('2d');
+  ctx.scale(dpr,dpr);
+  var W=c.offsetWidth,H=c.offsetHeight;
+  var pL=44,pR=18,pT=16,pB=36;
+  var gW=W-pL-pR,gH=H-pT-pB;
+  var labels=['Juste après','1 jour','3 jours','1 sem.'];
+  var passive=[72,42,26,16];
+  var active=[68,63,55,48];
+  function xP(i){return pL+i/(labels.length-1)*gW;}
+  function yP(v){return pT+gH-v/100*gH;}
+  [0,25,50,75,100].forEach(function(v){
+    ctx.strokeStyle='rgba(255,255,255,0.045)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pL,yP(v));ctx.lineTo(pL+gW,yP(v));ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.22)';
+    ctx.font="11px 'Segoe UI',system-ui";ctx.textAlign='right';
+    ctx.fillText(v+'%',pL-6,yP(v)+4);
+  });
+  ctx.textAlign='center';ctx.fillStyle='rgba(255,255,255,0.22)';
+  ctx.font="11px 'Segoe UI',system-ui";
+  labels.forEach(function(l,i){ctx.fillText(l,xP(i),H-pB+15);});
+  function line(data,col){
+    ctx.save();ctx.beginPath();
+    data.forEach(function(v,i){if(i===0){ctx.moveTo(xP(i),yP(v));}else{ctx.lineTo(xP(i),yP(v));}});
+    ctx.lineTo(xP(data.length-1),yP(0));ctx.lineTo(xP(0),yP(0));ctx.closePath();
+    ctx.fillStyle=col+'15';ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.strokeStyle=col;ctx.lineWidth=2.4;ctx.lineJoin='round';
+    data.forEach(function(v,i){if(i===0){ctx.moveTo(xP(i),yP(v));}else{ctx.lineTo(xP(i),yP(v));}});
+    ctx.stroke();
+    data.forEach(function(v,i){
+      ctx.beginPath();ctx.arc(xP(i),yP(v),4,0,Math.PI*2);
+      ctx.fillStyle=col;ctx.fill();
+      ctx.strokeStyle='#0f0f13';ctx.lineWidth=2;ctx.stroke();
+    });
+  }
+  line(passive,'#ff6b6b');
+  line(active,'#43d9ad');
+}
+
+function showCmp(){
+  document.getElementById('dout').textContent=document.getElementById('dta').value||'(rien écrit)';
+  unhide('demo-cmp');
+}
+
+function dfin(ans){
+  var el=document.getElementById('dfin');
+  el.classList.remove('hidden');
+  el.innerHTML=ans==='no'
+    ?'Exactement. En relisant, tout paraissait logique et cohérent, et cette familiarité ressemblait à de la maîtrise. La feuille blanche, elle, te montre en direct ce que tu peux vraiment récupérer seul et ce qui manque encore.'
+    :'Possible. Mais en général, la relecture crée un confort qui masque les lacunes. Essaie les deux sur le même cours un jour et compare ce que tu repères vraiment.';
+}
+
+function showWordsExercise(){
+  unhide('words-exercise');
+  setTimeout(function(){document.getElementById('words-exercise').scrollIntoView({behavior:'smooth',block:'start'});},60);
+}
+
+function showExplFromWords(){
+  unhide('expl');
+  setTimeout(drawGraph,250);
+  setTimeout(function(){document.getElementById('expl').scrollIntoView({behavior:'smooth',block:'start'});},60);
+}
+
+var WE_ORIG=['château','fusée','lanterne','cascade','tribunal','baleine','volcan','boussole','pétale','grotte','marécage','équinoxe'];
+var WE_INTRUS=['glacier','phare','archipel','crépuscule','brume','estuaire','canyon','toundra'];
+var WE_DISTR=[{q:'17 + 28 = ?',a:'45'},{q:'63 − 37 = ?',a:'26'},{q:'9 × 7 = ?',a:'63'}];
+var weTimerInt=null,weTimerLeft=30,weDIdx=0;
+var weRecalledSet=new Set(),weRecogSet=new Set();
+
+function weNorm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();}
+function weShuffle(a){var b=[].concat(a);for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+
+function weStart(){
+  document.getElementById('we-step1').style.display='none';
+  document.getElementById('we-step2').classList.remove('hidden');
+  var g=document.getElementById('we-wordGrid');g.innerHTML='';
+  weShuffle(WE_ORIG).forEach(function(w){
+    var c=document.createElement('div');
+    c.style.cssText='background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:0.45rem 0.9rem;font-size:0.9rem;color:var(--txt);';
+    c.textContent=w;g.appendChild(c);
+  });
+  weTimerLeft=30;weUpdateTimer();
+  weTimerInt=setInterval(function(){weTimerLeft--;weUpdateTimer();if(weTimerLeft<=0){clearInterval(weTimerInt);document.getElementById('we-step2').classList.add('hidden');document.getElementById('we-step3').classList.remove('hidden');weSetupDistr();setTimeout(function(){document.getElementById('we-step3').scrollIntoView({behavior:'smooth',block:'nearest'});},60);}},1000);
+}
+
+function weUpdateTimer(){
+  var circ=2*Math.PI*27;
+  document.getElementById('we-tCircle').style.strokeDashoffset=circ*(1-weTimerLeft/30);
+  document.getElementById('we-tNum').textContent=weTimerLeft;
+  if(weTimerLeft<=5)document.getElementById('we-tCircle').style.stroke='var(--red)';
+}
+
+function weSetupDistr(){weDIdx=0;document.getElementById('we-distrQ').textContent=WE_DISTR[0].q;document.getElementById('we-distrIn').value='';document.getElementById('we-distrFb').textContent='';}
+
+function weCheckD(){
+  var v=document.getElementById('we-distrIn').value.trim();
+  var fb=document.getElementById('we-distrFb');
+  if(v===WE_DISTR[weDIdx].a){
+    weDIdx++;
+    if(weDIdx>=WE_DISTR.length){
+      setTimeout(function(){
+        document.getElementById('we-step3').classList.add('hidden');
+        document.getElementById('we-step4').classList.remove('hidden');
+        setTimeout(function(){document.getElementById('we-step4').scrollIntoView({behavior:'smooth',block:'nearest'});},60);
+      },300);
+    } else {
+      document.getElementById('we-distrQ').textContent=WE_DISTR[weDIdx].q;
+      document.getElementById('we-distrIn').value='';
+      fb.textContent='✓';fb.style.color='var(--teal)';
+      setTimeout(function(){fb.textContent='';},500);
+    }
+  } else {fb.textContent='Essaie encore…';fb.style.color='var(--red)';}
+}
+
+function weGoRecog(){
+  var raw=document.getElementById('we-recallTa').value.toLowerCase();
+  var tokens=raw.split(/[\s,;\n]+/).map(function(w){return weNorm(w.replace(/[^a-záàâäéèêëíîïóôöùûüç]/g,''));});
+  weRecalledSet=new Set(tokens.filter(Boolean));
+  var allW=weShuffle([].concat(WE_ORIG,WE_INTRUS));
+  var g=document.getElementById('we-recogGrid');g.innerHTML='';weRecogSet=new Set();
+  allW.forEach(function(w){
+    var item=document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.65rem;border:1px solid var(--bor);border-radius:6px;cursor:pointer;background:var(--sur2);transition:all .15s;';
+    item.dataset.word=w;
+    item.onclick=function(){
+      var checked=item.dataset.checked==='1';
+      if(!checked){item.dataset.checked='1';item.style.background='rgba(67,217,173,0.1)';item.style.borderColor='var(--teal)';weRecogSet.add(w);}
+      else{item.dataset.checked='0';item.style.background='var(--sur2)';item.style.borderColor='var(--bor)';weRecogSet.delete(w);}
+    };
+    item.innerHTML='<span style="width:12px;height:12px;border-radius:3px;border:1.5px solid var(--bor);flex-shrink:0;background:transparent;"></span><span style="font-size:0.85rem;color:var(--txt);">'+w+'</span>';
+    g.appendChild(item);
+  });
+  document.getElementById('we-step4').classList.add('hidden');
+  document.getElementById('we-step5').classList.remove('hidden');
+  setTimeout(function(){document.getElementById('we-step5').scrollIntoView({behavior:'smooth',block:'nearest'});},60);
+}
+
+function weShowResults(){
+  var normOrig=WE_ORIG.map(weNorm);
+  var rCall=0;weRecalledSet.forEach(function(w){if(normOrig.indexOf(weNorm(w))!==-1)rCall++;});
+  var rCog=0;weRecogSet.forEach(function(w){if(normOrig.indexOf(weNorm(w))!==-1)rCog++;});
+  document.getElementById('we-recallN').textContent=rCall;
+  document.getElementById('we-recogN').textContent=rCog;
+  var txt='';
+  if(rCog>rCall){txt='Tu as rappelé '+rCall+' mots sur 12 et reconnu '+rCog+'. Cet écart, c\'est le même mécanisme que tout à l\'heure avec les questions d\'histoire. Reconnaître est facile : l\'information te revient quand on te la montre. Retrouver sans aucun indice, c\'est ce que le contrôle te demande. Et ça ne se prépare pas de la même façon.';}
+  else if(rCall>=8){txt='Bon rappel, '+rCall+' mots sur 12. La reconnaissance était peut-être un peu plus haute. Sur du contenu scolaire dense, avec du temps écoulé, cet écart entre rappel et reconnaissance est souvent bien plus marqué.';}
+  else{txt='Tu as rappelé '+rCall+' mots sur 12. C\'est normal, les conditions n\'étaient pas optimales pour mémoriser. Ce qui compte, c\'est le principe : entre ce qu\'on retrouve seul et ce qu\'on reconnaît quand on le voit, il y a presque toujours un écart. Maintenant qu\'on l\'a vu deux fois, on peut comprendre d\'où ça vient.';}
+  document.getElementById('we-resultsText').textContent=txt;
+  document.getElementById('we-step5').classList.add('hidden');
+  document.getElementById('we-step6').classList.remove('hidden');
+  setTimeout(function(){document.getElementById('we-step6').scrollIntoView({behavior:'smooth',block:'nearest'});},60);
+}
+
+var sMsg={
+  Sciences:'Prends ton support de sciences, retourne-le, et reconstruit partie par partie sous les titres. Les noms ne suffisent pas : les rôles et les mécanismes doivent y être aussi. Ce qui est blanc, tu le retravailles. Tu comprends pourquoi ça manquait, puis tu te retestes dessus.',
+  Histoire:'Prends ton support d\'histoire, retourne-le. Sous chaque titre (période, événement, personnage), écris tout ce dont tu te souviens : dates, causes, conséquences. Ce qui est vide ou faux, tu le retravailles, puis tu te retestes dessus avant de fermer ta session.',
+  Géo:'Prends ton support de géo, retourne-le. Sous chaque titre, reconstruis les définitions, les exemples, les chiffres clés. Ce qui est blanc, tu le retravailles immédiatement, et tu te retestes dessus avant de passer à autre chose.',
+  Français:'Pour un cours de grammaire ou de littérature : retourne ton support et reconstruit les règles, les notions, les exemples avec tes propres mots. Si tu ne peux pas reformuler, c\'est que ce n\'est pas encore vraiment compris. Commence par clarifier ça avant de te retester.',
+  Maths:'Pour les maths, la logique est la même mais sur les exercices. Prends un exercice déjà vu, cache la correction, et essaie de le résoudre seul jusqu\'au bout. Là où tu bloques, demande-toi : est-ce que je n\'avais pas compris la méthode, ou je l\'avais comprise mais je n\'arrive pas à l\'appliquer seul ? Selon la réponse, tu reprends soit la compréhension de la méthode, soit tu t\'entraînes sur des exercices similaires.'
+};
+
+function pickS(btn,name){
+  document.querySelectorAll('#sbrow .btn').forEach(function(b){b.classList.remove('sel');b.classList.add('gh');});
+  btn.classList.remove('gh');btn.classList.add('sel');
+  var el=document.getElementById('sout');
+  el.classList.remove('hidden');
+  el.innerHTML='<strong>'+name+'</strong> — noté. '+sMsg[name];
+}
+</script>
+</body>
+</html>
