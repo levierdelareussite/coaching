@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le schéma mental — méthode</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #161b27;
+    --border: #252d40;
+    --accent: #f0a500;
+    --accent2: #e05a2b;
+    --accent3: #3eb8a0;
+    --text: #e8eaf0;
+    --muted: #7480a0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  .header { margin-bottom: 2rem; animation: fadeUp 0.5s ease both; }
+
+  .label {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    margin-top: 0.6rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    max-width: 580px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+
+  .tab {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #000; }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeUp 0.35s ease both; }
+
+  .map-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+  }
+
+  .map-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .map-svg { width: 100%; display: block; }
+
+  .node-text-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    fill: #e8eaf0;
+  }
+  .node-text-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    fill: #7480a0;
+  }
+  .node-center-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    fill: #f0a500;
+  }
+  .arrow-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    fill: #f0a500;
+  }
+
+  .map-note {
+    margin-top: 1.1rem;
+    padding: 0.9rem 1.1rem;
+    background: rgba(62,184,160,0.06);
+    border: 1px solid rgba(62,184,160,0.18);
+    border-radius: 8px;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .map-note strong { color: var(--text); font-weight: 500; }
+
+  /* EXAM */
+  .exam-intro {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.76rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .exam-intro .elabel {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .question-box {
+    background: #090b10;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.4rem;
+    font-size: 0.76rem;
+    line-height: 1.8;
+  }
+  .question-box .qlabel {
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .question-box em { color: var(--accent); font-style: normal; font-weight: 500; }
+
+  .steps-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step.instant { opacity: 1; transform: translateY(0); transition: none; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.7rem;
+    min-width: 28px; height: 28px;
+    background: rgba(240,165,0,0.1);
+    border: 1px solid rgba(240,165,0,0.25);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-head {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .step-body {
+    font-size: 0.73rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .step-body em { color: var(--accent3); font-style: normal; }
+  .step-body .hi { color: var(--accent); }
+
+  .step-arrow {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    color: var(--accent);
+    padding-left: 2.5rem;
+    margin: -0.3rem 0 0.3rem;
+    opacity: 0;
+    transition: opacity 0.4s 0.1s;
+  }
+  .step-arrow.visible { opacity: 1; }
+  .step-arrow.instant { opacity: 1; transition: none; }
+  .step-arrow::before { content: '↓'; }
+
+  .insight {
+    background: linear-gradient(135deg, rgba(240,165,0,0.07), rgba(62,184,160,0.04));
+    border: 1px solid rgba(240,165,0,0.18);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    font-size: 0.74rem;
+    line-height: 1.65;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .insight.visible { opacity: 1; }
+  .insight.instant { opacity: 1; transition: none; }
+  .insight .ilabel {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.45rem;
+  }
+  .insight strong { color: var(--text); font-weight: 500; }
+
+  /* NOTE SGM */
+  .sgm-note {
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    background: rgba(240,165,0,0.05);
+    border: 1px dashed rgba(240,165,0,0.2);
+    border-radius: 8px;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .sgm-note strong { color: var(--accent); font-weight: 500; }
+
+  /* GUIDE */
+  .guide-intro {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent3);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.76rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .guide-intro .glabel {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent3);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .guide-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .guide-block-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .guide-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent);
+    min-width: 32px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .guide-block-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .guide-block-sub {
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  .guide-block-body {
+    font-size: 0.74rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-left: 2.1rem;
+  }
+
+  .guide-block-body strong { color: var(--text); font-weight: 500; }
+  .guide-block-body em { color: var(--accent3); font-style: normal; }
+
+  .guide-example {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #0a0c12;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.7rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .guide-example .ex-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .verbs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .verb-tag {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+    background: rgba(240,165,0,0.08);
+    border: 1px solid rgba(240,165,0,0.2);
+    border-radius: 5px;
+    color: var(--accent);
+  }
+
+  .guide-note {
+    margin-top: 1rem;
+    padding: 0.9rem 1.1rem;
+    background: rgba(224,90,43,0.06);
+    border: 1px solid rgba(224,90,43,0.18);
+    border-radius: 8px;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .guide-note strong { color: var(--text); font-weight: 500; }
+
+  /* BTN */
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 1.2rem;
+    background: var(--accent);
+    color: #000;
+  }
+  .btn:hover { background: #f5b82a; transform: translateY(-1px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="label">Révision active</div>
+    <h1>Le schéma mental <span>en action</span></h1>
+    <p class="subtitle">Comprendre la méthode sur un exemple universel, voir comment elle fonctionne face à une question de contrôle, puis l'appliquer à ses propres cours.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('schema',this)">① Le schéma</button>
+    <button class="tab" onclick="switchTab('exam',this)">② Face au contrôle</button>
+    <button class="tab" onclick="switchTab('guide',this)">③ Construire le sien</button>
+  </div>
+
+  <!-- =================== PANEL SCHEMA =================== -->
+  <div class="panel active" id="panel-schema">
+    <div class="map-container">
+      <div class="map-label">Exemple : pourquoi on tombe malade en hiver</div>
+
+      <svg class="map-svg" viewBox="0 0 860 430" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
+            <polygon points="0 0, 8 3.5, 0 7" fill="#f0a500" opacity="0.7"/>
+          </marker>
+          <marker id="arr-muted" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
+            <polygon points="0 0, 8 3.5, 0 7" fill="#7480a0" opacity="0.6"/>
+          </marker>
+          <marker id="arr-teal" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
+            <polygon points="0 0, 8 3.5, 0 7" fill="#3eb8a0" opacity="0.7"/>
+          </marker>
+          <marker id="arr-red" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
+            <polygon points="0 0, 8 3.5, 0 7" fill="#e05a2b" opacity="0.7"/>
+          </marker>
+        </defs>
+
+        <!-- Node 1: Saison -->
+        <rect x="16" y="28" width="152" height="64" rx="10" fill="#1a2035" stroke="#f0a500" stroke-width="1.5"/>
+        <text x="92" y="52" text-anchor="middle" class="node-text-title">Saison</text>
+        <text x="92" y="68" text-anchor="middle" class="node-text-title">/ Température</text>
+        <text x="92" y="84" text-anchor="middle" class="node-text-sub">hiver · été · printemps</text>
+
+        <!-- Node 2: Comportement humain -->
+        <rect x="216" y="28" width="160" height="64" rx="10" fill="#1a2035" stroke="#f0a500" stroke-width="1.5"/>
+        <text x="296" y="52" text-anchor="middle" class="node-text-title">Comportement</text>
+        <text x="296" y="68" text-anchor="middle" class="node-text-title">humain</text>
+        <text x="296" y="84" text-anchor="middle" class="node-text-sub">rester à l'intérieur · sortir</text>
+
+        <!-- Node CENTER: Système immunitaire -->
+        <rect x="432" y="16" width="186" height="88" rx="12" fill="#1e2540" stroke="#f0a500" stroke-width="2.5"/>
+        <text x="525" y="46" text-anchor="middle" class="node-center-title">SYSTÈME</text>
+        <text x="525" y="64" text-anchor="middle" class="node-center-title">IMMUNITAIRE</text>
+        <text x="525" y="82" text-anchor="middle" class="node-text-sub">défenses de l'organisme</text>
+        <text x="525" y="96" text-anchor="middle" class="node-text-sub">← pivot de tout →</text>
+
+        <!-- Node 4: Santé / Maladie -->
+        <rect x="678" y="28" width="166" height="64" rx="10" fill="#1a2035" stroke="#3eb8a0" stroke-width="1.5"/>
+        <text x="761" y="52" text-anchor="middle" class="node-text-title">Santé</text>
+        <text x="761" y="68" text-anchor="middle" class="node-text-title">/ Maladie</text>
+        <text x="761" y="84" text-anchor="middle" class="node-text-sub">résultat final observé</text>
+
+        <!-- Node 5: Ensoleillement -->
+        <rect x="130" y="210" width="170" height="64" rx="10" fill="#1a2035" stroke="#7480a0" stroke-width="1.5"/>
+        <text x="215" y="234" text-anchor="middle" class="node-text-title">Durée</text>
+        <text x="215" y="250" text-anchor="middle" class="node-text-title">d'ensoleillement</text>
+        <text x="215" y="266" text-anchor="middle" class="node-text-sub">vitamine D · humeur</text>
+
+        <!-- Node 6: Virus -->
+        <rect x="420" y="210" width="170" height="64" rx="10" fill="#1a2035" stroke="#7480a0" stroke-width="1.5"/>
+        <text x="505" y="234" text-anchor="middle" class="node-text-title">Virus</text>
+        <text x="505" y="250" text-anchor="middle" class="node-text-title">en circulation</text>
+        <text x="505" y="266" text-anchor="middle" class="node-text-sub">grippe · rhinovirus</text>
+
+        <!-- Node 7: Gravité des symptômes -->
+        <rect x="660" y="210" width="184" height="64" rx="10" fill="#1a2035" stroke="#3eb8a0" stroke-width="1.5"/>
+        <text x="752" y="234" text-anchor="middle" class="node-text-title">Gravité</text>
+        <text x="752" y="250" text-anchor="middle" class="node-text-title">des symptômes</text>
+        <text x="752" y="266" text-anchor="middle" class="node-text-sub">légère · modérée · sévère</text>
+
+        <!-- Node 8: Traitement -->
+        <rect x="660" y="348" width="184" height="56" rx="10" fill="#1a2035" stroke="#e05a2b" stroke-width="1.5"/>
+        <text x="752" y="372" text-anchor="middle" class="node-text-title">Traitement</text>
+        <text x="752" y="390" text-anchor="middle" class="node-text-sub">repos · médicament · vaccin</text>
+
+        <!-- ARROWS -->
+
+        <!-- 1 → 2 -->
+        <line x1="169" y1="60" x2="213" y2="60" stroke="#f0a500" stroke-width="1.5" stroke-opacity="0.65" marker-end="url(#arr)"/>
+        <text x="191" y="54" text-anchor="middle" class="arrow-label">influence</text>
+
+        <!-- 2 → CENTER -->
+        <line x1="377" y1="60" x2="429" y2="60" stroke="#f0a500" stroke-width="1.5" stroke-opacity="0.65" marker-end="url(#arr)"/>
+        <text x="403" y="54" text-anchor="middle" class="arrow-label">affecte</text>
+
+        <!-- CENTER → 4 -->
+        <line x1="619" y1="60" x2="675" y2="60" stroke="#3eb8a0" stroke-width="1.5" stroke-opacity="0.65" marker-end="url(#arr-teal)"/>
+        <text x="647" y="54" text-anchor="middle" class="arrow-label" fill="#3eb8a0">détermine</text>
+
+        <!-- 1 → 5: Saison → Ensoleillement -->
+        <path d="M 92 93 Q 92 155 168 210" stroke="#f0a500" stroke-width="1.3" stroke-opacity="0.5" fill="none" marker-end="url(#arr)"/>
+        <text x="108" y="162" class="arrow-label">réduit</text>
+
+        <!-- 5 → CENTER: Ensoleillement → Système immunitaire -->
+        <path d="M 300 242 Q 390 215 470 105" stroke="#7480a0" stroke-width="1.2" stroke-opacity="0.5" fill="none" stroke-dasharray="4 3" marker-end="url(#arr-muted)"/>
+        <text x="362" y="198" class="arrow-label" fill="#7480a0">affaiblit</text>
+
+        <!-- 2 → 6: Comportement → Virus (rester enfermé = plus de virus) -->
+        <path d="M 340 93 Q 400 155 455 208" stroke="#7480a0" stroke-width="1.2" stroke-opacity="0.5" fill="none" stroke-dasharray="4 3" marker-end="url(#arr-muted)"/>
+        <text x="418" y="148" class="arrow-label" fill="#7480a0">favorise</text>
+
+        <!-- 6 → CENTER: Virus → Système immunitaire -->
+        <line x1="505" y1="210" x2="518" y2="105" stroke="#7480a0" stroke-width="1.2" stroke-opacity="0.5" stroke-dasharray="4 3" marker-end="url(#arr-muted)"/>
+        <text x="532" y="162" class="arrow-label" fill="#7480a0">sollicite</text>
+
+        <!-- 4 → 7: Santé → Gravité -->
+        <line x1="752" y1="93" x2="752" y2="208" stroke="#3eb8a0" stroke-width="1.3" stroke-opacity="0.55" marker-end="url(#arr-teal)"/>
+        <text x="768" y="153" class="arrow-label" fill="#3eb8a0">détermine</text>
+
+        <!-- 7 → 8: Gravité → Traitement -->
+        <line x1="752" y1="275" x2="752" y2="346" stroke="#e05a2b" stroke-width="1.3" stroke-opacity="0.55" marker-end="url(#arr-red)"/>
+        <text x="768" y="313" class="arrow-label" fill="#e05a2b">oriente</text>
+
+        <!-- 8 → CENTER: Traitement → Système immunitaire (boucle retour) -->
+        <path d="M 659 376 Q 540 415 525 105" stroke="#e05a2b" stroke-width="1.1" stroke-opacity="0.4" fill="none" stroke-dasharray="5 3" marker-end="url(#arr-muted)"/>
+        <text x="536" y="412" class="arrow-label" fill="#e05a2b">renforce</text>
+
+        <!-- LEGEND -->
+        <rect x="16" y="375" width="390" height="46" rx="8" fill="#0f1117" stroke="#252d40" stroke-width="1"/>
+        <line x1="30" y1="392" x2="55" y2="392" stroke="#f0a500" stroke-width="1.5"/>
+        <text x="63" y="396" class="arrow-label" fill="#7480a0">relation principale (cause directe)</text>
+        <line x1="30" y1="410" x2="55" y2="410" stroke="#7480a0" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <text x="63" y="414" class="arrow-label" fill="#7480a0">relation secondaire / facteur indirect</text>
+
+      </svg>
+    </div>
+
+    <div class="map-note">
+      <strong>Pourquoi le système immunitaire est au centre ?</strong> Parce que c'est lui qui reçoit tous les facteurs (saison, virus, comportement, ensoleillement) et produit le résultat (santé ou maladie). Tout passe par là. Dans n'importe quelle matière, construire un schéma revient à trouver ce pivot : le concept qui relie les causes aux conséquences.
+    </div>
+
+    <button class="btn" onclick="switchTab('exam', document.querySelectorAll('.tab')[1])">Voir comment ça aide face à une question →</button>
+  </div>
+
+  <!-- =================== PANEL EXAM =================== -->
+  <div class="panel" id="panel-exam">
+
+    <div class="exam-intro">
+      <span class="elabel">Contexte</span>
+      Voici une question que tu n'as jamais vue exactement comme ça. Regarde comment le schéma te donne la direction de réponse, sans avoir rien appris par coeur.
+    </div>
+
+    <div class="question-box">
+      <span class="qlabel">Question</span>
+      Un enfant vit dans un pays nordique. En janvier, il passe ses journées enfermé à l'intérieur avec ses camarades. En juillet, il passe ses journées dehors au soleil.<br><br>
+      <em>1.</em> Pourquoi est-il plus susceptible de tomber malade en janvier qu'en juillet ? Donne au moins deux raisons.<br>
+      <em>2.</em> Sa mère lui achète des compléments de vitamine D en hiver. Quel lien avec sa santé ?<br>
+      <em>3.</em> Il tombe quand même malade. Pourquoi le vaccin contre la grippe aurait-il pu limiter la gravité des symptômes ?
+    </div>
+
+    <div class="steps-title">Raisonnement depuis le schéma</div>
+
+    <div class="step" id="s1">
+      <div class="step-num">1</div>
+      <div class="step-inner">
+        <div class="step-head">Je localise dans le schéma</div>
+        <div class="step-body">La question parle d'une différence entre janvier et juillet. Dans mon schéma : <span class="hi">saison → comportement humain</span> et <span class="hi">saison → ensoleillement</span>. Ces deux liens mènent tous les deux vers le système immunitaire. Je sais donc qu'il y a au moins deux chemins à explorer pour répondre à la question 1.</div>
+      </div>
+    </div>
+    <div class="step-arrow" id="a1">je suis les deux chemins</div>
+
+    <div class="step" id="s2">
+      <div class="step-num">2</div>
+      <div class="step-inner">
+        <div class="step-head">Deux raisons, deux chemins dans le schéma</div>
+        <div class="step-body">
+          Chemin 1 : en hiver, la saison influence le comportement, l'enfant reste enfermé avec d'autres, ce qui favorise la <em>circulation des virus</em>, qui sollicitent le système immunitaire.<br><br>
+          Chemin 2 : la saison réduit l'ensoleillement, ce qui affaiblit le système immunitaire (via la vitamine D, inscrite dans le noeud « ensoleillement »).<br><br>
+          Les deux chemins convergent vers le même noeud central. La question 1 est répondue.
+        </div>
+      </div>
+    </div>
+    <div class="step-arrow" id="a2">question 2 : la vitamine D</div>
+
+    <div class="step" id="s3">
+      <div class="step-num">3</div>
+      <div class="step-inner">
+        <div class="step-head">Vitamine D : je suis le lien « ensoleillement »</div>
+        <div class="step-body">Mon schéma indique que l'ensoleillement affaiblit ou renforce le système immunitaire. La vitamine D est précisée dans ce noeud. Acheter des compléments en hiver, c'est compenser le manque d'ensoleillement pour maintenir ce lien actif. Je n'avais pas vu cette question exacte : j'ai juste suivi le chemin que le schéma m'indiquait, et les détails du cours sont venus se placer dedans.</div>
+      </div>
+    </div>
+    <div class="step-arrow" id="a3">question 3 : le vaccin</div>
+
+    <div class="step" id="s4">
+      <div class="step-num">4</div>
+      <div class="step-inner">
+        <div class="step-head">Le vaccin : noeud « traitement » et boucle retour</div>
+        <div class="step-body">Mon schéma a une boucle : <em>traitement → renforce → système immunitaire</em>. Le vaccin prépare le système immunitaire à reconnaître le virus avant qu'il n'attaque. Quand le virus arrive, le système répond plus vite, et la <span class="hi">gravité des symptômes</span> s'en trouve réduite. Je n'ai pas cherché une réponse mémorisée : j'ai suivi la flèche.</div>
+      </div>
+    </div>
+
+    <div class="insight" id="insight-exam">
+      <span class="ilabel">Ce que ça montre concrètement</span>
+      Aucune de ces trois questions n'était dans le schéma mot pour mot. Mais <strong>toutes les réponses se trouvaient en suivant les flèches</strong>. Le schéma ne remplace pas la compréhension du cours : il la structure. Les détails (vitamine D, rhinovirus) viennent de ce que tu as compris durant ton travail de compréhension du cours. Le schéma, lui, te dit dans quelle direction chercher quand la question est formulée d'une façon que tu n'as pas vue.
+    </div>
+
+    <div class="sgm-note">
+      <strong>À toi maintenant :</strong> remplace « système immunitaire » par le concept central de ton chapitre, « saison » par les paramètres d'entrée, « virus » et « ensoleillement » par les facteurs qui influencent ce concept. La structure est exactement la même. Seul le contenu change.
+    </div>
+
+    <button class="btn" onclick="switchTab('guide', document.querySelectorAll('.tab')[2])">Comment construire ton propre schéma →</button>
+  </div>
+
+  <!-- =================== PANEL GUIDE =================== -->
+  <div class="panel" id="panel-guide">
+
+    <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--muted); border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 1rem; font-size: 0.74rem; line-height: 1.7; color: var(--muted);">
+      <span style="font-family: 'Syne', sans-serif; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.45rem;">Quand utiliser ce type de schéma ?</span>
+      Quand tu te demandes <strong style="color: var(--text);">pourquoi</strong> ou <strong style="color: var(--text);">comment</strong> quelque chose fonctionne — pas juste quoi. Si ton cours décrit un mécanisme où des éléments s'influencent les uns les autres, c'est là qu'un schéma de relations est utile. Si tu veux plutôt organiser et ne rien oublier sur un sujet, une carte mentale suffit. Si tu dois mémoriser des définitions ou des formules isolées, des flashcards feront mieux le travail.
+    </div>
+
+    <div class="guide-intro">
+      <span class="glabel">Méthode</span>
+      Construire un schéma de relations, ça s'apprend. Les trois étapes ci-dessous suffisent pour faire quelque chose d'utile sur n'importe quel chapitre, même la première fois.
+    </div>
+
+    <!-- ÉTAPE 1 -->
+    <div class="guide-block">
+      <div class="guide-block-header">
+        <div class="guide-num">1</div>
+        <div>
+          <div class="guide-block-title">Trouver le pivot</div>
+          <div class="guide-block-sub">Le concept central autour duquel tout s'organise</div>
+        </div>
+      </div>
+      <div class="guide-block-body">
+        Tu n'as pas besoin de le « trouver » en réfléchissant longtemps : c'est presque toujours <strong>le mot le plus répété dans le chapitre</strong>, ou le titre du chapitre lui-même. C'est le concept dont tout le monde parle, celui que le prof ramène à chaque fois qu'il explique quelque chose.
+
+        <div class="guide-example">
+          <span class="ex-label">Exemples</span>
+          Chapitre sur la photosynthèse : le pivot, c'est la <em>photosynthèse</em> elle-même (ou le glucose produit).<br>
+          Chapitre sur les traitements thermiques : c'est la <em>microstructure</em>.<br>
+          Chapitre sur la mémoire : c'est le <em>processus de mémorisation</em>.<br><br>
+          Si tu hésites entre deux mots, demande-toi lequel des deux explique l'autre. Celui qui explique, c'est le pivot.
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="guide-block">
+      <div class="guide-block-header">
+        <div class="guide-num">2</div>
+        <div>
+          <div class="guide-block-title">Trouver les cases autour</div>
+          <div class="guide-block-sub">Ce qui influence le pivot, et ce que le pivot influence</div>
+        </div>
+      </div>
+      <div class="guide-block-body">
+        Deux questions seulement, et tu as tes cases :
+        <br><br>
+        <strong>« Qu'est-ce qui influence mon pivot ? »</strong> Ce sont les cases à gauche (ou en haut). En général, 2 à 4 facteurs suffisent.
+        <br><br>
+        <strong>« Qu'est-ce que mon pivot produit ou détermine ? »</strong> Ce sont les cases à droite (ou en bas). Là aussi, 2 à 3 résultats suffisent.
+        <br><br>
+        Tu n'as pas besoin de tout mettre. Un schéma de 6 à 8 noeuds bien choisis est bien plus utile qu'un schéma exhaustif illisible.
+
+        <div class="guide-example">
+          <span class="ex-label">Exemple sur la microstructure</span>
+          Ce qui l'influence : type de traitement thermique, vitesse de refroidissement, composition chimique.<br>
+          Ce qu'elle détermine : propriétés mécaniques (dureté, ductilité), choix de l'application.
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div class="guide-block">
+      <div class="guide-block-header">
+        <div class="guide-num">3</div>
+        <div>
+          <div class="guide-block-title">Écrire les mots sur les flèches</div>
+          <div class="guide-block-sub">Un verbe qui dit comment les deux noeuds sont reliés</div>
+        </div>
+      </div>
+      <div class="guide-block-body">
+        Pour chaque flèche, pose-toi juste cette question : <strong>« Comment est-ce que A agit sur B ? »</strong> La réponse tient en un mot. Il y en a une dizaine qui couvrent la quasi-totalité des cas :
+
+        <div style="margin-top: 0.75rem; padding: 0.75rem 1rem; background: rgba(240,165,0,0.06); border: 1px solid rgba(240,165,0,0.15); border-radius: 8px; font-size: 0.7rem; line-height: 1.65; color: var(--muted);">
+          <span style="font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem;">Sens de la flèche</span>
+          La flèche va toujours de la <strong style="color: var(--text);">cause</strong> vers la <strong style="color: var(--text);">conséquence</strong>. Pour choisir le sens, demande-toi : lequel des deux existe indépendamment de l'autre et agit sur l'autre ? Celui-là est le point de départ. La saison existe indépendamment de la durée d'ensoleillement et la détermine : la flèche part donc de « saison » vers « ensoleillement ». Si tu hésites encore, reformule : « si A change, est-ce que B change aussi ? » Si oui, la flèche va de A vers B.
+        </div>
+
+        <div class="verbs-grid">
+          <span class="verb-tag">détermine</span>
+          <span class="verb-tag">influence</span>
+          <span class="verb-tag">produit</span>
+          <span class="verb-tag">favorise</span>
+          <span class="verb-tag">affaiblit</span>
+          <span class="verb-tag">renforce</span>
+          <span class="verb-tag">sollicite</span>
+          <span class="verb-tag">oriente</span>
+          <span class="verb-tag">réduit</span>
+          <span class="verb-tag">nécessite</span>
+          <span class="verb-tag">régule</span>
+          <span class="verb-tag">conditionne</span>
+        </div>
+
+        <div class="guide-example" style="margin-top: 0.9rem;">
+          <span class="ex-label">Si tu bloques sur un verbe</span>
+          Reformule à l'oral : « quand A change, qu'est-ce qui se passe sur B ? » Le verbe vient presque tout seul.
+        </div>
+
+        <div style="margin-top: 0.75rem; padding: 0.75rem 1rem; background: rgba(62,184,160,0.06); border: 1px solid rgba(62,184,160,0.18); border-radius: 8px; font-size: 0.7rem; line-height: 1.7; color: var(--muted);">
+          <span style="font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent3); display: block; margin-bottom: 0.4rem;">Quand ne pas relier deux noeuds</span>
+          Pour chaque paire de noeuds, pose-toi une seule question : <strong style="color: var(--text);">est-ce qu'il existe un lien direct entre les deux, ou est-ce qu'il passe obligatoirement par un autre noeud ?</strong> Si pour expliquer le lien entre A et B tu te retrouves à dire « A influence C, qui influence B », alors A et B ne sont pas directement reliés. C'est C qui fait le travail. Ne les relie pas.<br><br>
+          Un schéma où tout est relié à tout ne sert à rien pour raisonner. L'exercice, c'est précisément de choisir les liens directs et importants, et de laisser tomber le reste. Six noeuds avec sept flèches bien choisies valent mieux que six noeuds avec quinze flèches dans tous les sens.
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-note">
+      <strong>Sur la perfection du schéma :</strong> la première fois que tu fais ça sur un chapitre, ça prendra 15 à 20 minutes et le résultat sera bancal. C'est normal. Le but n'est pas d'avoir un beau schéma, c'est d'avoir fait l'effort de reformuler les liens entre les notions. Cet effort, c'est lui qui ancre les choses. Un schéma imparfait que tu as construit toi-même vaut largement mieux qu'un schéma parfait recopié.
+    </div>
+
+    <button class="btn" onclick="switchTab('schema', document.querySelectorAll('.tab')[0])">← Revoir le schéma exemple</button>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + id).classList.add('active');
+
+    if (id === 'exam') {
+      // Check if already animated
+      const firstStep = document.getElementById('s1');
+      if (firstStep && firstStep.classList.contains('visible')) return;
+
+      const items = ['s1','a1','s2','a2','s3','a3','s4'];
+      items.forEach((itemId, i) => {
+        const el = document.getElementById(itemId);
+        if (el) setTimeout(() => el.classList.add('visible'), i * 280);
+      });
+      const insight = document.getElementById('insight-exam');
+      if (insight) setTimeout(() => insight.classList.add('visible'), items.length * 280);
+    }
+  }
+</script>
+</body>
+</html>
