@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ta boucle — Alex</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --border: #e2ddd4;
+    --border-mid: #cdc7bc;
+    --text: #1c1a17;
+    --text-mid: #5c5750;
+    --text-light: #9c9790;
+    --cue: #b86e2a;
+    --craving: #3d7a62;
+    --response: #5e52a0;
+    --reward: #a84060;
+    --shadow-sm: 0 1px 8px rgba(0,0,0,0.05);
+    --shadow: 0 2px 20px rgba(0,0,0,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+
+  /* INTRO */
+  .intro {
+    margin-bottom: 64px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    animation: up 0.5s ease 0.1s forwards;
+  }
+
+  .intro-tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 18px;
+  }
+
+  .intro h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 400;
+    line-height: 1.22;
+    margin-bottom: 28px;
+  }
+
+  .intro h1 em {
+    font-style: italic;
+    color: var(--cue);
+  }
+
+  .intro-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .intro-text p {
+    font-size: 13.5px;
+    color: var(--text-mid);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+
+  .intro-text p:last-child { margin-bottom: 0; }
+
+  .intro-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--cue);
+    padding: 24px 26px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .intro-box-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cue);
+    margin-bottom: 12px;
+  }
+
+  .intro-box-text {
+    font-family: 'Lora', serif;
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  /* SECTION HEAD */
+  .section-head { margin-bottom: 24px; }
+
+  .section-tag {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: 23px;
+    font-weight: 400;
+  }
+
+  .section-desc {
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-top: 6px;
+    line-height: 1.65;
+  }
+
+  /* LOOP NAV */
+  .loop-section {
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: up 0.5s ease 0.25s forwards;
+  }
+
+  .loop-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .loop-btn {
+    padding: 18px 16px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .loop-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--btn-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+
+  .loop-btn:hover::before,
+  .loop-btn.active::before { transform: scaleX(1); }
+
+  .loop-btn:hover,
+  .loop-btn.active {
+    background: var(--surface2);
+    border-color: var(--btn-color);
+  }
+
+  .loop-btn[data-for="cue"]      { --btn-color: var(--cue); }
+  .loop-btn[data-for="craving"]  { --btn-color: var(--craving); }
+  .loop-btn[data-for="response"] { --btn-color: var(--response); }
+  .loop-btn[data-for="reward"]   { --btn-color: var(--reward); }
+
+  .btn-num {
+    font-size: 10px;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .btn-name {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--btn-color);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .btn-law {
+    font-size: 10px;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+
+  /* PANEL */
+  .panel-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    min-height: 240px;
+    box-shadow: var(--shadow);
+  }
+
+  .panel { display: none; animation: fadeIn 0.22s ease; }
+  .panel.active { display: block; }
+
+  .panel-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 240px;
+    font-size: 12px;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+  }
+
+  .panel-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    padding: 32px 36px 28px;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+
+  .panel-step-tag {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pc);
+    margin-bottom: 6px;
+  }
+
+  .panel-step-name {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 5px;
+  }
+
+  .panel-law {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+
+  .panel-law b { color: var(--pc); font-weight: 500; }
+
+  .panel-alex {
+    background: var(--surface2);
+    border-left: 3px solid var(--pc);
+    padding: 16px 20px;
+    max-width: 260px;
+  }
+
+  .alex-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+
+  .alex-text {
+    font-family: 'Lora', serif;
+    font-size: 12.5px;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+
+  #panel-cue      { --pc: var(--cue); }
+  #panel-craving  { --pc: var(--craving); }
+  #panel-response { --pc: var(--response); }
+  #panel-reward   { --pc: var(--reward); }
+
+  .panel-levers { padding: 28px 36px 36px; }
+
+  .levers-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 16px;
+  }
+
+  .levers { display: flex; flex-direction: column; gap: 10px; }
+
+  .lever {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 20px;
+    padding: 14px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    opacity: 0;
+    animation: slideIn 0.3s ease forwards;
+  }
+
+  .lever:nth-child(1) { animation-delay: 0.04s; }
+  .lever:nth-child(2) { animation-delay: 0.09s; }
+  .lever:nth-child(3) { animation-delay: 0.14s; }
+  .lever:nth-child(4) { animation-delay: 0.19s; }
+  .lever:nth-child(5) { animation-delay: 0.24s; }
+
+  .lever-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--pc);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-top: 2px;
+    line-height: 1.4;
+  }
+
+  .lever-text {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .lever-formula {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-left: 2px solid var(--pc);
+    font-size: 12px;
+    color: var(--text);
+    font-style: italic;
+    font-family: 'Lora', serif;
+    line-height: 1.55;
+  }
+
+  /* BUILD SECTION */
+  .build-section {
+    opacity: 0;
+    animation: up 0.5s ease 0.4s forwards;
+  }
+
+  .build-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .build-field {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 26px 28px;
+    transition: border-color 0.18s ease;
+  }
+
+  .build-field:focus-within {
+    border-color: var(--fc);
+    position: relative;
+    z-index: 1;
+  }
+
+  .build-field[data-field="cue"]      { --fc: var(--cue); }
+  .build-field[data-field="craving"]  { --fc: var(--craving); }
+  .build-field[data-field="response"] { --fc: var(--response); }
+  .build-field[data-field="reward"]   { --fc: var(--reward); }
+
+  .field-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .field-name {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    color: var(--fc);
+  }
+
+  .field-hint {
+    font-size: 10px;
+    color: var(--text-light);
+  }
+
+  .field-q {
+    font-size: 12px;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    resize: none;
+    outline: none;
+    padding: 11px 13px;
+    min-height: 84px;
+    transition: border-color 0.18s ease;
+    border-radius: 0;
+  }
+
+  textarea:focus { border-color: var(--fc); }
+  textarea::placeholder { color: var(--text-light); font-style: italic; }
+
+  .build-btn {
+    width: 100%;
+    padding: 17px;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    margin-top: 2px;
+  }
+
+  .build-btn:hover { opacity: 0.82; }
+
+  /* RESULT */
+  .result-section {
+    display: none;
+    margin-top: 40px;
+  }
+
+  .result-section.visible {
+    display: block;
+    animation: up 0.4s ease forwards;
+  }
+
+  .result-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .result-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--cue), var(--craving), var(--response), var(--reward));
+  }
+
+  .result-inner { padding: 36px; }
+
+  .result-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .result-title {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .result-date {
+    font-size: 11px;
+    color: var(--text-light);
+  }
+
+  .result-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-bottom: 24px;
+  }
+
+  .result-step {
+    padding: 18px;
+    background: var(--surface2);
+    border-top: 3px solid var(--rs-color);
+  }
+
+  .result-step[data-rs="cue"]      { --rs-color: var(--cue); }
+  .result-step[data-rs="craving"]  { --rs-color: var(--craving); }
+  .result-step[data-rs="response"] { --rs-color: var(--response); }
+  .result-step[data-rs="reward"]   { --rs-color: var(--reward); }
+
+  .rs-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rs-color);
+    margin-bottom: 8px;
+  }
+
+  .rs-text {
+    font-family: 'Lora', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .result-note {
+    padding: 14px 18px;
+    background: var(--surface2);
+    border-left: 3px solid var(--border-mid);
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+
+  /* ANIMATIONS */
+  @keyframes up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-6px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 32px 16px 64px; }
+
+    /* Intro */
+    .intro { margin-bottom: 48px; padding-bottom: 40px; }
+    .intro h1 { font-size: 26px; }
+    .intro-cols { grid-template-columns: 1fr; gap: 24px; }
+
+    /* Loop nav : 2 colonnes sur mobile */
+    .loop-nav { grid-template-columns: repeat(2, 1fr); }
+    .loop-btn { padding: 14px 12px 12px; }
+    .btn-name { font-size: 15px; }
+
+    /* Panel header : colonne unique, encadré Alex pleine largeur */
+    .panel-header {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 24px 20px 20px;
+    }
+    .panel-alex { max-width: 100%; }
+
+    /* Leviers : colonne unique, nom au-dessus du texte */
+    .lever { grid-template-columns: 1fr; gap: 6px; padding: 12px 14px; }
+    .lever-name { padding-top: 0; }
+    .panel-levers { padding: 20px 20px 28px; }
+
+    /* Formules */
+    .lever-formula { font-size: 11px; padding: 8px 12px; }
+
+    /* Build grid */
+    .build-grid { grid-template-columns: 1fr; }
+    .build-field { padding: 20px; }
+    textarea { min-height: 72px; font-size: 16px; } /* 16px évite le zoom auto sur iOS */
+
+    /* Résultat */
+    .result-steps { grid-template-columns: repeat(2, 1fr); }
+    .result-inner { padding: 24px 20px; }
+    .result-top { flex-direction: column; gap: 4px; }
+
+    /* Bouton générer */
+    .build-btn { font-size: 13px; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- INTRO -->
+  <div class="intro">
+    <div class="intro-tag">Outil de coaching — Alex</div>
+    <h1>Construire l'habitude de<br>travailler <em>vraiment</em>.</h1>
+    <div class="intro-cols">
+      <div class="intro-text">
+        <p>Ce qu'on cherche à construire ici, c'est une chose précise : te mettre au travail chaque jour sur les tâches que tu as prévues, sans les repousser. Pas « travailler plus », pas « être parfait » — juste tenir ce que tu te fixes, régulièrement.</p>
+        <p>Pour ça, on s'appuie sur la boucle que James Clear décrit dans <em>Atomic Habits</em> : quatre étapes, chacune avec ses leviers concrets. Explore-les dans l'ordre ou dans celui qui t'intéresse, puis construis ta propre boucle dans la partie 2.</p>
+      </div>
+      <div class="intro-box">
+        <div class="intro-box-label">Le principe central</div>
+        <div class="intro-box-text">Les habitudes qui durent viennent rarement d'un effort de volonté répété. Elles viennent d'une boucle bien construite : un signal clair, une envie connectée à ce qui te motive vraiment, une action rendue facile à démarrer, et une récompense immédiate. Quand les quatre éléments sont en place, le comportement finit par se déclencher presque naturellement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOOP SECTION -->
+  <div class="loop-section">
+    <div class="section-head">
+      <div class="section-tag">Partie 1 — Comprendre</div>
+      <div class="section-title">La boucle en quatre étapes</div>
+      <div class="section-desc">Clique sur chaque étape pour comprendre ce qu'elle signifie et ce que tu peux faire concrètement.</div>
+    </div>
+
+    <div class="loop-nav">
+      <button class="loop-btn" data-for="cue" onclick="showPanel('cue')">
+        <div class="btn-num">01</div>
+        <span class="btn-name">Signal</span>
+        <div class="btn-law">Le rendre évident</div>
+      </button>
+      <button class="loop-btn" data-for="craving" onclick="showPanel('craving')">
+        <div class="btn-num">02</div>
+        <span class="btn-name">Envie</span>
+        <div class="btn-law">La rendre attractive</div>
+      </button>
+      <button class="loop-btn" data-for="response" onclick="showPanel('response')">
+        <div class="btn-num">03</div>
+        <span class="btn-name">Réponse</span>
+        <div class="btn-law">La rendre facile</div>
+      </button>
+      <button class="loop-btn" data-for="reward" onclick="showPanel('reward')">
+        <div class="btn-num">04</div>
+        <span class="btn-name">Récompense</span>
+        <div class="btn-law">La rendre satisfaisante</div>
+      </button>
+    </div>
+
+    <div class="panel-wrap">
+      <div class="panel-empty" id="panelEmpty">Clique sur une étape pour explorer</div>
+
+      <!-- CUE -->
+      <div class="panel" id="panel-cue">
+        <div class="panel-header">
+          <div>
+            <div class="panel-step-tag">Étape 01</div>
+            <div class="panel-step-name">Le Signal</div>
+            <div class="panel-law">Loi de Clear : <b>le rendre évident.</b></div>
+          </div>
+          <div class="panel-alex">
+            <div class="alex-label">Ta situation</div>
+            <div class="alex-text">Tu n'as pas encore de signal clair pour te mettre au travail. Pas d'heure fixe, pas d'endroit dédié, pas de déclencheur précis. Sans signal, le travail reste une intention floue dans la journée, et une intention floue se reporte facilement.</div>
+          </div>
+        </div>
+        <div class="panel-levers">
+          <div class="levers-label">Ce que tu peux faire</div>
+          <div class="levers">
+            <div class="lever">
+              <div class="lever-name">L'intention précise</div>
+              <div class="lever-text">
+                Formule une règle concrète : à quelle heure, dans quel endroit, pour faire quoi. Les personnes qui se donnent ce type d'instruction précise tiennent leur habitude bien plus facilement que celles qui comptent sur la motivation du moment, parce qu'au moment où le signal arrive, la décision est déjà prise. Plus rien à négocier avec soi-même.
+                <div class="lever-formula">« À [heure], dans [endroit], je fais [quoi précisément]. »</div>
+              </div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">L'empilement</div>
+              <div class="lever-text">
+                Accroche la nouvelle habitude à quelque chose que tu fais déjà chaque jour sans y réfléchir. Le signal existe déjà dans ta routine : tu n'as plus qu'à lui attacher quelque chose de nouveau juste derrière.
+                <div class="lever-formula">« Après [habitude existante], je [nouvelle habitude]. »</div>
+              </div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">L'environnement visible</div>
+              <div class="lever-text">Rends le bon signal visible avant même que le moment arrive. Cahiers ouverts sur le bureau la veille, liste de tâches préparée le soir. Quand tu t'assieds, tout est déjà là : pas besoin de décider par quoi commencer, ce qui est souvent le premier vrai point de blocage.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">Supprimer les mauvais signaux</div>
+              <div class="lever-text">Voir ton téléphone sur la table, c'est déjà un signal : ton cerveau sait ce qu'il peut faire avec. Avant même de t'asseoir pour travailler, éloigne ce qui pourrait déclencher une autre boucle. Téléphone dans une autre pièce, onglets fermés. L'idée n'est pas de résister, mais de faire en sorte que le mauvais signal ne soit jamais envoyé.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRAVING -->
+      <div class="panel" id="panel-craving">
+        <div class="panel-header">
+          <div>
+            <div class="panel-step-tag">Étape 02</div>
+            <div class="panel-step-name">L'Envie</div>
+            <div class="panel-law">Loi de Clear : <b>la rendre attractive.</b></div>
+          </div>
+          <div class="panel-alex">
+            <div class="alex-label">Ta situation</div>
+            <div class="alex-text">Tu n'as pas de problème de motivation pour les maths en général. Mais le travail prescrit, répétitif et contraint n'active pas ce qui te motive vraiment. Il te paraît trop petit, trop cadré. C'est ce décalage qu'on cherche à réduire.</div>
+          </div>
+        </div>
+        <div class="panel-levers">
+          <div class="levers-label">Ce que tu peux faire</div>
+          <div class="levers">
+            <div class="lever">
+              <div class="lever-name">Connecter au désir réel</div>
+              <div class="lever-text">Ce qu'on désire, ce n'est jamais l'habitude elle-même : c'est ce qu'elle procure. Formule explicitement ce que travailler régulièrement te donne, à toi, de concret et de personnel. Pas « de bonnes notes » en général. Quelque chose de précis, qui te parle vraiment. Écris-le, pose-le quelque part. Quand l'envie de repousser arrive, c'est ce rappel-là qui est le plus efficace, bien plus qu'un effort de discipline.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">Recadrer la tâche</div>
+              <div class="lever-text">Avant de démarrer, reformule mentalement ce que tu es en train de faire. Pas « je dois finir ces exercices », mais une phrase qui pointe vers ce que tu en retires vraiment. Par exemple : « je prépare ce que personne d'autre n'a encore ouvert » ou « je construis ce que je veux être capable de faire en exam ». La formulation change la façon dont la tâche se présente à toi avant même de commencer.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">Le rituel d'entrée</div>
+              <div class="lever-text">Choisis quelque chose que tu apprécies et fais-le toujours juste avant de démarrer : écouter un morceau précis, préparer un café. Répété à chaque session, ce rituel finit par créer une anticipation positive associée au travail. C'est lui qui devient progressivement le signal d'entrée en mode concentration.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">S'entourer</div>
+              <div class="lever-text">Travailler avec des camarades sérieux, ou même simplement dans un espace où les autres bossent, change ce qui semble normal. Quand tout le monde autour de toi travaille, ne pas le faire demande un effort. Pour quelqu'un qui fonctionne à la compétition, voir les autres avancer est souvent suffisant pour se mettre en route.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESPONSE -->
+      <div class="panel" id="panel-response">
+        <div class="panel-header">
+          <div>
+            <div class="panel-step-tag">Étape 03</div>
+            <div class="panel-step-name">La Réponse</div>
+            <div class="panel-law">Loi de Clear : <b>la rendre facile.</b></div>
+          </div>
+          <div class="panel-alex">
+            <div class="alex-label">Ta situation</div>
+            <div class="alex-text">« Travailler » est une tâche trop vague pour démarrer facilement. Plus une tâche est floue à l'entrée, plus elle est facile à repousser. L'objectif ici n'est pas de travailler moins : c'est de rendre le démarrage si simple qu'il n'y a plus rien à opposer.</div>
+          </div>
+        </div>
+        <div class="panel-levers">
+          <div class="levers-label">Ce que tu peux faire</div>
+          <div class="levers">
+            <div class="lever">
+              <div class="lever-name">La première action</div>
+              <div class="lever-text">Réduis la première action à quelque chose qui prend moins de deux minutes. Pas la session entière : juste le démarrage. Ouvrir le cours à la bonne page, lire le premier énoncé, recopier la consigne. Une fois que tu as commencé, continuer est presque toujours moins difficile que ce que tu anticipais. C'est le seuil d'entrée qu'on rend minimal, pas la durée de travail.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">La décision anticipée</div>
+              <div class="lever-text">
+                Décide la veille exactement ce que tu feras le lendemain. Pas « je travaillerai les intégrales », mais quelque chose de précis : quelles pages, quels exercices, dans quel ordre. Moins tu as de décisions à prendre au moment de t'asseoir, moins tu dépenses d'énergie avant même d'avoir ouvert un cahier.
+                <div class="lever-formula">Exemple : « Demain, j'ouvre le cours p. 45 et je fais les exercices 3, 4 et 5. »</div>
+              </div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">Réduire les obstacles</div>
+              <div class="lever-text">Pendant la session, tout ce qui crée une friction entre toi et le travail réduit la probabilité de continuer. Garde uniquement ce dont tu as besoin sur ton bureau. Si une pensée parasite arrive, note-la sur un papier pour y revenir plus tard, plutôt que de l'interrompre tout de suite. L'objectif est de garder le cap sur la tâche définie, sans se laisser happer par autre chose.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">S'engager</div>
+              <div class="lever-text">Annoncer à quelqu'un ce qu'on va faire avant de commencer crée un engagement difficile à ignorer. Dire à un camarade ou à un proche « je travaille de 18h à 19h ce soir » suffit. Une fois dit, ne pas le faire demande un effort supplémentaire. C'est utiliser la parole comme point d'appui quand la motivation seule ne suffit pas.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REWARD -->
+      <div class="panel" id="panel-reward">
+        <div class="panel-header">
+          <div>
+            <div class="panel-step-tag">Étape 04</div>
+            <div class="panel-step-name">La Récompense</div>
+            <div class="panel-law">Loi de Clear : <b>la rendre satisfaisante.</b></div>
+          </div>
+          <div class="panel-alex">
+            <div class="alex-label">Ta situation</div>
+            <div class="alex-text">Le travail régulier n'a pas de récompense immédiate visible. Les bénéfices arrivent tard. Et comme éviter le travail offre du plaisir tout de suite, la balance penche du mauvais côté. Il faut créer quelque chose de concret qui arrive juste après la session complète.</div>
+          </div>
+        </div>
+        <div class="panel-levers">
+          <div class="levers-label">Ce que tu peux faire</div>
+          <div class="levers">
+            <div class="lever">
+              <div class="lever-name">La récompense immédiate</div>
+              <div class="lever-text">Place quelque chose que tu apprécies vraiment juste après la session complète, pas après les deux premières minutes. Jeu, musique, sortie : peu importe, du moment que c'est immédiat et fiable. C'est cette régularité qui permet à ton cerveau d'associer progressivement le travail à quelque chose de plaisant.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">La trace visible</div>
+              <div class="lever-text">Marque chaque session terminée quelque part : une croix sur un calendrier, une ligne dans un carnet. L'acte lui-même crée un sentiment d'accomplissement immédiat, et voir une série de jours consécutifs génère une motivation supplémentaire à ne pas la briser.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">Ne jamais rater deux fois</div>
+              <div class="lever-text">Rater une session, ça arrive. En rater deux de suite, c'est le début d'une nouvelle habitude dans le mauvais sens. La règle est simple : si tu sautes une session, la suivante est non négociable. Ce qui compte sur la durée, c'est la régularité, pas la perfection.</div>
+            </div>
+            <div class="lever">
+              <div class="lever-name">La satisfaction interne</div>
+              <div class="lever-text">À côté de la récompense externe, prends deux secondes à la fin de chaque session pour reconnaître explicitement que tu as tenu ce que tu t'étais fixé. Pas une célébration, juste une constatation. Pour quelqu'un qui se définit par l'exigence envers lui-même, ce signal interne finit par devenir une récompense en soi, et renforce peu à peu l'image que tu as de toi comme quelqu'un qui tient ses engagements.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BUILD SECTION -->
+  <div class="build-section">
+    <div class="section-head">
+      <div class="section-tag">Partie 2 — Construction</div>
+      <div class="section-title">Ta boucle à toi</div>
+      <div class="section-desc">Remplis chaque champ de façon précise et ancrée dans ta vie réelle. Plus c'est concret, plus ça a une chance de tenir.</div>
+    </div>
+
+    <div class="build-grid">
+      <div class="build-field" data-field="cue">
+        <div class="field-header">
+          <div class="field-name">Signal</div>
+          <div class="field-hint">Le rendre évident</div>
+        </div>
+        <div class="field-q">Que vas-tu faire pour rendre ton signal de travail plus évident ?</div>
+        <textarea id="input-cue" rows="3"></textarea>
+      </div>
+
+      <div class="build-field" data-field="craving">
+        <div class="field-header">
+          <div class="field-name">Envie</div>
+          <div class="field-hint">La rendre attractive</div>
+        </div>
+        <div class="field-q">Qu'est-ce qui te motive vraiment à travailler régulièrement, et comment vas-tu t'en rappeler ?</div>
+        <textarea id="input-craving" rows="3"></textarea>
+      </div>
+
+      <div class="build-field" data-field="response">
+        <div class="field-header">
+          <div class="field-name">Réponse</div>
+          <div class="field-hint">La rendre facile</div>
+        </div>
+        <div class="field-q">Que vas-tu faire pour rendre le démarrage aussi simple que possible ?</div>
+        <textarea id="input-response" rows="3"></textarea>
+      </div>
+
+      <div class="build-field" data-field="reward">
+        <div class="field-header">
+          <div class="field-name">Récompense</div>
+          <div class="field-hint">La rendre satisfaisante</div>
+        </div>
+        <div class="field-q">Que vas-tu t'accorder après la session complète ?</div>
+        <textarea id="input-reward" rows="3"></textarea>
+      </div>
+    </div>
+
+    <button class="build-btn" onclick="buildLoop()">Générer ma boucle</button>
+
+    <div class="result-section" id="resultSection">
+      <div class="result-box">
+        <div class="result-bar"></div>
+        <div class="result-inner">
+          <div class="result-top">
+            <div class="result-title">La boucle d'Alex</div>
+            <div class="result-date" id="result-date"></div>
+          </div>
+          <div class="result-steps">
+            <div class="result-step" data-rs="cue">
+              <div class="rs-label">Signal</div>
+              <div class="rs-text" id="rs-cue"></div>
+            </div>
+            <div class="result-step" data-rs="craving">
+              <div class="rs-label">Envie</div>
+              <div class="rs-text" id="rs-craving"></div>
+            </div>
+            <div class="result-step" data-rs="response">
+              <div class="rs-label">Réponse</div>
+              <div class="rs-text" id="rs-response"></div>
+            </div>
+            <div class="result-step" data-rs="reward">
+              <div class="rs-label">Récompense</div>
+              <div class="rs-text" id="rs-reward"></div>
+            </div>
+          </div>
+          <div class="result-note">Prends une photo de cette boucle ou note-la. On la réévalue à la prochaine séance : ce qui a tenu, ce qui a coincé, ce qu'on ajuste.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showPanel(step) {
+    document.querySelectorAll('.loop-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-for="' + step + '"]').classList.add('active');
+    document.getElementById('panelEmpty').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + step).classList.add('active');
+  }
+
+  function buildLoop() {
+    ['cue','craving','response','reward'].forEach(function(f) {
+      var val = document.getElementById('input-' + f).value.trim();
+      document.getElementById('rs-' + f).textContent = val || '\u2014';
+    });
+    var now = new Date();
+    document.getElementById('result-date').textContent =
+      'Version du ' + now.toLocaleDateString('fr-BE', { day: 'numeric', month: 'long', year: 'numeric' });
+    var r = document.getElementById('resultSection');
+    r.classList.add('visible');
+    setTimeout(function() { r.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+  }
+</script>
+</body>
+</html>
