@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le rappel actif</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#08080A;--s1:#111114;--s2:#18181C;--s3:#222228;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);
+  --text:#EEEAE0;--text2:#9A9890;--text3:#52504C;
+  --neon:#B8FF57;--neon-d:rgba(184,255,87,0.09);--neon-b:rgba(184,255,87,0.20);
+  --red:#FF5757;--red-d:rgba(255,87,87,0.09);--red-b:rgba(255,87,87,0.20);
+  --amber:#FFAA33;--amber-d:rgba(255,170,51,0.09);--amber-b:rgba(255,170,51,0.20);
+  --purple:#A78BFA;--r:12px;--rs:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 1.75rem;background:rgba(8,8,10,0.85);backdrop-filter:blur(20px);border-bottom:.5px solid var(--border);}
+.brand{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--neon);}
+.nav-segs{display:flex;gap:3px;}
+.seg{height:3px;width:20px;border-radius:2px;background:var(--s3);transition:all .4s;}
+.seg.done{background:var(--text3);}
+.seg.cur{background:var(--neon);box-shadow:0 0 8px var(--neon);}
+.nav-n{font-size:11px;color:var(--text3);min-width:32px;text-align:right;font-weight:500;}
+.wrap{max-width:680px;margin:0 auto;padding:78px 1.5rem 6rem;}
+.scr{display:none;}
+.scr.on{display:block;animation:up .42s cubic-bezier(.16,1,.3,1);}
+@keyframes up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:.85rem;}
+.eyebrow-neon{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--neon);margin-bottom:.85rem;}
+h1{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;line-height:1.07;color:var(--text);margin-bottom:1rem;}
+h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;line-height:1.15;color:var(--text);margin-bottom:.9rem;}
+h3{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;}
+p{font-size:16px;line-height:1.78;color:var(--text2);}
+p+p{margin-top:.75rem;}
+strong{font-weight:500;color:var(--text);}
+em{font-style:italic;color:var(--text3);}
+hr{border:none;border-top:.5px solid var(--border);margin:1.75rem 0;}
+.card{background:var(--s1);border:.5px solid var(--border2);border-radius:var(--r);padding:1.4rem 1.6rem;margin-bottom:1rem;}
+.card-neon{background:var(--neon-d);border:.5px solid var(--neon-b);border-radius:var(--r);padding:1.4rem 1.6rem;margin-bottom:1rem;}
+.card-red{background:var(--red-d);border:.5px solid var(--red-b);border-radius:var(--r);padding:1.4rem 1.6rem;margin-bottom:1rem;}
+.card-amber{background:var(--amber-d);border:.5px solid var(--amber-b);border-radius:var(--r);padding:1.4rem 1.6rem;margin-bottom:1rem;}
+.card-muted{background:var(--s2);border:.5px solid var(--border);border-radius:var(--r);padding:1.4rem 1.6rem;margin-bottom:1rem;}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:7px;margin:.75rem 0;}
+.wchip{background:var(--s2);border:.5px solid var(--border2);border-radius:var(--rs);padding:.6rem .8rem;text-align:center;font-size:14px;font-weight:500;color:var(--text);}
+.timer-row{display:flex;align-items:center;gap:1rem;padding:1rem 1.4rem;background:var(--s1);border:.5px solid var(--border2);border-radius:var(--r);margin:1rem 0;}
+.tnum{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--text);min-width:56px;}
+.tnum.hot{color:var(--red);}
+.tinfo{flex:1;font-size:13px;color:var(--text3);line-height:1.5;}
+.math-wrap{padding:2rem 0;text-align:center;}
+.math-q{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:var(--text);margin-bottom:1.25rem;min-height:50px;}
+.math-input-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1rem;}
+.math-input{width:100px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:500;text-align:center;background:var(--s2);border:.5px solid var(--border2);border-radius:var(--rs);color:var(--text);outline:none;transition:border-color .2s;}
+.math-input:focus{border-color:var(--neon);}
+.math-input.ok{border-color:var(--neon);background:var(--neon-d);color:var(--neon);}
+.math-input.bad{border-color:var(--red);background:var(--red-d);color:var(--red);}
+.math-validate{padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;background:var(--s2);border:.5px solid var(--border2);border-radius:var(--rs);color:var(--text2);cursor:pointer;transition:all .15s;}
+.math-validate:hover{background:var(--s3);color:var(--text);}
+.math-fb{font-size:14px;color:var(--text3);min-height:20px;margin-bottom:.5rem;}
+.math-ctr{font-size:12px;color:var(--text3);letter-spacing:.05em;}
+.recall-box{width:100%;min-height:120px;padding:14px 16px;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;background:var(--s2);border:.5px solid var(--border2);border-radius:var(--r);color:var(--text);outline:none;resize:vertical;transition:border-color .2s;margin:1rem 0;}
+.recall-box:focus{border-color:var(--neon);}
+.recall-box::placeholder{color:var(--text3);}
+.recall-hint{font-size:13px;color:var(--text3);margin-bottom:.5rem;line-height:1.6;}
+.wchip-hit{background:var(--neon-d);border:.5px solid var(--neon-b);color:var(--neon);}
+.wchip-miss{background:var(--s1);border:.5px solid var(--border);color:var(--text3);text-decoration:line-through;}
+.rchip{background:var(--s2);border:.5px solid var(--border2);border-radius:var(--rs);padding:.65rem .9rem;text-align:center;font-size:14px;font-weight:500;color:var(--text);cursor:pointer;transition:all .15s;user-select:none;}
+.rchip:hover{border-color:var(--text3);}
+.rchip.sel{background:var(--text);color:var(--bg);border-color:var(--text);}
+.rchip.ok{background:var(--neon-d);color:var(--neon);border-color:var(--neon);pointer-events:none;}
+.rchip.fp{background:var(--red-d);color:var(--red);border-color:var(--red);pointer-events:none;}
+.rchip.miss{background:var(--s1);color:var(--text3);border-color:var(--border);text-decoration:underline dotted;pointer-events:none;}
+.rchip.neutral{color:var(--text3);pointer-events:none;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.5rem 0;}
+.sbox{border-radius:var(--r);padding:1.5rem;text-align:center;}
+.sbox.recall-box-s{background:var(--red-d);border:.5px solid var(--red-b);}
+.sbox.recog-box-s{background:var(--neon-d);border:.5px solid var(--neon-b);}
+.sbox-lbl{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem;}
+.sbox.recall-box-s .sbox-lbl{color:var(--red);}
+.sbox.recog-box-s .sbox-lbl{color:var(--neon);}
+.sbox-num{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;line-height:1;}
+.sbox.recall-box-s .sbox-num{color:var(--red);}
+.sbox.recog-box-s .sbox-num{color:var(--neon);}
+.sbox-sub{font-size:12px;color:var(--text3);margin-top:.2rem;}
+.tab-row{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap;}
+.tab{padding:7px 16px;font-size:13px;font-weight:500;border-radius:20px;cursor:pointer;background:var(--s2);border:.5px solid var(--border);color:var(--text3);transition:all .15s;}
+.tab:hover{color:var(--text);}
+.tab.on{background:var(--neon-d);border-color:var(--neon-b);color:var(--neon);}
+.tabcontent{display:none;}
+.tabcontent.on{display:block;animation:up .3s ease;}
+.tcard{background:var(--s1);border:.5px solid var(--border2);border-radius:var(--r);padding:1.4rem 1.6rem;margin-bottom:.7rem;border-left:3px solid var(--s3);transition:border-left-color .2s;}
+.tcard:hover{border-left-color:var(--neon);}
+.tbadge{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:.6rem;}
+.b-neon{background:var(--neon-d);color:var(--neon);border:.5px solid var(--neon-b);}
+.b-gray{background:var(--s2);color:var(--text3);border:.5px solid var(--border);}
+.tname{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:.45rem;}
+.tbody{font-size:15px;line-height:1.72;color:var(--text2);margin-bottom:.4rem;}
+.tnote{font-size:13px;color:var(--text3);}
+.obs-item{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;border-bottom:.5px solid var(--border);}
+.obs-item:last-child{border-bottom:none;}
+.obs-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--s3);min-width:32px;}
+.obs-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:.2rem;}
+.obs-txt{font-size:14px;line-height:1.65;color:var(--text3);}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;}
+.bq{border-left:2px solid var(--border2);padding-left:1.25rem;margin:1.5rem 0;}
+.bq p{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--text);line-height:1.4;font-style:italic;}
+.btn-row{display:flex;gap:10px;margin-top:1.75rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:11px 22px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border-radius:var(--rs);cursor:pointer;transition:all .15s;border:.5px solid var(--border2);background:transparent;color:var(--text2);}
+.btn:hover{background:var(--s2);color:var(--text);}
+.btn-neon{background:var(--neon);color:#08080A;border-color:var(--neon);font-weight:700;}
+.btn-neon:hover{opacity:.88;background:var(--neon);color:#08080A;}
+.btn-neon:disabled{opacity:.3;cursor:not-allowed;}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px;margin:1rem 0;}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;font-size:13px;border-radius:20px;background:var(--s2);border:.5px solid var(--border2);color:var(--text2);}
+.hint{font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:1rem;}
+.spacer{height:1rem;}
+.notice{display:flex;gap:.75rem;align-items:flex-start;padding:1rem 1.25rem;background:var(--s2);border:.5px solid var(--border);border-radius:var(--rs);margin:.75rem 0;}
+.notice-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.notice-txt{font-size:14px;line-height:1.6;color:var(--text2);}
+.chart-wrap{background:var(--s1);border:.5px solid var(--border2);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1rem;}
+.chart-title{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem;}
+.tl-item{display:flex;gap:1rem;align-items:flex-start;margin-bottom:.85rem;}
+.tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px;}
+.tl-dot-neon{background:var(--neon-d);border:.5px solid var(--neon-b);color:var(--neon);}
+.tl-dot-muted{background:var(--s2);border:.5px solid var(--border);color:var(--text3);}
+.tl-body{flex:1;}
+.tl-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:.15rem;}
+.tl-txt{font-size:13px;color:var(--text3);line-height:1.6;}
+@media(max-width:520px){
+  .two{grid-template-columns:1fr;}
+  h1{font-size:30px;}h2{font-size:22px;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">Rappel actif</span>
+  <div class="nav-segs" id="nsegs"></div>
+  <span class="nav-n" id="nnum">1/11</span>
+</nav>
+<div class="wrap">
+
+<!-- s0 INTRO -->
+<div class="scr on" id="s0">
+  <div class="eyebrow">Expérience</div>
+  <h1>On va faire une petite expérience.</h1>
+  <p>Suis les étapes au fur et à mesure, sans chercher à anticiper la suite. Tout ce qu'on te demande pour l'instant : joue le jeu à fond.</p>
+  <p style="margin-top:.75rem;">Tout se fait en cliquant ou en tapant.</p>
+  <div class="btn-row"><button class="btn btn-neon" onclick="go(1)">C'est parti →</button></div>
+</div>
+
+<!-- s1 MÉMORISATION -->
+<div class="scr" id="s1">
+  <div class="eyebrow">Étape 1</div>
+  <h2>Mémorise ces 15 mots.</h2>
+  <p class="hint">Lis-les attentivement. Tu as une minute, ou moins si tu te sens prêt. Ne les recopie pas.</p>
+  <div class="card"><div class="wgrid" id="wgrid"></div></div>
+  <div class="timer-row">
+    <div class="tnum" id="tnum">1:00</div>
+    <div class="tinfo" id="tinfo">Lance le minuteur quand tu commences à lire.</div>
+    <button class="btn btn-neon" id="tbtn" onclick="startTimer()">Lancer</button>
+  </div>
+  <div class="btn-row"><button class="btn btn-neon" onclick="go(2)">J'ai mémorisé →</button></div>
+</div>
+
+<!-- s2 CALCULS -->
+<div class="scr" id="s2">
+  <div class="eyebrow">Petite distraction</div>
+  <h2>Trois calculs.</h2>
+  <p class="hint">Tape ta réponse et valide. Tu dois trouver juste pour passer au suivant.</p>
+  <div class="math-wrap">
+    <div class="math-q" id="m1q"></div>
+    <div class="math-input-row">
+      <input class="math-input" id="m1in" type="number" placeholder="?" onkeydown="if(event.key==='Enter')validateMath('m1')"/>
+      <button class="math-validate" onclick="validateMath('m1')">Valider</button>
+    </div>
+    <div class="math-fb" id="m1fb"></div>
+    <div class="math-ctr" id="m1ctr">Calcul 1 / 3</div>
+  </div>
+</div>
+
+<!-- s3 RECALL -->
+<div class="scr" id="s3">
+  <div class="eyebrow-neon">Étape 2 · Récupération</div>
+  <h2>Quels mots tu retiens ?</h2>
+  <p class="recall-hint">Écris tous les mots dont tu te souviens, séparés par des virgules ou des espaces. <strong>Sans regarder la liste.</strong> Essaie de tous les retrouver.</p>
+  <textarea class="recall-box" id="recall-input" placeholder="Volcan, Miroir, Grenade..."></textarea>
+  <div class="btn-row"><button class="btn btn-neon" onclick="scoreRecall()">Continuer →</button></div>
+</div>
+
+<!-- s4 RECONNAISSANCE -->
+<div class="scr" id="s4">
+  <div class="eyebrow">Étape 3 · Reconnaissance</div>
+  <h2>Lesquels étaient dans la liste ?</h2>
+  <p class="hint">Voici 30 mots. 15 étaient dans ta liste, 15 sont nouveaux. Clique sur ceux que tu reconnais.</p>
+  <div class="wgrid" id="recog-grid" style="margin-top:1rem;"></div>
+  <div class="btn-row"><button class="btn btn-neon" onclick="scoreRecog()">Comparer les résultats →</button></div>
+</div>
+
+<!-- s5 SCORES -->
+<div class="scr" id="s5">
+  <div class="eyebrow-neon">Résultats</div>
+  <h2>Voilà ce qui s'est passé.</h2>
+  <div class="score-grid">
+    <div class="sbox recall-box-s">
+      <div class="sbox-lbl">Récupération</div>
+      <div class="sbox-num" id="disp-recall">—</div>
+      <div class="sbox-sub">/ 15 mots</div>
+    </div>
+    <div class="sbox recog-box-s">
+      <div class="sbox-lbl">Reconnaissance</div>
+      <div class="sbox-num" id="disp-recog">—</div>
+      <div class="sbox-sub">/ 15 mots</div>
+    </div>
+  </div>
+  <div id="result-msg"></div>
+  <hr>
+  <p>Reconnaître et récupérer sont deux opérations très différentes. La plupart des contrôles (questions ouvertes, rédactions, exercices de maths, dissertations) te demandent de récupérer. La familiarité que tu ressens en relisant ta leçon ne te prépare pas à ça.</p>
+  <p>Ces mots, tu les as vus il y a trois minutes, tout est encore très frais. Si tu avais fait ce test sur ton cours de SVT étudié quatre jours plus tôt, le score de reconnaissance resterait probablement élevé : les notions te sembleraient familières. Mais les récupérer de tête, sans aucun support, serait une autre affaire.</p>
+  <div class="btn-row"><button class="btn btn-neon" onclick="go(6)">Comprendre pourquoi →</button></div>
+</div>
+
+<!-- s6 DÉFINITION ET MÉCANISME -->
+<div class="scr" id="s6">
+  <div class="eyebrow">Le mécanisme</div>
+  <h2>Ce que tu viens de faire a un nom.</h2>
+
+  <div class="card-neon" style="margin-bottom:1.25rem;">
+    <h3>C'est quoi la récupération en mémoire ?</h3>
+    <p>Tu viens de le faire : écrire les mots dont tu te souvenais, sans regarder la liste. Ce geste s'appelle <strong>la récupération en mémoire</strong>, ou rappel actif. Les deux termes désignent la même chose : aller chercher une information dans ta tête, sans avoir le support sous les yeux. Fermer ses notes et chercher ce qu'on retient. Se poser une question et essayer d'y répondre avant de regarder la correction.</p>
+    <p style="margin-top:.75rem;">C'est le contraire de relire. Quand tu relis, l'information est sous tes yeux : tu n'as qu'à la reconnaître. Quand tu récupères, tu dois la retrouver toi-même, sans aucun appui.</p>
+  </div>
+
+  <div class="two">
+    <div class="card-red">
+      <h3 style="color:var(--red)">Quand tu relis</h3>
+      <p style="font-size:15px;">Les mots te semblent familiers. Ton cerveau les <strong>reconnaît</strong>. C'est fluide, donc tu as l'impression de savoir. C'est rassurant, mais trompeur.</p>
+    </div>
+    <div class="card-neon">
+      <h3 style="color:var(--neon)">En contrôle</h3>
+      <p style="font-size:15px;">Plus aucun support. Tu dois <strong>récupérer</strong> seul. Et la familiarité ne suffit plus.</p>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">Rétention selon la méthode : illustration du principe</div>
+    <svg viewBox="0 0 560 190" style="width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gneon" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#B8FF57" stop-opacity=".4"/><stop offset="100%" stop-color="#B8FF57" stop-opacity=".03"/></linearGradient>
+        <linearGradient id="gred" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#FF5757" stop-opacity=".35"/><stop offset="100%" stop-color="#FF5757" stop-opacity=".02"/></linearGradient>
+      </defs>
+      <line x1="50" y1="20" x2="50" y2="155" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <line x1="50" y1="155" x2="530" y2="155" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <line x1="50" y1="87" x2="530" y2="87" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4"/>
+      <text x="44" y="24" text-anchor="end" font-size="10" fill="#52504C" font-family="DM Sans">Forte</text>
+      <text x="44" y="91" text-anchor="end" font-size="10" fill="#52504C" font-family="DM Sans">Moyenne</text>
+      <text x="44" y="158" text-anchor="end" font-size="10" fill="#52504C" font-family="DM Sans">Faible</text>
+      <text x="50" y="172" text-anchor="middle" font-size="10" fill="#52504C" font-family="DM Sans">Juste après</text>
+      <text x="200" y="172" text-anchor="middle" font-size="10" fill="#52504C" font-family="DM Sans">24h</text>
+      <text x="350" y="172" text-anchor="middle" font-size="10" fill="#52504C" font-family="DM Sans">1 sem.</text>
+      <text x="520" y="172" text-anchor="middle" font-size="10" fill="#52504C" font-family="DM Sans">1 mois</text>
+      <path d="M50,20 C110,38 160,72 200,96 C250,120 310,136 350,143 C420,150 480,153 520,154 L520,155 L50,155 Z" fill="url(#gred)" opacity=".7"/>
+      <path d="M50,20 C110,30 160,46 200,60 C250,74 310,88 350,97 C420,110 480,118 520,124 L520,155 L50,155 Z" fill="url(#gneon)" opacity=".5"/>
+      <path d="M50,20 C110,38 160,72 200,96 C250,120 310,136 350,143 C420,150 480,153 520,154" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M50,20 C110,30 160,46 200,60 C250,74 310,88 350,97 C420,110 480,118 520,124" fill="none" stroke="var(--neon)" stroke-width="2" stroke-linecap="round"/>
+      <rect x="58" y="26" width="10" height="3" rx="1.5" fill="var(--neon)"/>
+      <text x="72" y="30" font-size="11" fill="#9A9890" font-family="DM Sans">Rappel actif</text>
+      <rect x="58" y="40" width="10" height="3" rx="1.5" fill="var(--red)"/>
+      <text x="72" y="44" font-size="11" fill="#9A9890" font-family="DM Sans">Relecture passive</text>
+    </svg>
+    <p style="font-size:11px;color:var(--text3);margin-top:.5rem;">Schéma illustratif de la rétention au fil du temps selon la méthode utilisée. L'écart entre les deux courbes est documenté dans la littérature (Roediger &amp; Karpicke, 2006 ; Dunlosky et al., 2013). Les valeurs exactes varient selon le contenu, les conditions et le profil de chacun.</p>
+  </div>
+
+  <div class="card">
+    <h3>Récupérer, c'est aussi apprendre</h3>
+    <p>Quand on essaie de récupérer quelque chose, on pense d'abord à vérifier ce qu'on sait. Mais l'acte de chercher lui-même fait plus que ça : il renforce les connexions entre les informations stockées. Une tentative de récupération, même partielle, prépare mieux à réapprendre qu'une relecture supplémentaire. Réviser par le rappel actif revient donc à diagnostiquer ses lacunes et à les réduire en même temps.</p>
+  </div>
+
+  <div class="card-muted">
+    <h3>Pourquoi c'est inconfortable au début</h3>
+    <p>La relecture est confortable parce qu'elle semble marcher. Le rappel actif révèle ce qu'on ne sait pas encore : moins agréable, mais c'est précisément pour ça qu'il est efficace. Cet inconfort est souvent le signe que tu travailles dans la bonne direction.</p>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="go(5)">← Résultats</button>
+    <button class="btn btn-neon" onclick="go(7)">Ce que dit la recherche →</button>
+  </div>
+</div>
+
+<!-- s7 RECHERCHE ET BÉNÉFICES -->
+<div class="scr" id="s7">
+  <div class="eyebrow">La recherche</div>
+  <h2>Pourquoi ça change vraiment quelque chose.</h2>
+
+  <div class="card-neon" style="margin-bottom:1.25rem;">
+    <h3>L'étude de référence</h3>
+    <p>Karpicke et Roediger (2008) ont fait apprendre des textes à des étudiants, puis ont mesuré ce qu'ils retenaient une semaine plus tard. Un groupe avait relu plusieurs fois. L'autre avait pratiqué le rappel actif : lire une fois, puis essayer de restituer de mémoire. Le groupe qui s'était testé retenait environ deux fois plus.</p>
+  </div>
+
+  <div style="background:var(--s1);border:.5px solid var(--border2);border-radius:var(--r);padding:1.25rem 2rem;margin-bottom:.5rem;">
+    <div style="display:flex;align-items:flex-end;gap:2rem;padding:.75rem 0;">
+      <div style="text-align:center;flex:1;">
+        <div style="height:60px;background:var(--red-d);border:.5px solid var(--red-b);border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--red);">~40%</span>
+        </div>
+        <div style="height:3px;background:var(--red);margin-bottom:.5rem;"></div>
+        <p style="font-size:12px;color:var(--text3);">Relecture répétée</p>
+      </div>
+      <div style="text-align:center;flex:1;">
+        <div style="height:130px;background:var(--neon-d);border:.5px solid var(--neon-b);border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--neon);">~80%</span>
+        </div>
+        <div style="height:3px;background:var(--neon);margin-bottom:.5rem;"></div>
+        <p style="font-size:12px;color:var(--text3);">Rappel actif</p>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--text3);margin-bottom:1.25rem;">Rétention à 1 semaine — Karpicke &amp; Roediger (2008), protocole sur textes. Les valeurs exactes varient selon les études et les conditions.</p>
+
+  <div class="card" style="margin-bottom:1rem;">
+    <h3>Ce que disent les études plus largement</h3>
+    <p>Sur dix stratégies d'apprentissage passées en revue, Dunlosky et ses collègues (2013) ont classé la pratique du rappel parmi les deux seules jugées en <strong>utilité haute</strong>. Trente minutes de rappel actif sur un chapitre valent souvent davantage que deux heures de relecture pour un contrôle dans quatre jours, pas parce que c'est plus intense, mais parce que c'est la bonne tâche.</p>
+  </div>
+
+  <div class="card-neon" style="margin-bottom:1rem;">
+    <h3>Ce que ça change concrètement pour toi</h3>
+    <p>Quand tu révises par le rappel actif, tu arrives en contrôle en sachant vraiment ce que tu sais, pas juste ce que tu crois savoir parce que tu l'as relu. Tu t'es entraîné exactement à la même situation qu'en contrôle : retrouver une information sans support. Le blanc total, celui qui arrive quand tout semblait acquis la veille, devient beaucoup plus rare.</p>
+    <p style="margin-top:.75rem;">La confiance qui découle d'une feuille blanche réussie est aussi différente de celle qu'on ressent après avoir relu ses notes. Elle repose sur ce que tu as réellement réussi à retrouver. Moins d'incertitude le matin du contrôle, moins de cette anxiété de ne pas savoir ce qu'on sait vraiment.</p>
+    <p style="margin-top:.75rem;">Il y a enfin un gain sur le temps. Se tester prend souvent moins de temps que de relire pour un résultat équivalent ou meilleur. C'est une méthode plus efficace, pas plus douloureuse.</p>
+  </div>
+
+  <div class="notice">
+    <div class="notice-icon">⚠️</div>
+    <div class="notice-txt"><strong>Un point important.</strong> Le rappel actif vient après une première prise de contact sérieuse avec le contenu : un cours suivi en classe, une lecture active avec prise de notes, des exercices faits une première fois. On ne peut pas récupérer ce qu'on n'a pas du tout travaillé.</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="go(6)">← Mécanisme</button>
+    <button class="btn btn-neon" onclick="go(8)">Comment le pratiquer →</button>
+  </div>
+</div>
+
+<!-- s8 TECHNIQUES -->
+<div class="scr" id="s8">
+  <div class="eyebrow">Les techniques</div>
+  <h2>8 façons de pratiquer le rappel actif.</h2>
+
+  <div class="tab-row">
+    <div class="tab on" onclick="showTab('savoirs',event)">Savoirs</div>
+    <div class="tab" onclick="showTab('savoirfaire',event)">Savoir-faire</div>
+  </div>
+
+  <div class="tabcontent on" id="tc-savoirs">
+    <p style="margin-bottom:1.25rem;font-size:15px;">Pour tout ce qui s'apprend : cours, définitions, dates, vocabulaire, notions, formules...</p>
+
+    <div class="tcard">
+      <span class="tbadge b-neon">Incontournable</span>
+      <div class="tname">La feuille blanche</div>
+      <p class="tbody">Ferme tes notes. Prends une feuille vierge. Écris tout ce dont tu te souviens sur un chapitre, sans aucun support. Quand tu as terminé, rouvre tes notes, identifie ce qui manquait ou ce qui était faux, essaie de comprendre pourquoi et retravaille ces points : reformule avec tes mots, cherche un exemple, regarde une vidéo... Ensuite, teste-toi à nouveau dessus.</p>
+      <p class="tnote">Universel. Aucune préparation nécessaire. Version orale possible : tu parles à voix haute plutôt que d'écrire. Au besoin, aide-toi d'un plan de la matière et n'hésite pas à t'enregistrer.</p>
+    </div>
+
+    <div class="tcard">
+      <span class="tbadge b-neon">Incontournable</span>
+      <div class="tname">Les flashcards</div>
+      <p class="tbody">Une question d'un côté, la réponse de l'autre. L'essentiel : <strong>toujours essayer de répondre avant de retourner la carte</strong>. Si tu regardes la réponse directement, c'est de la reconnaissance, pas du rappel actif.</p>
+      <p class="tnote">Idéal pour les définitions, le vocabulaire en langue vivante, les formules et les dates. Peut se faire à l'oral.</p>
+    </div>
+
+    <div class="tcard">
+      <span class="tbadge b-neon">Incontournable</span>
+      <div class="tname">Enseigner à quelqu'un</div>
+      <p class="tbody">Explique la leçon à voix haute comme si tu l'enseignais à quelqu'un qui ne sait rien : un parent, un ami ou toi-même face à un miroir. Si tu bloques sur un point, tu viens de l'identifier. Si tu peux tout expliquer sans regarder tes notes, c'est vraiment ancré.</p>
+      <p class="tnote">Révèle les lacunes cachées. Fonctionne dans toutes les matières. Particulièrement utile quand il faut comprendre, pas juste réciter.</p>
+    </div>
+
+    <div class="tcard">
+      <span class="tbadge b-gray">Très efficace</span>
+      <div class="tname">La page de notes repliée</div>
+      <p class="tbody">Dans la marge de tes notes, écris des mots-clés ou des questions pendant le cours. Pour réviser : replie la colonne principale et réponds aux questions depuis les seuls mots-clés. Tu ne déplie qu'après avoir essayé.</p>
+      <p class="tnote">Se prépare pendant le cours. Bon pour les matières denses comme l'histoire ou les SVT.</p>
+    </div>
+
+    <div class="tcard">
+      <span class="tbadge b-gray">Très efficace</span>
+      <div class="tname">Questions auto-générées</div>
+      <p class="tbody">Après avoir étudié un chapitre, formule 5 à 10 questions en te demandant ce que pourrait poser le contrôle. Note-les sur une feuille à part. Quelques heures plus tard, réponds-y sans regarder tes notes, puis vérifie.</p>
+      <p class="tnote">Double effet : identifier ce qui compte et s'entraîner à le récupérer. Très utile dans la semaine qui précède un contrôle.</p>
+    </div>
+
+    <div class="tcard">
+      <span class="tbadge b-gray">Très efficace</span>
+      <div class="tname">Le résumé de mémoire</div>
+      <p class="tbody">Ferme tes notes. Rédige un résumé du chapitre de tête, sans chercher la perfection, juste ce que tu retiens. Puis compare avec tes vraies notes : ce qui manque dans ton résumé, c'est ce qui nécessite plus de travail.</p>
+      <p class="tnote">Bon pour les matières littéraires et tout ce qui demande de structurer sa pensée. Se fait aussi à l'oral.</p>
+    </div>
+  </div>
+
+  <div class="tabcontent" id="tc-savoirfaire">
+    <p style="margin-bottom:1.25rem;font-size:15px;">Pour tout ce qui se pratique plutôt que ce qui se récite : maths, physique-chimie, langues...</p>
+
+    <div class="tcard">
+      <span class="tbadge b-neon">Incontournable</span>
+      <div class="tname">Refaire les exercices de mémoire</div>
+      <p class="tbody">Ferme le cours et la correction. Refais les exercices déjà vus, sans regarder la solution. Quand tu bloques sur un point précis, tu consultes uniquement ce point, puis tu reprends. Ce qui est difficile à refaire, c'est ce qui mérite d'être retravaillé.</p>
+      <p class="tnote">La technique la plus directe pour les maths et la physique-chimie. S'adapte aussi aux exercices de grammaire ou de traduction.</p>
+    </div>
+
+    <div class="tcard">
+      <span class="tbadge b-gray">Très efficace</span>
+      <div class="tname">Le schéma de mémoire</div>
+      <p class="tbody">Ferme tes notes. Reconstitue de mémoire un schéma, une carte mentale ou un tableau du chapitre. L'objectif n'est pas que ce soit joli : c'est de reconstruire les liens entre les notions sans support. Tu compares avec tes vrais schémas ensuite.</p>
+      <p class="tnote">Puissant en SVT, géographie, chimie et tout ce qui a une forte structure visuelle.</p>
+    </div>
+
+    <div class="tcard">
+      <span class="tbadge b-gray">Très efficace</span>
+      <div class="tname">Inventer des exercices-types</div>
+      <p class="tbody">Pose-toi une question du type de ce que pourrait demander le contrôle, et essaie d'y répondre depuis le début, sans notes. En physique sur un chapitre forces et mouvements, ça donnerait : invente un problème avec une voiture qui freine, pose les équations et résous-le de mémoire. Vérifie ensuite avec le cours. L'enjeu : savoir reconnaître quel outil appliquer dans quel contexte, sans qu'on te guide.</p>
+      <p class="tnote">Travaille directement le transfert, la vraie difficulté dans les matières scientifiques.</p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="card-amber" style="margin-bottom:1rem;">
+    <h3 style="color:var(--amber)">Pour préparer un contrôle dans les prochains jours</h3>
+    <div style="margin-top:.75rem;">
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-neon">J−4</div>
+        <div class="tl-body">
+          <div class="tl-title">Feuille blanche</div>
+          <div class="tl-txt">Avant de rouvrir quoi que ce soit : écris tout ce que tu sais déjà sur le chapitre. Tu obtiens une carte précise de ce qui est ancré et de ce qui ne l'est pas encore.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-neon">J−2</div>
+        <div class="tl-body">
+          <div class="tl-title">Flashcards ou questions sur les lacunes</div>
+          <div class="tl-txt">Tu sais ce qui manquait. Travaille ces points précis, pas le chapitre entier. Flashcards, questions auto-générées ou exercices sur les notions qui t'ont posé problème.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-muted">Veille</div>
+        <div class="tl-body">
+          <div class="tl-title">Résumé rapide ou exercices sans notes</div>
+          <div class="tl-txt">Résumé de mémoire sur ce qu'il reste à consolider, ou deux à trois exercices représentatifs refaits sans regarder la correction. Pas question de tout retravailler à la dernière minute.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <div class="notice-icon">💡</div>
+    <div class="notice-txt">Toutes ces techniques reposent sur le même principe : essayer de produire l'information <em>avant</em> de regarder ses notes. Ce qui compte, ce n'est pas la méthode choisie, c'est l'acte de chercher. Même incomplet, même imparfait, ça fait le travail.</div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="btn-row">
+    <button class="btn" onclick="go(7)">← La recherche</button>
+    <button class="btn btn-neon" onclick="go(9)">Les pièges →</button>
+  </div>
+</div>
+
+<!-- s9 PIÈGES + MINDSET -->
+<div class="scr" id="s9">
+  <div class="eyebrow">Pour bien le faire</div>
+  <h2>Les pièges à éviter.</h2>
+
+  <div class="tab-row">
+    <div class="tab on" onclick="showTab2('pieges',event)">Les pièges</div>
+    <div class="tab" onclick="showTab2('mindset',event)">L'état d'esprit</div>
+  </div>
+
+  <div class="tabcontent on" id="tc2-pieges">
+    <div class="card" style="padding:1rem 1.6rem;">
+      <div class="obs-item">
+        <div class="obs-n">01</div>
+        <div>
+          <div class="obs-title">Regarder ses notes trop tôt</div>
+          <p class="obs-txt">Dès que ça bloque, l'instinct est d'ouvrir le cahier. Mais c'est exactement ce moment de recherche difficile qui rend la technique efficace. Essaie encore 20 à 30 secondes avant de regarder.</p>
+        </div>
+      </div>
+      <div class="obs-item">
+        <div class="obs-n">02</div>
+        <div>
+          <div class="obs-title">Se tester juste après avoir relu</div>
+          <p class="obs-txt">Si tu fermes le livre et te testes dans la foulée, la mémoire est encore chaude : tout semble acquis. C'est encore de la reconnaissance déguisée. Quelques heures de délai rendent le test honnête.</p>
+        </div>
+      </div>
+      <div class="obs-item">
+        <div class="obs-n">03</div>
+        <div>
+          <div class="obs-title">Faire défiler ses flashcards sans se tester</div>
+          <p class="obs-txt">Lire ses flashcards recto-verso sans essayer de répondre d'abord, parcourir ses résumés en pensant « ah oui, je savais » : c'est de la reconnaissance, pas du rappel actif. Le test n'est réel que si tu produis la réponse avant de la voir.</p>
+        </div>
+      </div>
+      <div class="obs-item">
+        <div class="obs-n">04</div>
+        <div>
+          <div class="obs-title">Tout faire la veille</div>
+          <p class="obs-txt">Une session de rappel actif la veille vaut toujours mieux que de simplement relire. Mais même sur 3 ou 4 jours, plusieurs sessions courtes donnent de meilleurs résultats qu'une longue session de dernière minute.</p>
+        </div>
+      </div>
+      <div class="obs-item">
+        <div class="obs-n">05</div>
+        <div>
+          <div class="obs-title">Croire qu'une récupération facile signifie que c'est acquis</div>
+          <p class="obs-txt">Quand les réponses viennent trop facilement, c'est souvent parce que le contenu est encore très frais ou que les mêmes questions ont été vues trop souvent. Varier les formulations et laisser passer plus de temps entre les sessions donne une image plus honnête de ce qui est vraiment ancré.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabcontent" id="tc2-mindset">
+    <div class="card-neon" style="margin-bottom:1rem;">
+      <h3>Bloquer, c'est une information</h3>
+      <p>Quand tu fais du rappel actif et que tu ne retrouves pas quelque chose, ce n'est pas un échec : c'est une information précise. Tu viens d'identifier exactement ce qui a besoin d'être retravaillé. C'est infiniment plus utile que de passer vingt minutes à relire le chapitre entier en espérant que les lacunes vont disparaître.</p>
+    </div>
+    <div class="card-muted">
+      <h3>Une technique à la fois</h3>
+      <p>Pas besoin de tout changer d'un coup. Choisis une seule technique. Teste-la sur ta prochaine leçon. Si ça marche, tu l'adoptes. Le reste vient après.</p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="btn-row">
+    <button class="btn" onclick="go(8)">← Techniques</button>
+    <button class="btn btn-neon" onclick="go(10)">Ce qu'on retient →</button>
+  </div>
+</div>
+
+<!-- s10 CONCLUSION -->
+<div class="scr" id="s10">
+  <div class="eyebrow-neon">Pour finir</div>
+  <h2>Une habitude à changer dès maintenant.</h2>
+
+  <div class="card-neon" style="margin-bottom:1.25rem;">
+    <h3>Ce qu'on retient</h3>
+    <p>Relire te donne l'impression de savoir parce que tu <strong>reconnais</strong>. Dans la plupart des contrôles, on te demande de <strong>récupérer</strong> : sans support, sans familiarité. La seule façon de s'y préparer vraiment, c'est de pratiquer exactement ça : fermer ses notes et chercher.</p>
+  </div>
+
+  <div class="tag-row">
+    <div class="tag">✦ Feuille blanche</div>
+    <div class="tag">✦ Flashcards</div>
+    <div class="tag">✦ Enseigner à quelqu'un</div>
+    <div class="tag">✦ Questions auto-générées</div>
+    <div class="tag">✦ Page repliée</div>
+    <div class="tag">✦ Refaire les exercices</div>
+    <div class="tag">✦ Schéma de mémoire</div>
+    <div class="tag">✦ Résumé de mémoire</div>
+  </div>
+
+  <div class="bq">
+    <p>L'effort de chercher, même sans tout retrouver, vaut plus que l'impression rassurante de reconnaître.</p>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="go(9)">← Pièges</button>
+  </div>
+</div>
+
+</div>
+<script>
+const WORDS=['Volcan','Miroir','Grenade','Pendule','Caverne','Boussole','Torche','Coquille','Brume','Sablier','Lanterne','Terrier','Falaise','Trident','Prisme'];
+const INTRUS=['Cascade','Parchemin','Astrolabe','Sentier','Portail','Arche','Citadelle','Spectre','Crypte','Lentille','Fossé','Rampe','Phare','Alcôve','Totem'];
+const TOTAL=11;let cur=0;
+function buildNav(){const el=document.getElementById('nsegs');el.innerHTML='';for(let i=0;i<TOTAL;i++){const d=document.createElement('div');d.className='seg'+(i===0?' cur':'');el.appendChild(d);}}
+function go(n){document.getElementById('s'+cur).classList.remove('on');cur=n;document.getElementById('s'+cur).classList.add('on');document.getElementById('nnum').textContent=(cur+1)+'/'+TOTAL;document.querySelectorAll('.seg').forEach((d,i)=>{d.className='seg'+(i<cur?' done':i===cur?' cur':'');});window.scrollTo({top:0,behavior:'smooth'});if(n===2)initMath('m1',()=>go(3));}
+function buildWords(){const g=document.getElementById('wgrid');g.innerHTML='';WORDS.forEach(w=>{const c=document.createElement('div');c.className='wchip';c.textContent=w;g.appendChild(c);});}
+let tInt=null;
+function startTimer(){const num=document.getElementById('tnum'),info=document.getElementById('tinfo'),btn=document.getElementById('tbtn');btn.disabled=true;btn.textContent='…';let t=60;tInt=setInterval(()=>{t--;const m=Math.floor(t/60),s=t%60;num.textContent=m+':'+(s<10?'0':'')+s;if(t<=15)num.classList.add('hot');if(t<=0){clearInterval(tInt);num.textContent='0:00';info.textContent='Temps écoulé.';btn.style.display='none';}},1000);info.textContent='En cours…';}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function genCalc(){const t=rnd(0,2);if(t===0){const a=rnd(13,48),b=rnd(5,22);return{q:a+' + '+b,ans:a+b};}if(t===1){const a=rnd(22,65),b=rnd(4,19);return{q:a+' − '+b,ans:a-b};}const a=rnd(3,12),b=rnd(3,9);return{q:a+' × '+b,ans:a*b};}
+const mathState={};
+function initMath(pfx,onDone){const probs=[genCalc(),genCalc(),genCalc()];mathState[pfx]={step:0,probs,onDone};renderMath(pfx);}
+function renderMath(pfx){const state=mathState[pfx];const p=state.probs[state.step];document.getElementById(pfx+'q').textContent=p.q+' = ?';document.getElementById(pfx+'fb').textContent='';document.getElementById(pfx+'ctr').textContent='Calcul '+(state.step+1)+' / 3';const inp=document.getElementById(pfx+'in');inp.value='';inp.className='math-input';inp.disabled=false;setTimeout(()=>inp.focus(),50);}
+function validateMath(pfx){const state=mathState[pfx];if(!state)return;const inp=document.getElementById(pfx+'in');const fb=document.getElementById(pfx+'fb');const val=parseInt(inp.value);const ans=state.probs[state.step].ans;if(isNaN(val)){fb.textContent='Entre un nombre.';return;}inp.disabled=true;if(val===ans){inp.className='math-input ok';fb.textContent='Correct !';state.step++;if(state.step<3){setTimeout(()=>renderMath(pfx),850);}else{setTimeout(()=>state.onDone(),850);}}else{inp.className='math-input bad';fb.textContent='Pas tout à fait, réessaie.';setTimeout(()=>{inp.className='math-input';inp.value='';inp.disabled=false;fb.textContent='';inp.focus();},900);}}
+let recallScore=0;
+function normalize(s){return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z]/g,'');}
+function scoreRecall(){const raw=document.getElementById('recall-input').value;const tokens=raw.split(/[\s,;]+/).filter(t=>t.length>0);const normWords=WORDS.map(normalize);const found=new Set();tokens.forEach(t=>{const n=normalize(t);normWords.forEach((nw,i)=>{if(n===nw)found.add(i);});});recallScore=found.size;go(4);}
+let recogSel=new Set();let recogScore=0;
+function buildRecog(){const g=document.getElementById('recog-grid');g.innerHTML='';shuffle([...WORDS,...INTRUS]).forEach(w=>{const c=document.createElement('div');c.className='rchip';c.textContent=w;c.onclick=()=>{if(recogSel.has(w)){recogSel.delete(w);c.classList.remove('sel');}else{recogSel.add(w);c.classList.add('sel');}};g.appendChild(c);});}
+function scoreRecog(){let ok=0;document.querySelectorAll('#recog-grid .rchip').forEach(c=>{const w=c.textContent,inL=WORDS.includes(w),sel=recogSel.has(w);c.onclick=null;if(sel&&inL){c.className='rchip ok';ok++;}else if(sel&&!inL){c.className='rchip fp';}else if(!sel&&inL){c.className='rchip miss';}else{c.className='rchip neutral';}});recogScore=ok;document.getElementById('disp-recall').textContent=recallScore;document.getElementById('disp-recog').textContent=recogScore;const box=document.getElementById('result-msg');if(recogScore>recallScore){box.innerHTML=`<div class="card-neon"><h3>La reconnaissance était plus facile que la récupération.</h3><p style="margin-top:.4rem;">Tu as reconnu <strong>${recogScore}/15</strong> mots, mais tu n'en avais récupéré que <strong>${recallScore}/15</strong> de tête. Les mots te semblaient familiers, donc faciles à identifier dans une liste. Mais les retrouver seul, sans les voir — comme en contrôle — c'était une autre affaire. C'est ça, l'illusion de maîtrise.</p></div>`;}else if(recogScore===recallScore){box.innerHTML=`<div class="card-amber"><h3>Tes deux scores sont très proches.</h3><p style="margin-top:.4rem;">Ces mots ont été mémorisés il y a quelques minutes seulement, tout est encore très frais. Sur un cours étudié quatre jours plus tôt, le score de reconnaissance resterait probablement élevé, mais récupérer les notions de tête serait bien plus difficile. C'est là que l'illusion de maîtrise se révèle.</p></div>`;}else{box.innerHTML=`<div class="card-neon"><h3>Beau travail sur la récupération.</h3><p style="margin-top:.4rem;">Retiens quand même le mécanisme : sur des contenus plus complexes mémorisés depuis plusieurs jours, l'écart entre reconnaître et récupérer devient très réel. C'est lui qui explique pourquoi on peut avoir l'impression de savoir sa leçon et bloquer en contrôle.</p></div>`;}go(5);}
+function showTab(id,e){['savoirs','savoirfaire'].forEach(t=>{document.getElementById('tc-'+t).classList.remove('on');});document.getElementById('tc-'+id).classList.add('on');document.querySelectorAll('#s8 .tab').forEach(t=>t.classList.remove('on'));e.target.classList.add('on');}
+function showTab2(id,e){['pieges','mindset'].forEach(t=>{document.getElementById('tc2-'+t).classList.remove('on');});document.getElementById('tc2-'+id).classList.add('on');document.querySelectorAll('#s9 .tab').forEach(t=>t.classList.remove('on'));e.target.classList.add('on');}
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+buildNav();buildWords();buildRecog();
+</script>
+</body>
+</html>
