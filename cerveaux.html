@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <script>
+  const motDePasse = "1234"; // ton mot de passe
+  const mdp = prompt("Entrez le mot de passe pour accéder à cet exercice :");
+  if(mdp !== motDePasse) {
+    alert("Mot de passe incorrect !");
+    window.location.href = "/"; // renvoie à l'accueil
+  }
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Test des 3 Cerveaux</title>
