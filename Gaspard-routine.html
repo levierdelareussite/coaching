@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ta routine maths & physique</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #555;
+    --ink-muted: #888;
+    --paper: #faf9f6;
+    --paper-alt: #f3f1ec;
+    --paper-card: #ffffff;
+    --accent: #3d3b8e;
+    --accent-light: #eeedf8;
+    --accent-mid: #7f7dd4;
+    --warm: #c9623f;
+    --warm-light: #faeee9;
+    --green: #2e7d5e;
+    --border: rgba(0,0,0,0.09);
+    --border-strong: rgba(0,0,0,0.15);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .hero {
+    margin-bottom: 3rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .hero-intro {
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 520px;
+    padding-left: 1rem;
+    border-left: 2px solid var(--accent-mid);
+  }
+
+  .step {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .step:nth-child(1) { animation-delay: 0.05s; }
+  .step:nth-child(2) { animation-delay: 0.10s; }
+  .step:nth-child(3) { animation-delay: 0.15s; }
+  .step:nth-child(4) { animation-delay: 0.20s; }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 1rem;
+  }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-num.warn {
+    background: var(--warm-light);
+    color: var(--warm);
+  }
+
+  .step-meta { flex: 1; }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .step-when {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    background: var(--paper-alt);
+    padding: 2px 10px;
+    border-radius: 20px;
+  }
+
+  .step-body {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .callout {
+    background: var(--paper-alt);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1.1rem;
+    margin-top: 0.9rem;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .callout strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .ctx-label {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .ctx-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .ctx-tab {
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .ctx-tab:hover { background: var(--paper-alt); }
+
+  .ctx-tab.active {
+    background: var(--accent-light);
+    border-color: var(--accent-mid);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .ctx-panel { display: none; }
+  .ctx-panel.visible {
+    display: block;
+    animation: fadeUp 0.2s ease both;
+  }
+
+  .field { margin-top: 1.1rem; }
+
+  .field-label {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .field-hint {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  .obstacle {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .obstacle:last-of-type { border-bottom: none; }
+
+  .obstacle-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--warm);
+    flex-shrink: 0;
+    margin-top: 7px;
+    opacity: 0.5;
+  }
+
+  .obstacle strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 3px;
+    font-size: 14px;
+  }
+
+  .recap {
+    background: var(--accent-light);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    animation: fadeUp 0.5s 0.25s ease both;
+  }
+
+  .recap-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .recap-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #4a4890;
+    line-height: 1.55;
+  }
+
+  .recap-row:last-child { margin-bottom: 0; }
+
+  .recap-num {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent-mid);
+    min-width: 18px;
+    margin-top: 2px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 28px; }
+    .page { padding: 2rem 1.2rem 3rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Ton plan d'action</div>
+    <h1>Ta routine maths&nbsp;&amp;&nbsp;physique</h1>
+    <p class="hero-intro">L'idée n'est pas d'aimer les maths. C'est de rendre le démarrage tellement automatique que tu n'as plus besoin d'y réfléchir. Comme le lave-vaisselle.</p>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-meta">
+          <div class="step-title">La veille (ou le matin) : décide ta tâche</div>
+          <span class="step-when">30 secondes</span>
+        </div>
+      </div>
+      <div class="step-body">
+        Avant même d'arriver à l'étude, tu sais exactement ce que tu vas faire. Pas "je vais faire des maths" : quelque chose de précis, faisable, avec un début et une fin clairs.
+        <div class="callout">
+          <strong>Pourquoi à l'avance ?</strong> Au moment d'ouvrir ton cahier, tu n'as plus à décider. Tu exécutes. C'est cette décision prise sur le moment qui coûte de l'énergie et ouvre la porte à l'évitement.
+        </div>
+
+        <div class="ctx-label">Ta situation ce soir :</div>
+        <div class="ctx-tabs">
+          <button class="ctx-tab" onclick="showCtx('demain', this)">Contrôle demain</button>
+          <button class="ctx-tab" onclick="showCtx('semaine', this)">Contrôle dans la semaine</button>
+          <button class="ctx-tab" onclick="showCtx('libre', this)">Rien d'urgent</button>
+        </div>
+
+        <div id="ctx-demain" class="ctx-panel">
+          <div class="callout">20 minutes max. Pas question de tout revoir : tu choisis deux ou trois points clés du chapitre (les définitions importantes, le type d'exercice le plus probable) et tu t'y concentres uniquement.</div>
+        </div>
+        <div id="ctx-semaine" class="ctx-panel">
+          <div class="callout">Tu découpes le chapitre en portions. Ce soir : une seule partie (par exemple les définitions et un type d'exercice). Demain soir : une autre. Tu n'as pas à tout faire d'un coup.</div>
+        </div>
+        <div id="ctx-libre" class="ctx-panel">
+          <div class="callout">Tu reprends quelque chose de récent vu en cours. Relis un exercice corrigé, puis refais-le sans regarder. Si tu bloques, tu regardes juste la première étape et tu continues.</div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">Quelle sera ta tâche demain soir ?</div>
+          <div class="field-hint">Note-la dans ton agenda ou sur un post-it. Ex : refaire l'exercice 4 du chapitre 3 sans regarder le corrigé.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-meta">
+          <div class="step-title">Le signal : ouvrir maths ou physique en premier</div>
+          <span class="step-when">À l'étude</span>
+        </div>
+      </div>
+      <div class="step-body">
+        Dès que ton signal arrive, tu ouvres <strong>maths ou physique</strong>, pas autre chose. Avant les matières que tu aimes, avant les devoirs du lendemain.
+        <div class="callout">
+          <strong>Pourquoi en premier ?</strong> Si tu repousses, ça reste dans un coin de ta tête pendant toute l'heure. Tu sais que c'est encore devant toi. En l'attaquant en premier, t'en es débarrassé et tu peux bosser le reste tranquille.
+        </div>
+        <div class="field">
+          <div class="field-label">Quel est ton signal, le moment précis qui déclenche tout ?</div>
+          <div class="field-hint">Note-le dans ton agenda ou sur un post-it. Ex : quand l'éducateur dit de ranger les téléphones.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-meta">
+          <div class="step-title">La porte d'entrée : le geste le plus petit possible</div>
+          <span class="step-when">Premières secondes</span>
+        </div>
+      </div>
+      <div class="step-body">
+        Tu n'as pas à "te mettre au travail". Tu as juste à faire <strong>un geste minuscule</strong> pour entrer dans la tâche : lire l'énoncé, écrire la date, surligner les données du premier exercice. C'est tout.
+        <div class="callout">
+          <strong>Ce que tu remarqueras :</strong> la résistance est presque toujours dans les premières secondes, pas dans la tâche elle-même. Une fois que tu es dedans, continuer est beaucoup plus facile que commencer.
+        </div>
+        <p style="margin-top: 0.85rem; font-size: 14px; color: var(--ink-muted); line-height: 1.65;">
+          Une fois ta tâche terminée, tu passes au reste de tes devoirs. Il n'y a pas de durée imposée : juste la tâche que tu t'es fixée.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num warn">!</div>
+        <div class="step-meta">
+          <div class="step-title">Ce qui peut faire rater la routine</div>
+          <span class="step-when">À anticiper</span>
+        </div>
+      </div>
+      <div class="step-body">
+
+        <div class="obstacle">
+          <div class="obstacle-dot"></div>
+          <div>
+            <strong>« J'ai pas envie ce soir. »</strong>
+            Tu n'attendras jamais d'avoir envie de faire des maths. Ça n'arrivera pas. Mais une fois que t'es dedans, c'est souvent moins pénible que tu l'imaginais. Tu démarres, et l'envie vient éventuellement après.
+          </div>
+        </div>
+
+        <div class="obstacle">
+          <div class="obstacle-dot"></div>
+          <div>
+            <strong>« Je suis trop fatigué ce soir. »</strong>
+            Tu réduis la tâche, tu ne la supprimes pas. Tu fais juste la première partie de ce que t'avais prévu. Même dix minutes, c'est mieux que zéro, et ça préserve la routine.
+          </div>
+        </div>
+
+        <div class="obstacle">
+          <div class="obstacle-dot"></div>
+          <div>
+            <strong>« J'ai un contrôle urgent dans une autre matière. »</strong>
+            Maths ou physique restent en premier, mais tu réduis à l'essentiel : un exercice, cinq minutes. L'important c'est de ne pas sauter complètement.
+          </div>
+        </div>
+
+        <div class="obstacle">
+          <div class="obstacle-dot"></div>
+          <div>
+            <strong>« J'ai oublié de décider ma tâche à l'avance. »</strong>
+            Tu ouvres ton cahier, tu regardes ce qui a été fait en cours cette semaine et tu identifies en trente secondes le point sur lequel tu es le moins à l'aise. C'est ça ta tâche du soir.
+          </div>
+        </div>
+
+        <div class="obstacle">
+          <div class="obstacle-dot"></div>
+          <div>
+            <strong>« J'ai raté un soir. »</strong>
+            Une séance ratée ne casse pas la routine. Ce qui la casse, c'est de décider que c'est foutu et d'abandonner. Le lendemain, tu reprends exactement là où tu en es.
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">Quel obstacle te ressemble le plus ?</div>
+          <div class="field-hint">Note-le dans ton agenda ou sur un post-it pour l'avoir en tête.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="recap">
+    <div class="recap-title">En résumé</div>
+    <div class="recap-row"><span class="recap-num">01</span><span>La veille ou le matin : tu décides ta tâche précise et tu la notes.</span></div>
+    <div class="recap-row"><span class="recap-num">02</span><span>Au signal : maths ou physique en premier, toujours.</span></div>
+    <div class="recap-row"><span class="recap-num">03</span><span>Tu commences par le geste le plus petit possible. Ensuite tu continues.</span></div>
+    <div class="recap-row"><span class="recap-num">04</span><span>Quand c'est fait : tu coches. C'est tout.</span></div>
+    <div class="recap-row"><span class="recap-num">05</span><span>Si tu rates un soir : pas de drama, tu reprends le lendemain.</span></div>
+  </div>
+
+</div>
+
+<script>
+function showCtx(id, btn) {
+  document.querySelectorAll('.ctx-panel').forEach(function(el) { el.classList.remove('visible'); });
+  document.querySelectorAll('.ctx-tab').forEach(function(el) { el.classList.remove('active'); });
+  var panel = document.getElementById('ctx-' + id);
+  if (panel) panel.classList.add('visible');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>
