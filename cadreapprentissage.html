@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcours d'étude en 5 étapes</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c1:#2563EB;--c1l:#EFF6FF;--c1m:#BFDBFE;
+  --c2:#7C3AED;--c2l:#F5F3FF;--c2m:#DDD6FE;
+  --c3:#059669;--c3l:#ECFDF5;--c3m:#A7F3D0;
+  --c4:#D97706;--c4l:#FFFBEB;--c4m:#FDE68A;
+  --c5:#DC2626;--c5l:#FEF2F2;--c5m:#FECACA;
+  --c6:#0891B2;--c6l:#ECFEFF;--c6m:#A5F3FC;
+  --sf:#EA580C;--sfl:#FFF7ED;--sfm:#FED7AA;
+  --bg:#F7F6F3;--card:#FFFFFF;
+  --text:#111827;--muted:#6B7280;--light:#9CA3AF;
+  --border:#E5E7EB;--r:16px;--rs:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.page{max-width:820px;margin:0 auto;padding:48px 20px 80px}
+
+/* HERO */
+.hero{text-align:center;margin-bottom:44px;animation:up .5s both}
+.eyebrow{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--border);display:inline-block;padding:5px 14px;border-radius:100px;margin-bottom:16px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#2563EB,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto;font-weight:300;line-height:1.65}
+
+/* CYCLE */
+.cycle-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:26px 18px 20px;margin-bottom:44px;animation:up .5s .07s both}
+.cycle-label{text-align:center;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-bottom:22px}
+.cycle-svg{display:flex;justify-content:center;margin-bottom:14px}
+.cycle-svg svg{max-width:640px;width:100%}
+.cycle-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.cpill{font-size:12px;font-weight:500;padding:5px 12px;border-radius:100px;cursor:pointer;transition:opacity .15s,transform .15s;border:1px solid}
+.cpill:hover{opacity:.8;transform:translateY(-1px)}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column}
+.step-wrap{position:relative}
+.step-conn{width:2px;height:12px;margin-left:34px;opacity:.2;background:linear-gradient(to bottom,var(--sc),transparent)}
+.step-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s,box-shadow .2s;animation:up .4s both}
+.step-card:hover{border-color:var(--sc)}
+.step-card.open{border-color:var(--sc);box-shadow:0 0 0 3px var(--sl)}
+
+/* TRIGGER */
+.step-trigger{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none}
+.step-num{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:19px;font-weight:800;flex-shrink:0;background:var(--sl);color:var(--sc);transition:transform .2s}
+.step-card.open .step-num{transform:scale(1.06)}
+.step-meta{flex:1;min-width:0}
+.step-eyebrow{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sc);margin-bottom:1px}
+.step-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.015em}
+.step-tag{font-size:13px;color:var(--muted);margin-top:2px;font-weight:300}
+.step-chev{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--light);font-size:11px;transition:all .25s;flex-shrink:0}
+.step-card.open .step-chev{background:var(--sc);border-color:var(--sc);color:#fff;transform:rotate(180deg)}
+
+/* BODY */
+.step-body{display:none}
+.step-body.open{display:block}
+.step-inner{padding:22px 20px 26px;border-top:1.5px solid var(--border)}
+.aline{height:3px;border-radius:2px;margin-bottom:20px}
+
+/* LINK BANNER */
+.link-banner{background:var(--sl);border:1px solid var(--sm);border-radius:var(--rs);padding:12px 15px;font-size:13.5px;color:var(--text);margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+.lb-icon{font-size:15px;flex-shrink:0;margin-top:2px}
+
+/* ESSENTIAL */
+.essential{margin-bottom:20px}
+.essential-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.essential-title::before{content:'';display:inline-block;width:3px;height:14px;border-radius:2px;background:var(--sc);flex-shrink:0}
+.essential p{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:8px}
+.essential p:last-child{margin-bottom:0}
+
+/* SECTION LABEL */
+.slabel{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-bottom:9px;margin-top:18px}
+.slabel:first-of-type{margin-top:0}
+
+/* SPLIT */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px}
+@media(max-width:500px){.split{grid-template-columns:1fr}}
+@media(max-width:480px){.tech-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .cycle-svg svg{max-width:100%}
+  .cycle-label{font-size:10px}
+  .step-trigger{padding:14px;gap:10px}
+  .step-num{width:38px;height:38px;font-size:16px}
+  .step-name{font-size:17px}
+  .step-tag{font-size:12px}
+  .step-inner{padding:16px 14px 20px}
+  .planning-head{flex-direction:column;gap:10px}
+  .planning-legend{gap:5px;flex-wrap:wrap}
+  .page{padding:28px 14px 60px}
+  .hero h1{font-size:clamp(24px,7vw,36px)}
+  .hero-sub{font-size:14px}
+  .cycle-wrap{padding:18px 12px 16px}
+  .cpill{font-size:11px;padding:4px 10px}
+  .essential p{font-size:13.5px}
+  .tech-desc{font-size:12.5px}
+  .scol ul li{font-size:12.5px}
+  .plan{font-size:12px}
+  .plan th{font-size:10px;padding:7px 8px}
+  .plan td{padding:7px 8px}
+  .plan-task{font-size:11px;padding:3px 7px}
+  .ex-who{font-size:14px}
+  .ex-chapter{font-size:13px}
+  .note{font-size:13px}
+  .alert{font-size:13.5px}
+  .tags{gap:5px}
+  .tag{font-size:12px;padding:4px 10px}
+}
+.scol{background:var(--sl);border:1px solid var(--sm);border-radius:var(--rs);padding:14px 15px}
+.scol.sf{background:var(--sfl);border-color:var(--sfm)}
+.scol-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.scol-icon{width:27px;height:27px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:var(--sc)}
+.scol.sf .scol-icon{background:var(--sf)}
+.scol-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--sc)}
+.scol.sf .scol-title{color:var(--sf)}
+.scol ul{list-style:none;padding:0}
+.scol ul li{font-size:13px;color:var(--text);padding:5px 0 5px 14px;position:relative;line-height:1.5;border-bottom:1px solid var(--sm)}
+.scol.sf ul li{border-bottom-color:var(--sfm)}
+.scol ul li:last-child{border-bottom:none}
+.scol ul li::before{content:'';position:absolute;left:0;top:12px;width:5px;height:5px;border-radius:50%;background:var(--sc);opacity:.55}
+.scol.sf ul li::before{background:var(--sf)}
+.scol ul li span{display:block;font-size:12px;color:var(--muted);margin-top:1px;font-weight:300}
+
+/* TECH GRID */
+.tech-section{margin-bottom:16px}
+.tech-section-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:7px 11px;border-radius:var(--rs);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em}
+.tech-section-head.savoirs{background:var(--sl);color:var(--sc)}
+.tech-section-head.sf{background:var(--sfl);color:var(--sf)}
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tech{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:12px 13px}
+.tech-top{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.tech-icon{font-size:15px}
+.tech-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text)}
+.tech-desc{font-size:13px;color:var(--muted);line-height:1.55}
+.tech-badge{font-size:11px;padding:2px 8px;border-radius:100px;display:inline-block;margin-top:6px;font-weight:500}
+.tech-badge.sv{background:var(--sl);color:var(--sc);border:1px solid var(--sm)}
+.tech-badge.sf{background:var(--sfl);color:var(--sf);border:1px solid var(--sfm)}
+
+/* COMPARE TABLE */
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px}
+.compare-table th{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:9px 13px;border-bottom:1.5px solid var(--border);text-align:left}
+.compare-table td{padding:9px 13px;border-bottom:1px solid var(--border);line-height:1.55;vertical-align:top}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table .col-label{color:var(--muted);font-weight:500;width:32%}
+.compare-table .col-4{background:var(--c4l);color:var(--c4d,#92400E)}
+.compare-table .col-5{background:var(--c5l);color:var(--c5d,#991B1B)}
+.compare-table th.col-4{color:#92400E}
+.compare-table th.col-5{color:#991B1B}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.tag{font-size:13px;padding:5px 12px;border-radius:100px;background:var(--sl);color:var(--sc);border:1px solid var(--sm);line-height:1.4}
+
+/* ACCORDION */
+.acc-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;padding:10px 0;border-top:1px solid var(--border);margin-top:6px}
+.acc-toggle:first-of-type{margin-top:14px}
+.acc-label{font-size:13px;font-weight:500;color:var(--muted);flex:1}
+.acc-chev{font-size:11px;color:var(--light);transition:transform .2s}
+.acc-toggle.open .acc-chev{transform:rotate(180deg)}
+.acc-content{display:none;padding-top:12px}
+.acc-content.open{display:block}
+
+/* NOTE */
+.note{background:var(--bg);border-left:3px solid var(--sc);border-radius:0 var(--rs) var(--rs) 0;padding:12px 15px;font-size:13.5px;color:var(--muted);line-height:1.65;font-style:italic;margin-top:8px}
+.note strong{color:var(--text);font-style:normal;font-weight:500}
+
+/* ALERT */
+.alert{background:var(--sl);border:1px solid var(--sm);border-radius:var(--rs);padding:11px 14px;font-size:13.5px;color:var(--text);display:flex;gap:9px;align-items:flex-start;line-height:1.55;margin-bottom:12px}
+.alert-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.alert strong{font-weight:500;color:var(--sc)}
+
+/* STEP COLORS */
+.s1{--sc:var(--c1);--sl:var(--c1l);--sm:var(--c1m)}
+.s2{--sc:var(--c2);--sl:var(--c2l);--sm:var(--c2m)}
+.s3{--sc:var(--c3);--sl:var(--c3l);--sm:var(--c3m)}
+.s4{--sc:var(--c4);--sl:var(--c4l);--sm:var(--c4m)}
+.s5{--sc:var(--c5);--sl:var(--c5l);--sm:var(--c5m)}
+.s6{--sc:var(--c6);--sl:var(--c6l);--sm:var(--c6m)}
+
+/* EXAMPLE */
+.example-section{margin-top:52px;animation:up .4s .15s both}
+.section-divider{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--light);white-space:nowrap}
+
+.ex-intro{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:18px}
+.ex-intro-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.ex-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#EFF6FF,#F5F3FF);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ex-who{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.ex-context{font-size:13px;color:var(--muted)}
+.ex-chapter{background:var(--bg);border-radius:var(--rs);padding:11px 14px;font-size:13.5px;color:var(--muted);border:1px solid var(--border);line-height:1.6}
+.ex-chapter strong{color:var(--text);font-weight:500}
+
+.ex-steps{display:flex;flex-direction:column;gap:11px;margin-bottom:20px}
+.ex-step{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden}
+.ex-head{display:flex;align-items:center;gap:11px;padding:12px 17px;background:var(--esl)}
+.ex-num{width:30px;height:30px;border-radius:9px;background:var(--esc);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.ex-step-name{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;color:var(--esc)}
+.ex-body{padding:13px 17px}
+.ex-body p{font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:8px}
+.ex-body p:last-child{margin-bottom:0}
+.ex-quote{font-size:13px;color:var(--muted);font-style:italic;padding-left:11px;border-left:2px solid var(--esm);margin:7px 0;line-height:1.6}
+.ex-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ex-pill{font-size:12px;background:var(--esl);color:var(--esc);border:1px solid var(--esm);padding:3px 10px;border-radius:100px}
+
+.ex-s1{--esc:#2563EB;--esl:#EFF6FF;--esm:#BFDBFE}
+.ex-s2{--esc:#7C3AED;--esl:#F5F3FF;--esm:#DDD6FE}
+.ex-s3{--esc:#059669;--esl:#ECFDF5;--esm:#A7F3D0}
+.ex-s4{--esc:#D97706;--esl:#FFFBEB;--esm:#FDE68A}
+.ex-s5{--esc:#DC2626;--esl:#FEF2F2;--esm:#FECACA}
+.ex-s6{--esc:#0891B2;--esl:#ECFEFF;--esm:#A5F3FC}
+
+/* PLANNING */
+.planning{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden}
+.planning-head{padding:16px 20px;border-bottom:1.5px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.planning-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800}
+.planning-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+.planning-legend{display:flex;flex-wrap:wrap;gap:7px}
+.pl-leg{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
+.pl-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+.planning-scroll{overflow-x:auto}
+table.plan{width:100%;border-collapse:collapse;min-width:540px}
+table.plan th{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--light);padding:9px 14px;text-align:left;border-bottom:1.5px solid var(--border);background:var(--bg)}
+table.plan td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+table.plan tr:last-child td{border-bottom:none}
+.plan-day{font-family:'Syne',sans-serif;font-weight:700;font-size:13px}
+.plan-day-sub{font-size:11px;color:var(--light)}
+.plan-task{display:inline-flex;align-items:center;padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;margin:2px 2px 2px 0;line-height:1.4;border:1px solid}
+.plan-empty{color:var(--light);font-size:12px;font-style:italic}
+.plan-warn{display:inline-flex;align-items:center;gap:5px;background:#FEF9C3;color:#854D0E;border:1px solid #FDE68A;font-size:11.5px;padding:3px 9px;border-radius:6px;margin-top:4px}
+.plan-dur{font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+/* FOOTER */
+.footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
+.footer p{font-size:13px;color:var(--light)}
+.footer strong{color:var(--muted);font-weight:500}
+
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.step-wrap:nth-child(1) .step-card{animation-delay:.04s}
+.step-wrap:nth-child(2) .step-card{animation-delay:.08s}
+.step-wrap:nth-child(3) .step-card{animation-delay:.12s}
+.step-wrap:nth-child(4) .step-card{animation-delay:.16s}
+.step-wrap:nth-child(5) .step-card{animation-delay:.20s}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">Méthode de travail</div>
+  <h1>Ton <em>parcours d'étude</em><br>en 5 étapes</h1>
+  <p class="hero-sub">Un cadre pour savoir exactement quoi faire, dans quel ordre, avant chaque contrôle. Plus jamais devant ton cours sans savoir par où commencer.</p>
+</div>
+
+<!-- CYCLE -->
+<div class="cycle-wrap">
+  <div class="cycle-label">Vue d'ensemble · clique sur une étape pour y aller directement</div>
+  <div class="cycle-svg">
+    <svg viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg" font-family="'Syne',sans-serif">
+      <defs>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <polygon points="0 0,6 3,0 6" fill="#D1D5DB"/>
+        </marker>
+      </defs>
+      <line x1="88" y1="97" x2="110" y2="97" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="188" y1="97" x2="210" y2="97" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="288" y1="97" x2="310" y2="97" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="388" y1="97" x2="410" y2="97" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <rect x="8" y="65" width="80" height="64" rx="11" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5" style="cursor:pointer" onclick="openAndScroll(0)"/>
+      <text x="48" y="89" text-anchor="middle" font-size="20" font-weight="800" fill="#2563EB">1</text>
+      <text x="48" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#2563EB">Repérer</text>
+      <text x="48" y="120" text-anchor="middle" font-size="9" fill="#60A5FA" font-family="'DM Sans',sans-serif">Quoi apprendre</text>
+
+      <rect x="108" y="65" width="80" height="64" rx="11" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.5" style="cursor:pointer" onclick="openAndScroll(1)"/>
+      <text x="148" y="89" text-anchor="middle" font-size="20" font-weight="800" fill="#7C3AED">2</text>
+      <text x="148" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">Planifier</text>
+      <text x="148" y="120" text-anchor="middle" font-size="9" fill="#A78BFA" font-family="'DM Sans',sans-serif">Quand travailler</text>
+
+      <rect x="208" y="65" width="80" height="64" rx="11" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5" style="cursor:pointer" onclick="openAndScroll(2)"/>
+      <text x="248" y="89" text-anchor="middle" font-size="20" font-weight="800" fill="#059669">3</text>
+      <text x="248" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">Comprendre</text>
+      <text x="248" y="120" text-anchor="middle" font-size="9" fill="#34D399" font-family="'DM Sans',sans-serif">Donner du sens</text>
+
+      <rect x="308" y="65" width="80" height="64" rx="11" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5" style="cursor:pointer" onclick="openAndScroll(3)"/>
+      <text x="348" y="89" text-anchor="middle" font-size="20" font-weight="800" fill="#D97706">4</text>
+      <text x="348" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">Fixer</text>
+      <text x="348" y="120" text-anchor="middle" font-size="9" fill="#FCD34D" font-family="'DM Sans',sans-serif">Consolider</text>
+
+      <rect x="408" y="65" width="80" height="64" rx="11" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5" style="cursor:pointer" onclick="openAndScroll(4)"/>
+      <text x="448" y="89" text-anchor="middle" font-size="20" font-weight="800" fill="#DC2626">5</text>
+      <text x="448" y="106" text-anchor="middle" font-size="10.5" font-weight="700" fill="#DC2626">Vérifier</text>
+      <text x="448" y="120" text-anchor="middle" font-size="9" fill="#F87171" font-family="'DM Sans',sans-serif">Sans support</text>
+    </svg>
+  </div>
+  <div class="cycle-pills">
+    <span class="cpill" style="background:#EFF6FF;color:#2563EB;border-color:#BFDBFE" onclick="openAndScroll(0)">1 · Repérer</span>
+    <span class="cpill" style="background:#F5F3FF;color:#7C3AED;border-color:#DDD6FE" onclick="openAndScroll(1)">2 · Planifier</span>
+    <span class="cpill" style="background:#ECFDF5;color:#059669;border-color:#A7F3D0" onclick="openAndScroll(2)">3 · Comprendre</span>
+    <span class="cpill" style="background:#FFFBEB;color:#D97706;border-color:#FDE68A" onclick="openAndScroll(3)">4 · Fixer</span>
+    <span class="cpill" style="background:#FEF2F2;color:#DC2626;border-color:#FECACA" onclick="openAndScroll(4)">5 · Vérifier que ça ressort</span>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps" id="steps-wrap">
+
+<!-- ── 1 REPÉRER ── -->
+<div class="step-wrap">
+<div class="step-card s1" id="card-0">
+  <div class="step-trigger" onclick="toggle(0)">
+    <div class="step-num">1</div>
+    <div class="step-meta">
+      <div class="step-eyebrow">Étape 1</div>
+      <div class="step-name">Repérer</div>
+      <div class="step-tag">Identifier ce qui sera évalué, avant d'ouvrir le cours</div>
+    </div>
+    <div class="step-chev">▼</div>
+  </div>
+  <div class="step-body" id="body-0">
+    <div class="step-inner">
+      <div class="aline" style="background:linear-gradient(90deg,#2563EB,#60A5FA)"></div>
+
+      <div class="essential">
+        <div class="essential-title">L'essentiel</div>
+        <p>Avant de commencer à réviser quoi que ce soit, tu dois savoir exactement ce que le contrôle va évaluer. Pas de façon vague : de façon précise. Tu dresses deux listes par écrit, sur une feuille dédiée ou dans ton cahier. Ces listes deviennent le fil conducteur de tout ce qui suit.</p>
+      </div>
+
+      <div class="slabel">Les deux listes à dresser</div>
+      <div class="split">
+        <div class="scol">
+          <div class="scol-head"><div class="scol-icon">📚</div><div class="scol-title">Ce que je dois savoir</div></div>
+          <ul>
+            <li>Définitions et concepts clés<span>À retenir et expliquer avec ses propres mots</span></li>
+            <li>Mécanismes et phénomènes<span>Comment ça fonctionne et pourquoi</span></li>
+            <li>Dates, formules, théorèmes<span>Souvent à mémoriser tels quels</span></li>
+            <li>Schémas ou structures à connaître<span>Un cycle, un organe, une institution...</span></li>
+          </ul>
+        </div>
+        <div class="scol sf">
+          <div class="scol-head"><div class="scol-icon" style="background:var(--sf)">🛠️</div><div class="scol-title" style="color:var(--sf)">Ce que je dois savoir faire</div></div>
+          <ul>
+            <li>Résoudre un type d'exercice<span>Maths, physique, chimie...</span></li>
+            <li>Appliquer une méthode ou procédure<span>Démonstration, analyse de texte...</span></li>
+            <li>Rédiger selon un format précis<span>Dissertation, commentaire...</span></li>
+            <li>Analyser, argumenter, justifier<span>Attendu dans de nombreuses matières</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-toggle" onclick="toggleAcc(this)">
+        <span class="acc-label">Où trouver ces infos concrètement ?</span>
+        <span class="acc-chev">▼</span>
+      </div>
+      <div class="acc-content">
+        <div class="slabel" style="margin-top:0">Par ordre de priorité</div>
+        <div class="tags">
+          <span class="tag">Titres et sous-titres du cours, en premier</span>
+          <span class="tag">Anciens contrôles du même prof</span>
+          <span class="tag">Consignes notées en classe</span>
+          <span class="tag">Exercices du chapitre</span>
+        </div>
+        <div class="note">
+          <strong>Anciens contrôles :</strong> tu ne les utilises pas pour réviser le contenu, mais pour décoder les habitudes de ton prof. Il demande souvent des définitions ? Des schémas ? Des calculs ? Un prof qui a toujours demandé « expliquer le mécanisme de » va probablement recommencer.<br><br>
+          <strong>Consignes notées en classe :</strong> tout ce que ton prof a dit oralement, « ça c'est important », « vous devrez savoir refaire ce type d'exercice ». Les profs signalent en permanence ce qu'ils vont évaluer. Apprendre à repérer ces signaux, c'est déjà avoir une longueur d'avance.
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:14px"><strong>Durée : 10 à 15 minutes maximum.</strong></div>
+    </div>
+  </div>
+</div>
+<div class="step-conn" style="--sc:#2563EB"></div>
+</div>
+
+<!-- ── 2 PLANIFIER ── -->
+<div class="step-wrap">
+<div class="step-card s2" id="card-1">
+  <div class="step-trigger" onclick="toggle(1)">
+    <div class="step-num">2</div>
+    <div class="step-meta">
+      <div class="step-eyebrow">Étape 2</div>
+      <div class="step-name">Planifier</div>
+      <div class="step-tag">Décider quand tu fais quoi, avant de commencer</div>
+    </div>
+    <div class="step-chev">▼</div>
+  </div>
+  <div class="step-body" id="body-1">
+    <div class="step-inner">
+      <div class="aline" style="background:linear-gradient(90deg,#7C3AED,#A78BFA)"></div>
+
+      <div class="link-banner">
+        <div class="lb-icon">🔗</div>
+        <div>Tu repars de tes deux listes de l'étape 1. Maintenant tu décides : quand est-ce que je comprends ce chapitre ? Quand est-ce que je mémorise ? Quand est-ce que je vérifie que ça tient ? C'est ça planifier.</div>
+      </div>
+
+      <div class="essential">
+        <div class="essential-title">L'essentiel</div>
+        <p>Planifier, ce n'est pas « prévoir de travailler ». C'est découper le travail en tâches précises et décider à l'avance quel soir tu fais quoi. Sans ça, tu te retrouves à bosser au feeling, souvent trop tard, souvent trop longtemps d'un coup.</p>
+        <p>Tu as rarement plus de 5 jours entre la fin d'un chapitre et le contrôle : chaque soir compte.</p>
+        <p>Chaque session doit avoir un objectif précis. Par exemple, pas « réviser la SVT » mais « comprendre le mécanisme de la synapse ».</p>
+      </div>
+
+      <div class="slabel">Les deux règles non négociables</div>
+      <div class="alert">
+        <div class="alert-icon">⚠️</div>
+        <div><strong>Au moins une nuit entre fixer et vérifier.</strong> Si tu te testes le soir même où tu as fixé, tu vas reconnaître ce que tu viens de voir plutôt que vraiment le restituer. Le délai, c'est ce qui rend le test honnête.</div>
+      </div>
+      <div class="alert">
+        <div class="alert-icon">⚠️</div>
+        <div><strong>Plusieurs sessions courtes valent toujours mieux qu'une longue la veille.</strong> Trois sessions de 25 minutes sur trois jours différents sont plus efficaces qu'une heure et demie d'affilée. C'est la répartition dans le temps qui compte, pas la durée d'une seule session.</div>
+      </div>
+
+      <div class="note" style="margin-top:14px"><strong>Un exemple concret :</strong> contrôle vendredi. Dimanche soir : comprendre (30 min). Lundi soir : fixer session 1 (25 min). Mardi soir : fixer session 2 (20 min). Mercredi soir : vérifier (15 min). Jeudi soir : travailler sur les derniers points faibles. Cinq sessions courtes, réparties. C'est largement suffisant si chaque session est sérieuse.</div>
+
+
+    </div>
+  </div>
+</div>
+<div class="step-conn" style="--sc:#7C3AED"></div>
+</div>
+
+<!-- ── 3 COMPRENDRE ── -->
+<div class="step-wrap">
+<div class="step-card s3" id="card-2">
+  <div class="step-trigger" onclick="toggle(2)">
+    <div class="step-num">3</div>
+    <div class="step-meta">
+      <div class="step-eyebrow">Étape 3</div>
+      <div class="step-name">Comprendre</div>
+      <div class="step-tag">Donner du sens au contenu avant de chercher à le retenir</div>
+    </div>
+    <div class="step-chev">▼</div>
+  </div>
+  <div class="step-body" id="body-2">
+    <div class="step-inner">
+      <div class="aline" style="background:linear-gradient(90deg,#059669,#34D399)"></div>
+
+      <div class="link-banner">
+        <div class="lb-icon">🔗</div>
+        <div>Tu pars de tes listes de l'étape 1 pour savoir sur quoi concentrer ta compréhension.</div>
+      </div>
+
+      <div class="essential">
+        <div class="essential-title">L'essentiel</div>
+        <p>Si tu passes directement à la mémorisation sans comprendre, tu retiens des mots sans savoir quoi en faire.</p>
+        <p>Exemple : si tu as appris par cœur « la mitose est une division cellulaire » sans comprendre pourquoi et que le prof te demande « à quoi sert la mitose dans la cicatrisation d'une plaie ? » : tu bloques. Comprendre d'abord évite ça.</p>
+      </div>
+
+      <div class="slabel">Techniques pour les savoirs</div>
+      <div class="tech-section">
+        <div class="tech-grid">
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">✏️</span><span class="tech-name">Reformulation écrite</span></div>
+            <div class="tech-desc">Lis un paragraphe ou une notion, ferme le cours et réécris l'idée avec tes propres mots sur une feuille. Pas un résumé : une explication, comme si tu l'écrivais à quelqu'un qui ne connaît pas le sujet. Ce qui bloque à l'écrit, c'est ce qui n'est pas encore compris.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">❓</span><span class="tech-name">Se poser de vraies questions</span></div>
+            <div class="tech-desc">Au lieu de « est-ce que je connais ça ? », demande-toi : « pourquoi est-ce vrai ? », « dans quel cas ça ne fonctionnerait pas ? », « quel est le lien avec ce qu'on a vu avant ? »</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">👤</span><span class="tech-name">Auto-explication</span></div>
+            <div class="tech-desc">Explique le contenu à voix haute comme si tu l'enseignais à quelqu'un. Les trous dans l'explication révèlent exactement les trous dans la compréhension.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+        </div>
+        <div class="note" style="margin-top:10px">D'autres techniques peuvent aussi aider selon le contenu : générer tes propres exemples concrets, annoter le cours avec tes questions dans la marge pendant la lecture (pas pour te tester : pour rendre la lecture active), construire une représentation visuelle (carte mentale, tableau, schéma).</div>
+      </div>
+
+      <div class="slabel">Techniques pour les savoir-faire</div>
+      <div class="tech-section">
+        <div class="tech-grid">
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🔍</span><span class="tech-name">Décortiquer un corrigé</span></div>
+            <div class="tech-desc">Lis chaque étape du corrigé et demande-toi : pourquoi cette étape ? Qu'est-ce qui aurait changé si on l'avait sautée ? Comprendre la logique avant de reproduire.</div>
+            <span class="tech-badge sf">Savoir-faire</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">📋</span><span class="tech-name">Liste d'étapes numérotées</span></div>
+            <div class="tech-desc">Écris les étapes d'une méthode dans l'ordre, comme une recette. Étape 1 : … Étape 2 : … Avec tes propres mots, pas ceux du prof.</div>
+            <span class="tech-badge sf">Savoir-faire</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🔁</span><span class="tech-name">Refaire un exercice du cours</span></div>
+            <div class="tech-desc">Reprends un exercice déjà vu en cours, sans regarder la correction. L'objectif n'est pas de mémoriser la solution : c'est de comprendre pourquoi la démarche fonctionne. Si tu bloques, identifie l'étape exacte qui coince avant de regarder.</div>
+            <span class="tech-badge sf">Savoir-faire</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-toggle" onclick="toggleAcc(this)">
+        <span class="acc-label">Supports à construire pendant cette étape</span>
+        <span class="acc-chev">▼</span>
+      </div>
+      <div class="acc-content">
+        <p style="font-size:13.5px;color:var(--text);line-height:1.7;margin-bottom:10px">Ces supports ont deux utilités : construire ta compréhension maintenant, et te servir de base pour te tester à l'étape 4. Ils ne doivent pas être beaux : ils doivent être utiles.</p>
+        <div class="tags">
+          <span class="tag">Carte mentale</span>
+          <span class="tag">Fiche de synthèse condensée</span>
+          <span class="tag">Tableau comparatif</span>
+          <span class="tag">Schéma légendé</span>
+          <span class="tag">Frise chronologique</span>
+          <span class="tag">Flashcards : question d'un côté, réponse de l'autre</span>
+          <span class="tag">Liste de questions auto-générées à partir de tes titres</span>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:10px;font-style:italic">À préparer ici, à utiliser à l'étape 4 :</p>
+        <div class="tags" style="margin-top:6px">
+          <span class="tag">Schéma ou carte mentale vierge à compléter de mémoire</span>
+          <span class="tag">Tableau à trous sur les points clés</span>
+          <span class="tag">Liste d'étapes numérotées pour les savoir-faire</span>
+        </div>
+      </div>
+
+      <div class="acc-toggle" onclick="toggleAcc(this)">
+        <span class="acc-label">Et si je bloque sur quelque chose que je ne comprends vraiment pas ?</span>
+        <span class="acc-chev">▼</span>
+      </div>
+      <div class="acc-content">
+        <p style="font-size:13.5px;color:var(--text);line-height:1.7">Parfois le cours ne suffit pas. C'est normal. Dans ce cas, dans l'ordre : cherche une autre explication du même concept (manuel, vidéo). Si ça ne s'éclaire toujours pas, note la question précisément et pose-la au prof. Ne reste pas bloqué sans rien faire : un point mal compris maintenant sera un point raté au contrôle.</p>
+      </div>
+
+      <div class="note" style="margin-top:14px"><strong>Le test de fin d'étape :</strong> ferme le cours. Explique le contenu à voix haute avec tes propres mots, comme si tu l'enseignais à quelqu'un. Si tu y arrives, tu passes à l'étape 4. Si tu bloques sur un point précis, tu retournes dans le cours uniquement sur ce point.</div>
+    </div>
+  </div>
+</div>
+<div class="step-conn" style="--sc:#059669"></div>
+</div>
+
+<!-- ── 4 FIXER ── -->
+<div class="step-wrap">
+<div class="step-card s4" id="card-3">
+  <div class="step-trigger" onclick="toggle(3)">
+    <div class="step-num">4</div>
+    <div class="step-meta">
+      <div class="step-eyebrow">Étape 4</div>
+      <div class="step-name">Fixer</div>
+      <div class="step-tag">Transformer ce qu'on a compris en quelque chose de solide en mémoire</div>
+    </div>
+    <div class="step-chev">▼</div>
+  </div>
+  <div class="step-body" id="body-3">
+    <div class="step-inner">
+      <div class="aline" style="background:linear-gradient(90deg,#D97706,#FCD34D)"></div>
+
+      <div class="link-banner">
+        <div class="lb-icon">🔗</div>
+        <div>Tu travailles notamment à partir des outils construits à l'étape 3. <strong>Tout se fait sans regarder le cours : dès que le cours est sous les yeux, tu reconnais, tu ne mémorises pas.</strong> Et tu reviens sur le même contenu plusieurs fois, à des jours différents.</div>
+      </div>
+
+      <div class="essential">
+        <div class="essential-title">L'essentiel</div>
+        <p>Comprendre ne suffit pas à retenir.</p>
+        <p>Tu peux très bien saisir un concept le lundi et ne plus pouvoir le restituer le jeudi si tu n'as rien fait pour le faire tenir. C'est cette étape qui fait la différence entre « je comprends » et « je peux le restituer le jour du contrôle ».</p>
+        <p>Cette étape se répartit sur plusieurs sessions. Revenir sur le même contenu à des jours différents est bien plus efficace que de tout faire d'un coup : deux sessions de 20 minutes espacées valent largement mieux qu'une seule session de 40 minutes d'affilée, même si le temps total est identique.</p>
+      </div>
+
+      <div class="slabel">Techniques pour les savoirs</div>
+      <div class="tech-section">
+        <div class="tech-grid">
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🃏</span><span class="tech-name">Flashcards</span></div>
+            <div class="tech-desc">Question d'un côté, réponse de l'autre. Tu lis la question, tu tentes de répondre de mémoire, tu retournes pour vérifier. Note les cartes que tu rates : ce sont elles que tu reprends en priorité dans les sessions suivantes. Une carte que tu rates régulièrement est un signal : essaie de changer de stratégie sur ce contenu. Si tu ne les as pas encore construites, c'est à l'étape 3 que ça se fait.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🔊</span><span class="tech-name">Réciter à voix haute</span></div>
+            <div class="tech-desc">Debout si tu peux : ça aide certains à rester concentrés. Tu restitues le contenu à voix haute sans lire, avec tes propres mots. Tu t'arrêtes quand tu bloques, tu notes le point faible et tu y reviens.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">✍️</span><span class="tech-name">Rappel libre</span></div>
+            <div class="tech-desc">Feuille blanche, cours fermé. Tu écris tout ce que tu sais sur un point précis sans aucun support. Tu compares ensuite. Ce que tu as oublié, c'est exactement ce qu'il faut retravailler.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🗺️</span><span class="tech-name">Reconstruire de mémoire</span></div>
+            <div class="tech-desc">Ferme la carte mentale ou le schéma construits à l'étape 3. Essaie de le redessiner de mémoire. Compare avec l'original, corrige ce qui manque, et recommence à la session suivante. Ce que tu oublies régulièrement, c'est ta priorité.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">❓</span><span class="tech-name">Répondre à ses questions</span></div>
+            <div class="tech-desc">Prends la liste de questions que tu as préparée à l'étape 3. Réponds à chacune sans regarder. Note ce qui passe et ce qui ne passe pas.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">📊</span><span class="tech-name">Compléter un tableau à trous</span></div>
+            <div class="tech-desc">Prends ton tableau à trous préparé à l'étape 3 et complète-le de mémoire. Simple, rapide et très efficace pour repérer exactement ce qui manque.</div>
+            <span class="tech-badge sv">Savoirs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="slabel">Techniques pour les savoir-faire</div>
+      <div class="tech-section">
+        <div class="tech-grid">
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🔁</span><span class="tech-name">Refaire des exercices</span></div>
+            <div class="tech-desc">Des exercices similaires à ceux du cours mais que tu n'as pas encore faits. Sans regarder la correction avant d'avoir vraiment essayé. Si tu n'en as pas assez, cherche dans le manuel ou demande au prof.</div>
+            <span class="tech-badge sf">Savoir-faire</span>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">📝</span><span class="tech-name">Réécrire la méthode</span></div>
+            <div class="tech-desc">Sans regarder ta liste d'étapes construite à l'étape 3, réécris les étapes dans l'ordre de mémoire. Si une étape manque ou est dans le mauvais ordre, c'est le signal qu'il faut y revenir.</div>
+            <span class="tech-badge sf">Savoir-faire</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-toggle" onclick="toggleAcc(this)">
+        <span class="acc-label">Si quelque chose ne rentre pas malgré plusieurs tentatives</span>
+        <span class="acc-chev">▼</span>
+      </div>
+      <div class="acc-content">
+        <p style="font-size:13.5px;color:var(--text);line-height:1.7;margin-bottom:12px">Répéter la même technique en espérant que ça finisse par rentrer ne fonctionne pas. Changer d'approche est la seule chose qui marche. Quelques pistes :</p>
+        <div class="tech-grid">
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🔗</span><span class="tech-name">Relier à ce que tu sais déjà</span></div>
+            <div class="tech-desc">Connecte l'information à quelque chose que tu connais. Crée une analogie, explique-toi pourquoi c'est comme ça, invente une histoire autour. Plus tu enrichis le contenu, plus il est facile à retrouver.</div>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🎯</span><span class="tech-name">Créer un déclencheur</span></div>
+            <div class="tech-desc">Associe le contenu difficile à un mot-clé fort, une image mentale marquante, un acronyme, une phrase absurde. L'idée : te donner un point d'accroche pour retrouver l'information plus facilement. Plus l'accroche est originale, plus elle fonctionne.</div>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🔀</span><span class="tech-name">Changer de format</span></div>
+            <div class="tech-desc">Si les flashcards ne fonctionnent pas sur ce point, passe à la récitation orale, au dessin ou à l'écriture. Traiter le même contenu de plusieurs façons différentes, c'est lui créer plusieurs chemins d'accès dans ta mémoire : plus il y a de chemins, plus c'est facile à retrouver.</div>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">✂️</span><span class="tech-name">Fractionner</span></div>
+            <div class="tech-desc">Si un ensemble de 5 éléments ne rentre pas, travaille élément par élément, puis reconstruis progressivement l'ensemble. Essayer de tout retenir d'un coup, c'est souvent pour ça que ça coince.</div>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">⏰</span><span class="tech-name">Resserrer l'espacement</span></div>
+            <div class="tech-desc">Si un point disparaît d'une session à l'autre, reviens dessus le lendemain plutôt que dans trois jours. Puis espace progressivement une fois que ça commence à tenir.</div>
+          </div>
+          <div class="tech">
+            <div class="tech-top"><span class="tech-icon">🔍</span><span class="tech-name">Vérifier la compréhension</span></div>
+            <div class="tech-desc">Parfois ce qui ne rentre pas ne rentre pas parce que ce n'est pas encore vraiment compris. Avant d'insister, vérifie : est-ce que tu peux l'expliquer avec tes propres mots ? Si non, retour à l'étape 3 sur ce point précis.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:14px">Relire le cours en se disant « oui je connais ça » est probablement la chose la plus répandue et la moins efficace. Reconnaître une information quand on la voit, ce n'est pas la même chose que pouvoir la produire seul. Toute ta mémorisation doit se faire sans regarder.</div>
+    </div>
+  </div>
+</div>
+<div class="step-conn" style="--sc:#D97706"></div>
+</div>
+
+<!-- ── 5 VÉRIFIER ── -->
+<div class="step-wrap">
+<div class="step-card s5" id="card-4">
+  <div class="step-trigger" onclick="toggle(4)">
+    <div class="step-num">5</div>
+    <div class="step-meta">
+      <div class="step-eyebrow">Étape 5</div>
+      <div class="step-name">Vérifier que ça ressort</div>
+      <div class="step-tag">Contrôler que c'est vraiment accessible, sans support, sans filet</div>
+    </div>
+    <div class="step-chev">▼</div>
+  </div>
+  <div class="step-body" id="body-4">
+    <div class="step-inner">
+      <div class="aline" style="background:linear-gradient(90deg,#DC2626,#F87171)"></div>
+
+      <div class="alert">
+        <div class="alert-icon">⚡</div>
+        <div><strong>Ce qui change par rapport à l'étape 4 :</strong> à l'étape 4, tu t'entraînes, tu peux te tromper, corriger et recommencer dans la foulée. Ici, tu réponds sans te corriger au fur et à mesure et tu regardes le résultat à la fin. Tu simules une évaluation.</div>
+      </div>
+
+      <div class="note" style="margin-top:12px">
+        <strong>La même flashcard, deux utilisations différentes.</strong><br><br>
+        Étape 4 : elle tire la carte « neurotransmetteur », bloque, regarde la réponse, reformule, repose la carte dans la pile pour y revenir cinq minutes plus tard.<br><br>
+        Étape 5 : elle tire la carte, répond ou pas, la pose dans une pile « ok » ou « pas ok », passe à la suivante. Elle regarde le bilan à la fin. Elle ne recommence pas dans la foulée.<br><br>
+        Même carte. Pas la même posture.
+      </div>
+
+      <div class="essential">
+        <div class="essential-title">L'essentiel</div>
+        <p>Tu vérifies chaque réponse sur trois critères : est-ce que c'était rapide, exact et complet ?</p>
+        <p>Si les trois sont oui, ce point tient. « Rapide » ne veut pas dire instantané : ça veut dire que la réponse arrive sans que tu doives chercher, reconstituer ou deviner.</p>
+      </div>
+
+      <div class="slabel">Comment se tester concrètement</div>
+      <div class="split">
+        <div class="scol">
+          <div class="scol-head"><div class="scol-icon">📖</div><div class="scol-title">Pour les savoirs</div></div>
+          <ul>
+            <li>Réponds à chaque point de ta liste de l'étape 1<span>Ta liste dit « définir la synapse » : tu fermes tout et tu la définis de mémoire, à voix haute ou par écrit</span></li>
+            <li>Flashcards : une tentative par carte, sans correction dans la foulée<span>Tu réponds, tu poses la carte dans une pile « ok » ou « pas ok », tu passes à la suivante. Tu regardes le bilan à la fin.</span></li>
+            <li>Rappel libre minuté sur un point précis<span>Feuille blanche, aucun support. Tu écris tout ce que tu sais. Tu compares ensuite.</span></li>
+            <li>Fais-toi interroger<span>Donne tes questions et les réponses attendues à un parent ou un ami. Il lit la réponse et vérifie. Pas besoin qu'il connaisse la matière.</span></li>
+          </ul>
+        </div>
+        <div class="scol sf">
+          <div class="scol-head"><div class="scol-icon" style="background:var(--sf)">🔧</div><div class="scol-title" style="color:var(--sf)">Pour les savoir-faire</div></div>
+          <ul>
+            <li>Refais un exercice que tu n'as pas vu récemment, dans les mêmes conditions qu'au contrôle<span>Formulation nouvelle, sans aide, chrono si possible. Anciens contrôles du même prof ou exercices de fin de chapitre pas encore faits.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="slabel">Si ça ne passe pas</div>
+      <div class="tags">
+        <span class="tag">Réponse approximative ou lente → retour étape 4</span>
+        <span class="tag">Point non compris → retour étape 3 puis 4</span>
+      </div>
+
+      <div class="alert" style="margin-top:16px">
+        <div class="alert-icon">📅</div>
+        <div><strong>Timing :</strong> l'avant-veille ou la veille du contrôle, pas le matin même. Si ça révèle des lacunes, il faut encore le temps d'y remédier.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+</div><!-- /steps -->
+
+
+<div class="footer">
+  <p><strong>Repérer · Planifier · Comprendre · Fixer · Vérifier que ça ressort</strong></p>
+  <p style="margin-top:10px;font-size:12px;color:var(--light)">Florian Dubois · Coach scolaire · @levierdelareussite</p>
+</div>
+
+</div><!-- /page -->
+<script>
+var open=[false,false,false,false,false];
+var accMap=new WeakMap();
+function toggle(n){
+  open[n]=!open[n];
+  document.getElementById('card-'+n).classList.toggle('open',open[n]);
+  document.getElementById('body-'+n).classList.toggle('open',open[n]);
+}
+function openAndScroll(n){
+  if(!open[n])toggle(n);
+  setTimeout(function(){document.getElementById('card-'+n).scrollIntoView({behavior:'smooth',block:'start'})},50);
+}
+function toggleAcc(el){
+  var isOpen=accMap.get(el)||false;
+  var next=!isOpen;
+  accMap.set(el,next);
+  el.classList.toggle('open',next);
+  var c=el.nextElementSibling;
+  if(c)c.classList.toggle('open',next);
+}
+</script>
+</body>
+</html>
