@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Un accompagnement en coaching scolaire peut-il être utile à votre ado ?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--bg:#F6F8F7;--card:#fff;--ink:#12303D;--soft:#4F6670;--line:#D3DDDB;--teal:#1B7F79;--tealtxt:#fff;--sun:#F2B84B;--warn:#FBEFD5;--warnink:#5C3F06;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1D23;--card:#172A32;--ink:#EAF1F0;--soft:#A5B7BC;--line:#2B434C;--teal:#4FC3BA;--tealtxt:#08211F;--sun:#F2B84B;--warn:#3A2F14;--warnink:#F5DFA8;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1D23;--card:#172A32;--ink:#EAF1F0;--soft:#A5B7BC;--line:#2B434C;--teal:#4FC3BA;--tealtxt:#08211F;--sun:#F2B84B;--warn:#3A2F14;--warnink:#F5DFA8;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 18px/1.55 "Source Sans 3",system-ui,sans-serif}
+main{max-width:560px;margin:0 auto;padding:28px 20px 48px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+h1,h2{font-family:"Bricolage Grotesque","Source Sans 3",system-ui,sans-serif;line-height:1.15;margin:0 0 14px}
+h1{font-size:1.75rem}h2{font-size:1.45rem}
+p{margin:0 0 14px}
+.soft{color:var(--soft);font-size:.95rem}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus{outline:none}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;border:0;border-radius:10px;padding:15px 18px;background:var(--teal);color:var(--tealtxt);font-weight:600}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn[disabled]{opacity:.4;cursor:default}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;margin:0 0 10px;padding:14px 16px;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:10px}
+.opt:hover{border-color:var(--teal)}
+.opt.on{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+.opt[aria-pressed="true"]{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+.box{width:20px;height:20px;flex:none;margin-top:3px;border:2px solid var(--soft);border-radius:5px}
+.opt.on .box{background:var(--teal);border-color:var(--teal)}
+.bar{height:6px;background:var(--line);border-radius:3px;margin:0 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--teal);transition:width .3s}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.link{background:none;border:0;color:var(--soft);text-decoration:underline;padding:6px 0}
+.beam{transform-origin:150px 92px;transition:transform 1.4s cubic-bezier(.3,1.4,.5,1)}
+.pct{font:700 3.2rem/1 "Bricolage Grotesque",system-ui,sans-serif;margin:4px 0 6px}
+.att{background:var(--warn);color:var(--warnink);border-radius:10px;padding:14px 16px;margin:0 0 10px}
+.att b{display:block}
+.att.urg{border:2px solid var(--sun)}
+.share{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:18px 0 12px}
+.share p{margin:0 0 10px}
+.stack{display:grid;gap:10px;margin-top:18px}
+@media(prefers-reduced-motion:reduce){.beam,.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+var CALENDLY = "https://calendly.com/flo-coachscolaire/appeldecouverte";
+var PRESENTATION = "https://flo-coachscolaire.systeme.io/accompagnement";
+// o = [libellé, score 0-3 (null = non compté), signal éventuel]
+// Signaux : s = soutien disciplinaire, b = question de bilan, j = jeune réticent,
+// h = niveau hors public, u = inquiétude importante nécessitant une priorité différente.
+var Q = [
+{t:"Quel est le niveau scolaire de votre enfant ?",o:[["Primaire",null,"h"],["Début du secondaire (13-15 ans)",null],["Milieu et fin du secondaire (16-18 ans)",null],["Études supérieures",null]]},
+{t:"Pour préparer une évaluation ou un examen important, il…",o:[["S’y prend trop tard et doit tout condenser",3],["Prévoit des révisions, mais ne tient pas son planning",3],["Révise sans plan, sans savoir par où commencer",3],["Répartit son travail correctement",0]]},
+{t:"Au quotidien (agenda, devoirs, affaires), il…",o:[["Oublie régulièrement des devoirs ou du matériel",3],["Note tout, mais ne sait pas quoi faire en premier quand il y a beaucoup à faire",3],["A besoin qu’un adulte lui rappelle ce qu’il y a à faire",2],["S’organise sans difficulté",0]]},
+{t:"Concernant son temps de travail, il…",o:[["Sous-estime le temps nécessaire et se retrouve débordé",3],["Travaille beaucoup, mais ses résultats ne suivent pas",3],["A du mal à limiter les distractions, notamment numériques, pendant son temps de travail",3],["Gère assez bien son temps",0]]},
+{t:"Pour se mettre au travail, il…",o:[["Repousse surtout les tâches qui lui paraissent longues ou difficiles",3],["A besoin que quelqu’un soit présent pour s’y mettre",2],["A beaucoup de mal à s’y mettre, même quand on l’aide",3],["S’y met sans difficulté",0]]},
+{t:"Côté concentration, il…",o:[["Se laisse distraire par son téléphone ou les écrans",3],["Décroche vite, même sans distraction autour de lui",3],["Se concentre bien sur ce qui l’intéresse, beaucoup moins sur le reste",2],["Reste concentré sans difficulté",0]]},
+{t:"Quand il apprend un cours, il…",o:[["Relit et surligne, sans se tester",3],["Pense savoir, puis oublie vite",3],["Connaît des méthodes, mais ne les applique pas régulièrement",3],["Utilise des fiches ou des méthodes qui fonctionnent pour lui",0]]},
+{t:"Entre la classe et le travail à la maison, il…",o:[["Comprend en classe, mais peine à travailler seul",3],["Dépend d’un adulte pour avancer sur ses devoirs",3],["Comprend déjà difficilement en classe",1,"s"],["Avance seul sans difficulté",0]]},
+{t:"Face à une évaluation, il…",o:[["Stresse un peu, mais parvient à travailler",1],["Se bloque ou a des trous de mémoire malgré sa préparation",3],["Est très angoissé, au point que cela perturbe son quotidien",2,"anxiety"],["Ne stresse pas particulièrement",0]]},
+{t:"Du côté de la confiance en lui, il…",o:[["Se dévalorise souvent (« je suis nul », « je n’y arriverai pas »)",3],["Évite certaines matières ou tâches par peur d’échouer",3],["Manque de confiance dans de nombreux domaines, pas seulement à l’école",1],["Reste confiant, même après un échec",0]]},
+{t:"Face à une difficulté scolaire, il…",o:[["Se décourage rapidement",3],["S’énerve ou se ferme",3],["Garde ses difficultés pour lui et a tendance à s’isoler",2],["Rebondit assez facilement",0]]},
+{t:"Dans sa routine de travail, il…",o:[["N’a pas de moment fixe, tout dépend de la journée ou de son humeur",3],["Travaille par à-coups, surtout avant les évaluations",3],["Est régulier, mais ses habitudes ne portent pas leurs fruits",2],["A déjà une routine solide",0]]},
+{t:"Observez-vous l’une de ces situations ? (plusieurs réponses possibles)",m:1,o:[["Un sommeil ou un appétit perturbés depuis plusieurs semaines",null,"w1"],["Un refus d’aller à l’école ou des absences répétées",null,"w2"],["Une tristesse ou un repli qui dure depuis plusieurs semaines",null,"w2"],["Des propos ou des comportements qui vous font craindre pour sa sécurité",null,"u"],["Aucune de ces situations",null,"n"]]},
+{t:"Votre ado a-t-il un profil particulier (TDAH, troubles DYS, haut potentiel…) ?",o:[["Oui, diagnostiqué et sa façon de travailler pose question",null],["Oui, diagnostiqué et déjà suivi, mais vous cherchez une aide complémentaire pour le travail scolaire",null],["On se pose des questions, mais il n’a jamais été évalué",null,"b"],["Non, pas à notre connaissance",null]]},
+{t:"Depuis quand ces difficultés durent-elles ?",o:[["Depuis quelques semaines",1],["Depuis plusieurs mois ou une année scolaire",2],["Depuis toujours ou presque",2],["Il n’y a pas vraiment de difficulté",0]]},
+{t:"Ce que vous attendez en priorité d’un accompagnement :",o:[["Qu’il apprenne à mieux travailler et gagne en autonomie",null],["Qu’il retrouve confiance et motivation",null],["Que ses notes s’améliorent rapidement",null,"r"],["Que quelqu’un lui réexplique les cours",null,"s"]]},
+{t:"Pensez-vous que votre ado accepterait d’essayer un accompagnement ?",o:[["Oui, il serait même demandeur",null],["Probablement, s’il comprend à quoi cela sert",null],["Il hésiterait, il faudrait lui en parler",null],["Il y serait très réticent, voire opposé",null,"j"]]},
+{t:"Des séances d’environ une heure en visio, sur une période de quelques mois, vous semblent…",hint:"C’est un format moyen, qui varie selon les besoins : certains jeunes ont besoin de moins de séances, d’autres de davantage.",o:[["Un format envisageable",null],["À voir selon son emploi du temps",null],["Compliqué pour le moment",null]]}
+];
+
+var FL = {
+s:["Un soutien scolaire peut aussi être utile","Certaines réponses évoquent des difficultés de compréhension ou des lacunes dans certaines matières. Un échange permettra de distinguer ce qui relève de la méthode et ce qui relève du contenu des cours, que je ne reprends pas en coaching."],
+b:["Une question de bilan à clarifier","Si vous vous interrogez sur son attention ou ses apprentissages, le médecin généraliste pourra vous orienter vers le professionnel adapté si un bilan semble utile. Le coaching peut, de son côté, travailler les méthodes et l’organisation en complément."],
+r:["À propos des résultats scolaires","Le coaching travaille d’abord les méthodes, l’organisation et l’autonomie. Il peut aider à créer de meilleures conditions d’apprentissage, mais il ne permet pas de garantir une hausse des notes ni un délai précis."],
+j:["L’adhésion de votre ado compte","S’il est réticent, mieux vaut prendre le temps d’en parler avec lui, sans pression. La rencontre découverte peut justement permettre de vérifier avec lui si l’accompagnement aurait du sens."],
+h:["Mon accompagnement concerne le secondaire et le supérieur","Mon accompagnement s’adresse aux élèves du secondaire et aux étudiants du supérieur. Si votre enfant est en primaire, ce format ne correspond probablement pas à ses besoins actuels. Vous pouvez néanmoins consulter ma présentation ou me contacter pour que nous voyions vers quelle aide l’orienter."],
+u:["La sécurité de votre ado passe avant tout","Vous avez indiqué des propos ou des comportements qui vous font craindre pour sa sécurité. Il est important de ne pas rester seul face à cette situation et de contacter rapidement un professionnel de santé, par exemple son médecin généraliste. Si le danger est immédiat, contactez les services d’urgence de votre pays sans attendre. Ce questionnaire ne permet pas d’évaluer la situation. Le coaching scolaire ne remplace pas une aide adaptée dans ce contexte."]
+};
+var TIERS = [
+[80,"Le coaching scolaire a de bonnes chances de lui être utile","Vos réponses font ressortir des besoins en méthode, en organisation ou en mise au travail, qui correspondent bien aux sujets que je travaille en coaching. Un échange permettra de préciser ce qui pourrait l’aider." ,"Ce résultat est indicatif. Un score élevé suggère une bonne correspondance avec le coaching, pas une urgence ni une obligation de commencer."],
+[60,"Le coaching scolaire pourrait lui être utile","Plusieurs réponses correspondent à des difficultés que le coaching peut aider à travailler. Un échange permettra de voir ce qui serait le plus pertinent dans votre situation.","Ce résultat est indicatif : seul un échange permet de préciser les besoins et de vérifier si le coaching est adapté."],
+[35,"Le coaching pourrait aider sur certains points","Une partie des difficultés semble relever de la méthode ou de l’organisation. D’autres besoins sont peut-être à clarifier. Un échange permettrait de voir par quoi commencer.","Ce résultat est indicatif. Il ne ferme aucune porte : vous pouvez me contacter pour faire le point, même si le score est intermédiaire."],
+[0,"Le coaching n’est peut-être pas la première piste","Vos réponses ne font pas ressortir, pour l’instant, une forte correspondance avec les sujets travaillés en coaching. Si vous avez un doute, vous pouvez quand même me contacter : nous regarderons ensemble ce qui serait le plus adapté.","Ce résultat est indicatif. Un score bas ne vous empêche pas de prendre contact si vous souhaitez en discuter."]
+];
+var app=document.getElementById("app"),i=-1,ans=[],busy=false;
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function focusHeading(){var h=app.querySelector("h1, h2");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}}
+function start(){i=-1;ans=[];app.innerHTML='<h1>Un accompagnement en coaching scolaire peut-il être utile à votre ado ?</h1><p>Quand un adolescent rencontre des difficultés à l’école, il n’est pas toujours simple de savoir de quoi il a besoin : d’une meilleure méthode de travail, d’un coup de pouce dans une matière ou d’un autre type de soutien. Ce questionnaire vous aide à y voir plus clair à partir de ce que vous observez.</p><p>Il comporte 18 questions et prend environ cinq minutes. À la fin, vous obtenez un pourcentage indicatif de correspondance avec le coaching scolaire ainsi que des pistes adaptées à vos réponses.</p><p class="soft">Ce questionnaire ne constitue ni un diagnostic ni une évaluation de votre ado. Il ne remplace pas l’avis d’un professionnel. Vos réponses restent dans cette page et ne sont pas envoyées ni enregistrées par ce questionnaire. Vous pouvez me contacter quel que soit le résultat.</p><button class="btn" id="go">Commencer</button>';document.getElementById("go").onclick=function(){i=0;show()};focusHeading()}
+function show(){var q=Q[i],cur=ans[i],h='';h+='<div class="sr-only" role="status" aria-live="polite">Question '+(i+1)+' sur '+Q.length+'. '+esc(q.t)+'</div>';h+='<div class="top"><span class="soft">Question '+(i+1)+' sur '+Q.length+'</span><button class="link" id="back">'+(i?"Retour":"Accueil")+'</button></div>';h+='<div class="bar" role="progressbar" aria-label="Progression du questionnaire" aria-valuemin="1" aria-valuemax="'+Q.length+'" aria-valuenow="'+(i+1)+'"><i style="width:'+((i+1)/Q.length*100)+'%"></i></div><h2 style="margin-top:22px">'+esc(q.t)+'</h2>';
+q.o.forEach(function(o,k){var on=q.m?(cur&&cur.indexOf(k)>-1):cur===k;h+='<button type="button" class="opt'+(on?' on':'')+'" data-k="'+k+'" aria-pressed="'+!!on+'">'+(q.m?'<span class="box" aria-hidden="true"></span>':'')+'<span>'+esc(o[0])+'</span></button>'});
+if(q.m)h+='<button class="btn" id="next" style="margin-top:8px"'+(cur&&cur.length?'':' disabled')+'>Continuer</button>';app.innerHTML=h;var helper=document.createElement("p");helper.className="soft";helper.textContent=q.m?"Vous pouvez sélectionner plusieurs réponses.":(i===0?"":"Choisissez la réponse qui se rapproche le plus de ce que vous observez.");var heading=app.querySelector("h2");if(helper.textContent)heading.insertAdjacentElement("afterend",helper);if(q.hint){var hint=document.createElement("p");hint.className="soft";hint.textContent=q.hint;(helper.textContent?helper:heading).insertAdjacentElement("afterend",hint)}document.getElementById("back").onclick=function(){if(i){i--;show()}else start()};var bs=app.querySelectorAll(".opt");for(var b=0;b<bs.length;b++)bs[b].onclick=pick;if(q.m)document.getElementById("next").onclick=advance;focusHeading();window.scrollTo(0,0)}
+function pick(e){var k=+e.currentTarget.getAttribute("data-k"),q=Q[i];if(q.m){var c=ans[i]||[],none=q.o[k][2]==="n";if(none)c=c.indexOf(k)>-1?[]:[k];else{c=c.filter(function(x){return q.o[x][2]!=="n"});var p=c.indexOf(k);p>-1?c.splice(p,1):c.push(k)}ans[i]=c;show();var selected=app.querySelector('.opt[data-k="'+k+'"]');if(selected)selected.focus()}else{if(busy)return;busy=true;var j=i;ans[i]=k;show();setTimeout(function(){busy=false;if(i===j)advance()},300)}}
+function advance(){i++;if(i<Q.length)show();else result()}
+function result(){
+var tot=0,mx=0,flags={};
+function add(c){if(!c)return;flags[c]=(flags[c]||0)+1}
+Q.forEach(function(q,n){var a=ans[n];if(a===undefined)return;if(q.m){a.forEach(function(k){add(q.o[k][2])})}else{var o=q.o[a];if(o[1]!==null){tot+=o[1];mx+=Math.max.apply(null,q.o.map(function(option){return option[1]===null?0:option[1]}))}add(o[2])}});
+var pct=mx?Math.max(0,Math.min(100,Math.round(tot/mx*20)*5)):0;
+var urgent=!!flags.u,tier=TIERS[TIERS.length-1];
+for(var t=0;t<TIERS.length;t++){if(pct>=TIERS[t][0]){tier=TIERS[t];break}}
+if(urgent){
+ var msg=FL.u;
+ app.innerHTML='<div class="sr-only" role="status" aria-live="polite">Information importante concernant la sécurité</div><h2>Un point essentiel avant toute autre démarche</h2><h2>'+msg[0]+'</h2><p>'+msg[1]+'</p><p>Une fois la situation sécurisée, vous pourrez consulter la présentation de mon accompagnement pour savoir dans quels domaines il peut intervenir.</p><div class="stack"><a class="btn alt" href="'+PRESENTATION+'" target="_blank" rel="noopener">Découvrir mon accompagnement</a><button class="link" id="again">Refaire le questionnaire</button></div>';
+ document.getElementById("again").onclick=start;focusHeading();window.scrollTo(0,0);return;
+}
+var notes=[];
+// La note de niveau scolaire est toujours conservée, sans exclure le parent du résultat.
+if(flags.h)notes.push([FL.h[0],FL.h[1]]);
+// Regrouper les signaux de bien-être pour ne perdre aucune réponse cochée.
+var wellbeing=[];
+if(flags.w1)wellbeing.push("un sommeil ou un appétit perturbés depuis plusieurs semaines");
+if(flags.w2)wellbeing.push("des absences répétées ou un refus d’aller à l’école ou une tristesse ou un repli qui dure");
+if(flags.anxiety)wellbeing.push("un stress très intense qui perturbe son quotidien");
+if(wellbeing.length){
+ var title=wellbeing.length>1?"Plusieurs éléments méritent une attention particulière":(flags.w2?"Un point de vigilance à garder en tête":(flags.anxiety?"Le stress semble peser sur son quotidien":"Un point à surveiller"));
+ var body="Vous avez indiqué "+wellbeing.join(" ; ")+". Ces éléments méritent une attention adaptée. Si cela persiste, s’accentue ou perturbe son quotidien, un échange avec son médecin généraliste peut aider à faire le point. Cela n’exclut pas qu’un coaching puisse être utile en complément pour la méthode et l’organisation.";
+ notes.push([title,body]);
+}
+if(flags.r)notes.push([FL.r[0],FL.r[1]]);
+if(flags.s)notes.push([FL.s[0],FL.s[1]]);
+if(flags.b)notes.push([FL.b[0],FL.b[1]]);
+if(flags.j)notes.push([FL.j[0],FL.j[1]]);
+// Limiter l'empilement tout en préservant les deux informations prioritaires.
+notes=notes.slice(0,4);
+var h='<div class="sr-only" role="status" aria-live="polite">Résultat du questionnaire : '+pct+' pour cent de correspondance.</div><h2>Votre résultat</h2>';
+var ang=(pct-50)*0.3;
+h+='<svg viewBox="0 0 300 130" width="100%" role="img" aria-label="Indicateur de correspondance : '+pct+' pour cent"><polygon points="150,92 132,124 168,124" fill="var(--ink)"/><g class="beam" id="beam" style="transform:rotate(0deg)"><rect x="20" y="86" width="260" height="8" rx="4" fill="var(--teal)"/><circle cx="268" cy="74" r="12" fill="var(--sun)"/></g></svg><div class="soft" style="display:flex;justify-content:space-between;margin-top:-4px"><span>Faible correspondance</span><span>Bonne correspondance</span></div><div class="pct">'+pct+' %</div><h2>'+tier[1]+'</h2><p>'+tier[2]+'</p>';
+setTimeout(function(){var b=document.getElementById("beam");if(b)b.style.transform="rotate("+ang+"deg)"},60);
+if(notes.length){h+='<h2 style="font-size:1.15rem;margin-top:22px">Quelques éléments à garder en tête</h2>';notes.forEach(function(n){h+='<div class="att"><b>'+n[0]+'</b><p>'+n[1]+'</p></div>'})}
+h+='<p class="soft" style="margin-top:16px">'+tier[3]+'</p><div class="share"><p style="margin:0">Si nous échangeons de vive voix par la suite, n’hésitez pas à me faire part de votre résultat.</p></div><div class="stack"><a class="btn" href="'+CALENDLY+'" target="_blank" rel="noopener">Planifier un appel découverte</a><a class="btn alt" href="'+PRESENTATION+'" target="_blank" rel="noopener">Découvrir la présentation de mon accompagnement</a><button class="link" id="again">Refaire le questionnaire</button></div>';
+app.innerHTML=h;document.getElementById("again").onclick=start;focusHeading();window.scrollTo(0,0)
+}
+start();
+</script>
+</body>
+</html>
